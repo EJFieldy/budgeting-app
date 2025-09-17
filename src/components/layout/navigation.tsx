@@ -53,6 +53,29 @@ export default function NavBar() {
                             </div>
                         </div>
                     </div>
+                    <DisclosurePanel className="sm:hidden">
+                        <div className="text-start space-y-1 px-3 py-3">
+                            {navigation.map((item) => (
+                                <DisclosureButton
+                                    key={item.name}
+                                    as={Link}
+                                    to={item.href}
+                                    aria-current={
+                                        isCurrentPage(item.href)
+                                            ? "page"
+                                            : undefined
+                                    }
+                                    className={clsx(
+                                        "block px-4 py-2 rounded-md text-sm",
+                                        isCurrentPage(item.href)
+                                            ? "bg-indigo-50 text-indigo-700"
+                                            : "text-slate-600 bg-white"
+                                    )}>
+                                    {item.name}
+                                </DisclosureButton>
+                            ))}
+                        </div>
+                    </DisclosurePanel>
                 </>
             )}
         </Disclosure>
