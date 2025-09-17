@@ -24,7 +24,9 @@ export default function NavBar() {
     };
 
     return (
-        <Disclosure as="nav" className="bg-white border-b-1 border-slate-200">
+        <Disclosure
+            as="nav"
+            className="relative bg-white border-b-1 border-slate-200">
             {({ open }) => (
                 <>
                     <div className="px-2 max-w-7xl">
@@ -53,7 +55,9 @@ export default function NavBar() {
                             </div>
                         </div>
                     </div>
-                    <DisclosurePanel className="sm:hidden">
+                    <DisclosurePanel
+                        transition
+                        className="sm:hidden absolute top-full left-0 right-0 border-slate-200 border-l border-r border-b shadow-lg origin-top transition duration-300 ease-out data-closed:opacity-0 data-closed:-translate-y-4 z-50">
                         <div className="text-start space-y-1 px-3 py-3">
                             {navigation.map((item) => (
                                 <DisclosureButton
