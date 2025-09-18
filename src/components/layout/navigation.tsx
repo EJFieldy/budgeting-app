@@ -53,6 +53,13 @@ export default function NavBar() {
                                     />
                                 </DisclosureButton>
                             </div>
+                            <div className="flex items-center">
+                                <h1 className="font-sans text-xl font-bold text-indigo-600 tracking-tight">
+                                    {navigation.find((item) =>
+                                        isCurrentPage(item.href)
+                                    )?.name || "Page not found"}
+                                </h1>
+                            </div>
                         </div>
                     </div>
                     <DisclosurePanel
