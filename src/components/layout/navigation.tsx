@@ -1,5 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+    Bars3Icon,
+    XMarkIcon,
+    PlusCircleIcon,
+} from "@heroicons/react/24/outline";
 import {
     Disclosure,
     DisclosureButton,
@@ -31,6 +35,7 @@ export default function NavBar() {
                 <>
                     <div className="px-2 max-w-7xl">
                         <div className="flex h-16 items-center justify-between">
+                            {/* Mobile Dropdown Button */}
                             <div className="flex items-center justify-center">
                                 <DisclosureButton
                                     className={clsx(
@@ -53,6 +58,7 @@ export default function NavBar() {
                                     />
                                 </DisclosureButton>
                             </div>
+                            {/* Page Title */}
                             <div className="flex items-center">
                                 <h1 className="font-sans text-xl font-bold text-indigo-600 tracking-tight">
                                     {navigation.find((item) =>
@@ -60,8 +66,13 @@ export default function NavBar() {
                                     )?.name || "Page not found"}
                                 </h1>
                             </div>
+                            {/* Placeholder Icon (feature TBC) */}
+                            <div className="sm:hidden p-2 text-slate-600 focus:ring-2 focus:ring-indigo-500 rounded-md outline-none">
+                                <PlusCircleIcon className="size-6" />
+                            </div>
                         </div>
                     </div>
+                    {/* Mobile Dropdown Menu Items */}
                     <DisclosurePanel
                         transition
                         className="sm:hidden absolute top-full left-0 right-0 border-slate-200 border-l border-r border-b shadow-lg origin-top transition duration-300 ease-out data-closed:opacity-0 data-closed:-translate-y-4 z-50">
