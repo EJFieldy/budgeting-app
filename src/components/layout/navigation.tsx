@@ -69,7 +69,7 @@ export default function NavBar() {
                                                     : undefined
                                             }
                                             className={clsx(
-                                                "text-sm rounded-md px-3 py-2 tracking-tight font-sans",
+                                                "text-sm rounded-md px-3 py-2 tracking-tight font-sans focus:ring-1 focus:ring-indigo-500/80",
                                                 isCurrentPage(item.href)
                                                     ? "bg-indigo-50 text-indigo-700"
                                                     : "bg-white text-slate-600"
