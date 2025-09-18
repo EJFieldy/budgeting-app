@@ -33,7 +33,7 @@ export default function NavBar() {
             className="relative bg-white border-b-1 border-slate-200">
             {({ open }) => (
                 <>
-                    <div className="px-2 max-w-7xl">
+                    <div className="px-2 max-w-7xl mx-auto">
                         <div className="flex h-16 items-center justify-between">
                             {/* Mobile Dropdown Button */}
                             <div className="flex items-center justify-center">
@@ -57,9 +57,30 @@ export default function NavBar() {
                                         )}
                                     />
                                 </DisclosureButton>
+                                {/* Tablet / Desktop Menu */}
+                                <div className="hidden sm:flex flex-row items-center justify-between px-5 space-x-2">
+                                    {navigation.map((item) => (
+                                        <Link
+                                            key={item.name}
+                                            to={item.href}
+                                            aria-current={
+                                                isCurrentPage(item.href)
+                                                    ? "page"
+                                                    : undefined
+                                            }
+                                            className={clsx(
+                                                "text-sm rounded-md px-3 py-2 tracking-tight font-sans",
+                                                isCurrentPage(item.href)
+                                                    ? "bg-indigo-50 text-indigo-700"
+                                                    : "bg-white text-slate-600"
+                                            )}>
+                                            {item.name}
+                                        </Link>
+                                    ))}
+                                </div>
                             </div>
                             {/* Page Title */}
-                            <div className="flex items-center">
+                            <div className="flex items-center sm:pr-5">
                                 <h1 className="font-sans text-xl font-bold text-indigo-600 tracking-tight">
                                     {navigation.find((item) =>
                                         isCurrentPage(item.href)
