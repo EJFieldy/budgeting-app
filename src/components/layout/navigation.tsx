@@ -1,9 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import {
-    Bars3Icon,
-    XMarkIcon,
-    PlusCircleIcon,
-} from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
     Disclosure,
     DisclosureButton,
@@ -15,6 +11,7 @@ import {
 } from "@headlessui/react";
 import clsx from "clsx";
 import placeholderPicture from "@/assets/profile_pic.jpg";
+import placeholderLogo from "@/assets/placeholder_logo.svg";
 
 import type { NavigationItem } from "@/types";
 
@@ -44,10 +41,17 @@ export default function NavBar() {
             className="relative bg-white border-b-1 border-slate-200">
             {({ open }) => (
                 <>
-                    <div className="px-2 max-w-7xl mx-auto">
+                    <div className="px-2 md:px-5 max-w-7xl mx-auto">
                         <div className="flex h-16 items-center justify-between">
                             {/* Mobile Dropdown Button */}
                             <div className="flex items-center justify-center">
+                                <div className="hidden sm:block">
+                                    <img
+                                        src={placeholderLogo}
+                                        alt="Company Logo"
+                                        className="size-8"
+                                    />
+                                </div>
                                 <DisclosureButton
                                     className={clsx(
                                         "sm:hidden p-2 text-slate-600 focus:ring-2 focus:ring-indigo-500 rounded-md outline-none",
@@ -91,14 +95,14 @@ export default function NavBar() {
                                 </div>
                             </div>
                             {/* Page Title */}
-                            <div className="flex items-center sm:pr-5">
+                            <div className="flex items-center sm:hidden">
                                 <h1 className="font-sans text-xl font-bold text-indigo-600 tracking-tight">
                                     {navigation.find((item) =>
                                         isCurrentPage(item.href)
                                     )?.name || "Page not found"}
                                 </h1>
                             </div>
-                            {/* Placeholder Icon (feature TBC) */}
+                            {/* Profile Dropdown Menu */}
                             <Menu
                                 as="div"
                                 className="p-2 relative flex items-center justify-center">
@@ -109,7 +113,6 @@ export default function NavBar() {
                                         className="size-8 rounded-full object-cover outline -outline-offset-1 outline-slate-200/50"
                                     />
                                 </MenuButton>
-                                {/* TODO: add transition effects to menu dropdown */}
                                 <MenuItems
                                     transition
                                     className="absolute origin-top-right top-full right-2 z-50 rounded-md w-48 outline -outline-offset-1 outline-slate-200 shadow-lg transition duration-200 ease-out data-closed:opacity-0 data-closed:scale-95 ">
