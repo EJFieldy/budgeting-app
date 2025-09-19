@@ -22,7 +22,13 @@ const navigation: NavigationItem[] = [
     { name: "Dashboard", href: "/" },
     { name: "Budgets", href: "/budget" },
     { name: "Direct Debits", href: "/direct-debits" },
+    // { name: "Settings", href: "/settings" },
+];
+
+const profile: NavigationItem[] = [
+    { name: "Profile", href: "/profile" },
     { name: "Settings", href: "/settings" },
+    { name: "Sign Out", href: "/logout" },
 ];
 
 export default function NavBar() {
@@ -103,13 +109,27 @@ export default function NavBar() {
                                         className="size-8 rounded-full object-cover outline -outline-offset-1 outline-slate-200/50"
                                     />
                                 </MenuButton>
+                                {/* TODO: add transition effects to menu dropdown */}
+                                <MenuItems
+                                    transition
+                                    className="absolute origin-top-right top-full right-2 z-50 rounded-md w-48 outline -outline-offset-1 outline-slate-200 shadow-lg transition duration-200 ease-out data-closed:opacity-0 data-closed:scale-95 ">
+                                    {profile.map((item) => (
+                                        <MenuItem
+                                            key={item.name}
+                                            as={Link}
+                                            to={item.href}
+                                            className="block rounded-md px-3 py-3 text-sm text-slate-600 bg-white data-focus:text-indigo-700 data-focus:bg-indigo-50">
+                                            {item.name}
+                                        </MenuItem>
+                                    ))}
+                                </MenuItems>
                             </Menu>
                         </div>
                     </div>
                     {/* Mobile Dropdown Menu Items */}
                     <DisclosurePanel
                         transition
-                        className="sm:hidden absolute top-full left-0 right-0 border-slate-200 border-l border-r border-b shadow-lg origin-top transition duration-300 ease-out data-closed:opacity-0 data-closed:-translate-y-4 z-50">
+                        className="sm:hidden absolute top-full left-0 right-0 border-slate-200 border-l border-r border-b shadow-lg origin-top transition duration-200 ease-out data-closed:opacity-0 data-closed:-translate-y-4 z-50">
                         <div className="text-start space-y-1 px-3 py-3">
                             {navigation.map((item) => (
                                 <DisclosureButton
