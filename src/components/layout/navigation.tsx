@@ -8,8 +8,13 @@ import {
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuItems,
 } from "@headlessui/react";
 import clsx from "clsx";
+import placeholderPicture from "@/assets/profile_pic.jpg";
 
 import type { NavigationItem } from "@/types";
 
@@ -88,9 +93,17 @@ export default function NavBar() {
                                 </h1>
                             </div>
                             {/* Placeholder Icon (feature TBC) */}
-                            <div className="sm:hidden p-2 text-slate-600 focus:ring-2 focus:ring-indigo-500 rounded-md outline-none">
-                                <PlusCircleIcon className="size-6" />
-                            </div>
+                            <Menu
+                                as="div"
+                                className="p-2 relative flex items-center justify-center">
+                                <MenuButton className="rounded-full focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                                    <img
+                                        src={placeholderPicture}
+                                        alt="Profile Picture"
+                                        className="size-8 rounded-full object-cover outline -outline-offset-1 outline-slate-200/50"
+                                    />
+                                </MenuButton>
+                            </Menu>
                         </div>
                     </div>
                     {/* Mobile Dropdown Menu Items */}
