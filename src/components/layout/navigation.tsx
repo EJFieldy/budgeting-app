@@ -19,13 +19,11 @@ const navigation: NavigationItem[] = [
     { name: "Dashboard", href: "/" },
     { name: "Budgets", href: "/budget" },
     { name: "Direct Debits", href: "/direct-debits" },
-    // { name: "Settings", href: "/settings" },
 ];
 
 const profile: NavigationItem[] = [
     { name: "Profile", href: "/profile" },
     { name: "Settings", href: "/settings" },
-    { name: "Sign Out", href: "/logout" },
 ];
 
 export default function NavBar() {
@@ -106,7 +104,7 @@ export default function NavBar() {
                             <Menu
                                 as="div"
                                 className="p-2 relative flex items-center justify-center">
-                                <MenuButton className="rounded-full focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                                <MenuButton className="rounded-full focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 cursor-pointer">
                                     <img
                                         src={placeholderPicture}
                                         alt="Profile Picture"
