@@ -5,10 +5,10 @@ const Card = ({ title, className, children }: SimpleCardProps) => {
     return (
         <div
             className={clsx(
-                "rounded-lg shadow-lg bg-white border-slate-200 border-1",
+                "rounded-lg shadow-lg bg-white border-slate-200 border-1 h-36",
                 className ? `${className}` : ""
             )}>
-            <div className="flex flex-col items-start justify-center">
+            <div className="flex flex-col items-start justify-center p-5">
                 <h2 className="text-slate-900 text-lg">{title}</h2>
                 <div className="mt-2">{children}</div>
             </div>

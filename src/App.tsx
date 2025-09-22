@@ -19,7 +19,7 @@ function App() {
                     <div className="grid grid-cols-4 gap-4">
                         {cardTest.map((item) => (
                             <Card key={item.title} title={item.title}>
-                                <p className="text-slate-700 text-md">
+                                <p className="text-slate-700 text-lg">
                                     {item.amount}
                                 </p>
                             </Card>
