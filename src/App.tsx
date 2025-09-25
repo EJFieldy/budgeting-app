@@ -1,7 +1,6 @@
 import "./App.css";
 import NavBar from "@/components/layout/navigation";
 import Card from "@/components/ui/card";
-import clsx from "clsx";
 import type { CardStyle, CardType, CardData } from "./types";
 import {
     ArrowDownOnSquareIcon,
