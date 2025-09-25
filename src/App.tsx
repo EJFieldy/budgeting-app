@@ -48,7 +48,7 @@ function App() {
             <NavBar />
 
             {/* Testing card layout */}
-            <div className="relative bg-white border-b-1 border-slate-200 h-32">
+            <div className="relative bg-white border-b-1 border-slate-200 h-40">
                 <div className="max-w-7xl mx-auto py-5">
                     <div className="text-center">
                         <h5 className="text-[10px] text-slate-500">
@@ -59,7 +59,34 @@ function App() {
                                 ?.amount || "£0"}
                         </h2>
                     </div>
-                    <Card className="mx-5">
+                    {/* Tablet / Desktop Bar Layout */}
+                    <div className="hidden mx-5 sm:grid grid-cols-3 gap-x-2 justify-center translate-y-5">
+                        {cardTest
+                            .filter((item) => item.type !== "balance")
+                            .map((item) => {
+                                const style = getCardStyles(item.type);
+                                return (
+                                    <Card className="p-5">
+                                        <div className="flex flex-col items-start">
+                                            <div className="size-8 text-indigo-700 mb-2">
+                                                {style.icon}
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-500 text-xs">
+                                                    {item.title}
+                                                </p>
+                                                <h5 className="text-xl text-slate-900 font-semibold tracking-tight">
+                                                    {item.amount}
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                );
+                            })}
+                    </div>
+
+                    {/* Mobile Bar Layout */}
+                    <Card className="sm:hidden mx-5 translate-y-1/4">
                         <div className="grid grid-cols-3 py-3 px-2 justify-items-center">
                             {cardTest
                                 .filter((item) => item.title !== "Balance")
@@ -77,7 +104,7 @@ function App() {
                                                         {item.title}
                                                     </p>
                                                     <h5
-                                                        className={`text-xs font-semibold tracking-tight`}>
+                                                        className={`text-xs font-semibold text-slate-900 tracking-tight`}>
                                                         {item.amount}
                                                     </h5>
                                                 </div>
