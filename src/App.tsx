@@ -60,6 +60,8 @@ function App() {
                         </h2>
                     </div>
                     {/* Tablet / Desktop Bar Layout */}
+                    {/* TODO: Consider changing budget to budget remaining */}
+                    {/* TODO: consider removing income and just having balance, budget remaining and expenses (per month / week) */}
                     <div className="hidden mx-5 sm:grid grid-cols-3 gap-x-2 justify-center translate-y-5">
                         {cardTest
                             .filter((item) => item.type !== "balance")
