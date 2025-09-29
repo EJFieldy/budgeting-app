@@ -44,7 +44,7 @@ const Header = () => {
     return (
         <div className="bg-white border-b-1 border-slate-200">
             <div className="max-w-7xl mx-auto py-5">
-                <div className="flex flex-col items-center-justify-center">
+                <div className="flex flex-col items-center justify-center">
                     <h5 className="text-[10px] text-slate-500">
                         Available Balance
                     </h5>
