@@ -1,5 +1,3 @@
-// type HeroIcon = React.ComponentType<React.SVGProps<SVGSVGElement>>;
-
 export interface SimpleCardProps {
     children?: React.ReactNode;
     className?: string;
