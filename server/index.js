@@ -41,6 +41,25 @@ app.post("/api/expenses", (req, res, next) => {
     }
 });
 
+app.delete("/api/expenses/:id/", (req, res, next) => {
+    try {
+        const id = parseInt(req.params.id);
+
+        const index = expenses.findIndex((item) => item.id === id);
+
+        if (index === -1) {
+            const error = new Error("Expense not found");
+            error.status = 404;
+            throw error;
+        }
+
+        expenses.splice(index, 1);
+        res.status(204).send();
+    } catch (error) {
+        next(error);
+    }
+});
+
 app.use((req, res) => {
     res.status(404).json({ error: "Route not found" });
 });
