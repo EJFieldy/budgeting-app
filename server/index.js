@@ -6,6 +6,11 @@ app.use(express.json());
 
 let expenses = [];
 let nextId = 1;
+let userProfile = {
+    income: 3000,
+    monthlyBudget: 2000,
+    balance: 5000,
+};
 
 app.get("/api/expenses", (req, res) => {
     res.json(expenses);
@@ -81,6 +86,24 @@ app.put("/api/expenses/:id/", (req, res, next) => {
         }
 
         res.status(200).json(expenses[index]);
+    } catch (error) {
+        next(error);
+    }
+});
+
+app.get("/api/profile/", (req, res) => {
+    res.json(userProfile);
+});
+
+app.put("/api/profile/", (req, res, next) => {
+    try {
+        for (const key in req.body) {
+            if (userProfile[key] !== undefined) {
+                userProfile[key] = req.body[key];
+            }
+        }
+
+        res.status(200).json(userProfile);
     } catch (error) {
         next(error);
     }
