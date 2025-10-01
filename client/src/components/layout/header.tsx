@@ -1,12 +1,16 @@
 import Card from "@/components/ui/card";
-import type { CardStyle, CardType, CardData } from "@/types";
+import type { CardStyle, CardType, CardData, Profile, Expense } from "@/types";
 import {
     ArrowDownOnSquareIcon,
     ArrowUpOnSquareIcon,
     CurrencyPoundIcon,
 } from "@heroicons/react/24/solid";
+import { useState, useEffect } from "react";
 
 const Header = () => {
+    const [profile, setProfile] = useState<Profile | null>(null);
+    const [expenses, setExpenses] = useState<Expense[]>([]);
+
     const cardTest: CardData[] = [
         { title: "Balance", amount: "£1200.00", type: "balance" },
         { title: "Budget", amount: "£1500.00", type: "budget" },
