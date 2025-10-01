@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 const Header = () => {
     const [profile, setProfile] = useState<Profile | null>(null);
     const [expenses, setExpenses] = useState<Expense[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const cardTest: CardData[] = [
         { title: "Balance", amount: "£1200.00", type: "balance" },
