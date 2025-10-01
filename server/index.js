@@ -60,6 +60,32 @@ app.delete("/api/expenses/:id/", (req, res, next) => {
     }
 });
 
+app.put("/api/expenses/:id/", (req, res, next) => {
+    try {
+        const id = parseInt(req.params.id);
+
+        const index = expenses.findIndex((item) => item.id === id);
+
+        if (index === -1) {
+            const error = new Error("Expense not found");
+            error.status = 404;
+            throw error;
+        }
+
+        const allowedFields = ["amount", "category", "description"];
+
+        for (const field of allowedFields) {
+            if (req.body[field] !== undefined) {
+                expenses[index][field] = req.body[field];
+            }
+        }
+
+        res.status(200).json(expenses[index]);
+    } catch (error) {
+        next(error);
+    }
+});
+
 app.use((req, res) => {
     res.status(404).json({ error: "Route not found" });
 });
