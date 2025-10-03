@@ -12,18 +12,21 @@ let expenses = [
         amount: 12.99,
         category: "Entertainment",
         description: "Netflix",
+        date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
     },
     {
         id: 2,
         amount: 8.99,
         category: "Entertainment",
         description: "Amazon Prime",
+        date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
     },
     {
         id: 3,
         amount: 14.67,
         category: "Groceries",
         description: "Lidl",
+        date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
     },
 ];
 let currentId = expenses.length;
@@ -58,6 +61,7 @@ app.post("/api/expenses", (req, res, next) => {
             amount: parseFloat(amount),
             category,
             description: description || "",
+            date: new Date().toISOString(),
         };
 
         expenses.push(newExpense);
