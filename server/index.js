@@ -6,8 +6,27 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
-let expenses = [];
-let nextId = 1;
+let expenses = [
+    {
+        id: 1,
+        amount: 12.99,
+        category: "Entertainment",
+        description: "Netflix",
+    },
+    {
+        id: 2,
+        amount: 8.99,
+        category: "Entertainment",
+        description: "Amazon Prime",
+    },
+    {
+        id: 3,
+        amount: 14.67,
+        category: "Groceries",
+        description: "Lidl",
+    },
+];
+let currentId = expenses.length;
 let userProfile = {
     income: 3000,
     monthlyBudget: 2000,
@@ -35,7 +54,7 @@ app.post("/api/expenses", (req, res, next) => {
         }
 
         const newExpense = {
-            id: nextId++,
+            id: ++currentId,
             amount: parseFloat(amount),
             category,
             description: description || "",
