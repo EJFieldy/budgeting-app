@@ -12,6 +12,33 @@ const Header = () => {
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const profileResponse = await fetch(
+                    "http://localhost:3000/api/profile/"
+                );
+                const profileData: Profile = await profileResponse.json();
+
+                setProfile(profileData);
+
+                const expensesResponse = await fetch(
+                    "http://localhost:3000/api/expenses/"
+                );
+                const expensesData: Expense[] = await expensesResponse.json();
+
+                setExpenses(expensesData);
+            } catch (error) {
+                console.error(`Error fetching data: ${error}`);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     const cardTest: CardData[] = [
         { title: "Balance", amount: "£1200.00", type: "balance" },
         { title: "Budget", amount: "£1500.00", type: "budget" },
@@ -54,7 +81,7 @@ const Header = () => {
                         Available Balance
                     </h5>
                     <h2 className="text-4xl font-semibold text-slate-900 pt-2 pb-5 tracking-tight">
-                        £1250.72
+                        £{profile?.balance}
                     </h2>
                 </div>
                 <div className="sm:hidden absolute bottom-0 left-5 right-5 translate-y-1/2">
