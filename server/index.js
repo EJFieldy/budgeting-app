@@ -113,7 +113,16 @@ app.put("/api/expenses/:id/", (req, res, next) => {
 });
 
 app.get("/api/profile/", (req, res) => {
-    res.json(userProfile);
+    const totalExpenses = expenses.reduce((acc, exp) => acc + exp.amount, 0);
+    const remainingBudget = userProfile.monthlyBudget - totalExpenses;
+    const newBalance = userProfile.balance - totalExpenses;
+
+    res.status(200).json({
+        ...userProfile,
+        balance: newBalance,
+        totalExpenses,
+        remainingBudget,
+    });
 });
 
 app.put("/api/profile/", (req, res, next) => {

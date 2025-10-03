@@ -7,6 +7,8 @@ export interface Profile {
     income: number;
     monthlyBudget: number;
     balance: number;
+    remainingBudget: number;
+    totalExpenses: number;
 }
 
 export interface Expense {

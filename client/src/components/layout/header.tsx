@@ -39,13 +39,6 @@ const Header = () => {
         fetchData();
     }, []);
 
-    const cardTest: CardData[] = [
-        { title: "Balance", amount: "£1200.00", type: "balance" },
-        { title: "Budget", amount: "£1500.00", type: "budget" },
-        { title: "Income", amount: "£2500.00", type: "income" },
-        { title: "Expenses", amount: "£1250.00", type: "expense" },
-    ];
-
     const cardStyleMap = {
         balance: {
             bg: "bg-slate-50",
@@ -73,6 +66,32 @@ const Header = () => {
         return cardStyleMap[type];
     };
 
+    const getCardData = (): CardData[] => {
+        if (!profile) {
+            return [];
+        }
+
+        return [
+            {
+                title: "Income",
+                amount: `${profile.income}`,
+                type: "income",
+            },
+            {
+                title: "Budget",
+                amount: `${profile.remainingBudget}`,
+                type: "budget",
+            },
+            {
+                title: "Expenses",
+                amount: `${profile.totalExpenses}`,
+                type: "expense",
+            },
+        ];
+    };
+
+    const cardData = getCardData();
+
     return (
         <div className="relative bg-white border-b-1 border-slate-200 h-40 sm:h-50">
             <div className="max-w-7xl mx-auto py-5">
@@ -87,56 +106,52 @@ const Header = () => {
                 <div className="sm:hidden absolute bottom-0 left-5 right-5 translate-y-1/2">
                     <Card>
                         <div className="grid grid-cols-3 gap-x-2 py-3 px-2 items-center">
-                            {cardTest
-                                .filter((item) => item.title !== "Balance")
-                                .map((item) => {
-                                    const style = getCardStyles(item.type);
-                                    return (
+                            {cardData.map((item) => {
+                                const style = getCardStyles(item.type);
+                                return (
+                                    <div
+                                        key={item.title}
+                                        className="flex flex-col items-center justify-between gap-2">
                                         <div
-                                            key={item.title}
-                                            className="flex flex-col items-center justify-between gap-2">
-                                            <div
-                                                className={`size-5 text-indigo-700`}>
-                                                {style.icon}
-                                            </div>
-                                            <div>
-                                                <p className="text-[10px] text-center text-slate-500">
-                                                    {item.title}
-                                                </p>
-                                                <h5
-                                                    className={`text-xs font-semibold text-slate-900 tracking-tight`}>
-                                                    {item.amount}
-                                                </h5>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                        </div>
-                    </Card>
-                </div>
-                <div className="hidden absolute bottom-0 translate-y-1/2 right-5 left-5 mx-auto sm:grid sm:grid-cols-3 gap-x-2 max-w-4xl justify-center">
-                    {cardTest
-                        .filter((item) => item.type !== "balance")
-                        .map((item) => {
-                            const style = getCardStyles(item.type);
-                            return (
-                                <Card key={item.title} className="p-5">
-                                    <div className="flex flex-col items-start">
-                                        <div className="size-8 text-indigo-700 mb-2">
+                                            className={`size-5 text-indigo-700`}>
                                             {style.icon}
                                         </div>
                                         <div>
-                                            <p className="text-slate-500 text-xs">
+                                            <p className="text-[10px] text-center text-slate-500">
                                                 {item.title}
                                             </p>
-                                            <h5 className="text-xl text-slate-900 font-semibold tracking-tight">
+                                            <h5
+                                                className={`text-xs font-semibold text-slate-900 tracking-tight`}>
                                                 {item.amount}
                                             </h5>
                                         </div>
                                     </div>
-                                </Card>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
+                    </Card>
+                </div>
+                <div className="hidden absolute bottom-0 translate-y-1/2 right-5 left-5 mx-auto sm:grid sm:grid-cols-3 gap-x-2 max-w-4xl justify-center">
+                    {cardData.map((item) => {
+                        const style = getCardStyles(item.type);
+                        return (
+                            <Card key={item.title} className="p-5">
+                                <div className="flex flex-col items-start">
+                                    <div className="size-8 text-indigo-700 mb-2">
+                                        {style.icon}
+                                    </div>
+                                    <div>
+                                        <p className="text-slate-500 text-xs">
+                                            {item.title}
+                                        </p>
+                                        <h5 className="text-xl text-slate-900 font-semibold tracking-tight">
+                                            {item.amount}
+                                        </h5>
+                                    </div>
+                                </div>
+                            </Card>
+                        );
+                    })}
                 </div>
             </div>
         </div>
