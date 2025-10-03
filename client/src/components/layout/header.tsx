@@ -9,7 +9,6 @@ import { useState, useEffect } from "react";
 
 const Header = () => {
     const [profile, setProfile] = useState<Profile | null>(null);
-    const [expenses, setExpenses] = useState<Expense[]>([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -22,13 +21,6 @@ const Header = () => {
                 const profileData: Profile = await profileResponse.json();
 
                 setProfile(profileData);
-
-                const expensesResponse = await fetch(
-                    "http://localhost:3000/api/expenses/"
-                );
-                const expensesData: Expense[] = await expensesResponse.json();
-
-                setExpenses(expensesData);
             } catch (error) {
                 console.error(`Error fetching data: ${error}`);
             } finally {
