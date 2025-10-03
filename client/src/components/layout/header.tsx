@@ -1,6 +1,5 @@
 import Card from "@/components/ui/card";
 import type { CardStyle, CardType, CardData, Profile } from "@/types";
-import { DivideIcon } from "@heroicons/react/24/outline";
 import {
     ArrowDownOnSquareIcon,
     ArrowUpOnSquareIcon,
