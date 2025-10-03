@@ -111,7 +111,7 @@ const Header = () => {
                                 return (
                                     <div
                                         key={item.title}
-                                        className="flex flex-col items-center justify-between gap-2">
+                                        className="flex flex-col items-center justify-between gap-2 text-center">
                                         <div
                                             className={`size-5 text-indigo-700`}>
                                             {style.icon}
