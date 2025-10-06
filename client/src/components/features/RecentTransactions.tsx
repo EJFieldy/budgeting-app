@@ -8,25 +8,26 @@ import Card from "@/components/ui/card";
 import type { Expense } from "@/types/components";
 
 const RecentTransactions = () => {
-    const [expenses, setExpenses] = useState<Expense[]>([]);
+    const [newExpenses, setNewExpenses] = useState<Expense[]>([]);
     const [expLoading, setExpLoading] = useState(false);
 
     useEffect(() => {
-        const fetchExpenses = async () => {
+        const fetchNewExpenses = async () => {
             try {
                 setExpLoading(true);
-                const expenseResponse = await fetch(
-                    "http://localhost:3000/api/expenses/"
+                const newExpenseResponse = await fetch(
+                    "http://localhost:3000/api/recent?limit=5/"
                 );
 
-                if (!expenseResponse.ok) {
+                if (!newExpenseResponse.ok) {
                     throw new Error(
-                        `Failed to fetch expenses: ${expenseResponse.status}`
+                        `Failed to fetch expenses: ${newExpenseResponse.status}`
                     );
                 }
 
-                const expenseData: Expense[] = await expenseResponse.json();
-                setExpenses(expenseData);
+                const newExpenseData: Expense[] =
+                    await newExpenseResponse.json();
+                setNewExpenses(newExpenseData);
             } catch (error) {
                 console.error(`Error fetching data: ${error}`);
             } finally {
@@ -34,6 +35,6 @@ const RecentTransactions = () => {
             }
         };
 
-        fetchExpenses();
+        fetchNewExpenses();
     }, []);
 };
