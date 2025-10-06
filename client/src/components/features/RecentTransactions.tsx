@@ -4,6 +4,7 @@ import {
     ArrowUpOnSquareIcon,
     ArrowPathIcon,
 } from "@heroicons/react/24/solid";
+import clsx from "clsx";
 import Card from "@/components/ui/card";
 import type { Expense } from "@/types/components";
 
@@ -37,4 +38,37 @@ const RecentTransactions = () => {
 
         fetchNewExpenses();
     }, []);
+
+    return (
+        <>
+            <div className="max-w-4xl px-5 mt-15">
+                <div className="flex flex-col items-center justify-center gap-y-1">
+                    <div className="mb-1">
+                        <h1 className="text-lg font-semibold text-slate-900 tracking-tight">
+                            Recent Transactions
+                        </h1>
+                    </div>
+                    {newExpenses.map((item) => (
+                        <Card className="py-2 px-5 !bg-red-50 w-full">
+                            <div className="flex items-center justify-between">
+                                <div className="flex flex-row justify-center items-center">
+                                    <ArrowUpOnSquareIcon className="size-5 text-red-700 mr-2 mb-1" />
+                                    <h5 className="text-sm text-red-700 font-semibold">
+                                        {item.description}
+                                    </h5>
+                                </div>
+                                <div>
+                                    <h2 className="text-md text-red-700 font-semibold tracking-tight">
+                                        -£{item.amount}
+                                    </h2>
+                                </div>
+                            </div>
+                        </Card>
+                    ))}
+                </div>
+            </div>
+        </>
+    );
 };
+
+export default RecentTransactions;
