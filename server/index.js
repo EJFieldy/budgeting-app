@@ -42,9 +42,9 @@ app.get("/api/expenses", (req, res) => {
 
 app.get("/api/expenses/recent", (req, res) => {
     const limit = parseInt(req.query.limit) || 5;
-    const recent = [...expenses].sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    ).slice[(0, limit)];
+    const recent = [...expenses]
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, limit);
 
     res.status(200).json(recent);
 });
