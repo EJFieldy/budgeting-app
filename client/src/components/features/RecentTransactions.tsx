@@ -16,7 +16,7 @@ const RecentTransactions = () => {
             try {
                 setExpLoading(true);
                 const newExpenseResponse = await fetch(
-                    "http://localhost:3000/api/recent?limit=5/"
+                    "http://localhost:3000/api/expenses/recent?limit=5/"
                 );
 
                 if (!newExpenseResponse.ok) {
