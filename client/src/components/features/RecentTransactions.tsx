@@ -42,7 +42,7 @@ const RecentTransactions = () => {
 
     return (
         <>
-            <div className="max-w-4xl px-5 mt-15">
+            <div className="max-w-4xl px-5">
                 <div className="flex flex-col items-center justify-center gap-y-1">
                     <div className="mb-1">
                         <h1 className="text-lg font-semibold text-slate-900 tracking-tight">

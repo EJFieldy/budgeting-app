@@ -86,7 +86,7 @@ const Header = () => {
     const cardData = getCardData();
 
     return (
-        <div className="relative bg-white border-b-1 border-slate-200 h-40 sm:h-50">
+        <div className="relative bg-white border-b-1 border-slate-200 h-40 sm:h-50 mb-16 sm:mb-20">
             <div className="max-w-7xl mx-auto py-5">
                 <div className="flex flex-col items-center justify-center">
                     <h5 className="text-[10px] sm:text-xs text-slate-500">
