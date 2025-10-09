@@ -5,6 +5,7 @@ import {
     ArrowPathIcon,
 } from "@heroicons/react/24/solid";
 import clsx from "clsx";
+import { formatDistanceToNow } from "date-fns";
 import Card from "@/components/ui/card";
 import type { Expense } from "@/types/components";
 
@@ -48,23 +49,36 @@ const RecentTransactions = () => {
                             Recent Transactions
                         </h1>
                     </div>
-                    {newExpenses.map((item) => (
-                        <Card className="py-2 px-5 !bg-red-50 w-full">
-                            <div className="flex items-center justify-between">
-                                <div className="flex flex-row justify-center items-center">
-                                    <ArrowUpOnSquareIcon className="size-5 text-red-700 mr-2 mb-1" />
-                                    <h5 className="text-sm text-red-700 font-semibold">
-                                        {item.description}
-                                    </h5>
+                    {newExpenses.map((item) => {
+                        const timeAgo = formatDistanceToNow(
+                            new Date(item.date),
+                            { addSuffix: true }
+                        );
+                        return (
+                            <Card
+                                key={item.id}
+                                className="py-2 px-5 !bg-red-50 w-full">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex flex-col justify-center items-start">
+                                        <div className="flex flex-row justify-center items-center">
+                                            <ArrowUpOnSquareIcon className="size-5 text-red-700 mr-2 mb-1 -ml-1" />
+                                            <h5 className="text-sm text-red-700 font-semibold">
+                                                {item.description}
+                                            </h5>
+                                        </div>
+                                        <h5 className="text-gray-500 text-xs">
+                                            {timeAgo}
+                                        </h5>
+                                    </div>
+                                    <div>
+                                        <h2 className="text-md text-red-700 font-semibold tracking-tight">
+                                            -£{item.amount}
+                                        </h2>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h2 className="text-md text-red-700 font-semibold tracking-tight">
-                                        -£{item.amount}
-                                    </h2>
-                                </div>
-                            </div>
-                        </Card>
-                    ))}
+                            </Card>
+                        );
+                    })}
                 </div>
             </div>
         </>
