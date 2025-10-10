@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowUpOnSquareIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
+import { ArrowUpOnSquareIcon } from "@heroicons/react/24/solid";
 import { formatDistanceToNow } from "date-fns";
 import Card from "@/components/ui/card";
 import type { Expense } from "@/types/components";
