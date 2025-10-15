@@ -18,3 +18,10 @@ export interface Expense {
     description: string;
     date: string;
 }
+
+export interface CategoryData {
+    name: string;
+    value: number;
+    category: string;
+    count: number;
+}
