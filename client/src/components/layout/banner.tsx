@@ -1,0 +1,20 @@
+import RecentTransactions from "@/components/features/RecentTransactions";
+
+const Banner = () => {
+    return (
+        <>
+            <div className="max-w-4xl px-5 lg:px-0 mx-auto">
+                <div className="sm:hidden flex flex-col gap-y-2">
+                    <RecentTransactions showTitle={true} />
+                </div>
+                <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="flex flex-col gap-y-1">
+                        <RecentTransactions showTitle={true} />
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default Banner;
