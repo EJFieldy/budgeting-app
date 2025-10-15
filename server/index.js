@@ -36,6 +36,29 @@ let userProfile = {
     balance: 5000,
 };
 
+let categoryExpenses = [
+    {
+        name: "Entertainment",
+        value: 47.32,
+        count: 5,
+    },
+    {
+        name: "Groceries",
+        value: 102.95,
+        count: 3,
+    },
+    {
+        name: "Bills",
+        value: 850.0,
+        count: 1,
+    },
+    {
+        name: "Travel",
+        value: 78.13,
+        count: 3,
+    },
+];
+
 app.get("/api/expenses", (req, res) => {
     res.json(expenses);
 });
@@ -47,6 +70,10 @@ app.get("/api/expenses/recent", (req, res) => {
         .slice(0, limit);
 
     res.status(200).json(recent);
+});
+
+app.get("/api/expenses/by-category", (req, res) => {
+    res.status(200).json(categoryExpenses);
 });
 
 app.post("/api/expenses", (req, res, next) => {
