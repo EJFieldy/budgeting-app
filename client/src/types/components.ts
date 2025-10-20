@@ -22,6 +22,6 @@ export interface Expense {
 export interface CategoryData {
     name: string;
     value: number;
-    category: string;
     count: number;
+    [key: string]: any;
 }
