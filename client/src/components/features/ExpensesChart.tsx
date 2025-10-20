@@ -1,7 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { PieChart, Pie, ResponsiveContainer, Tooltip } from "recharts";
+import { PieChart, Pie, ResponsiveContainer, Tooltip, Cell } from "recharts";
 import type { CategoryData } from "@/types/index.ts";
+import { CATEGORY_COLORS } from "@/constants/categories";
 
 const ExpensesChart = () => {
     const [categoryData, setCategoryData] = useState<CategoryData[]>([]);
@@ -21,9 +22,15 @@ const ExpensesChart = () => {
                     );
                 }
 
-                const data: CategoryData[] = await response.json();
+                const apiData: CategoryData[] = await response.json();
+                const chartData: CategoryData[] = apiData.map((item) => ({
+                    name: item.name,
+                    value: item.value,
+                    count: item.count,
+                    color: CATEGORY_COLORS[item.name],
+                }));
 
-                setCategoryData(data);
+                setCategoryData(chartData);
             } catch (error) {
                 console.error(`Error fetching data: ${error}`);
             } finally {
@@ -46,8 +53,11 @@ const ExpensesChart = () => {
                         innerRadius={50}
                         outerRadius={80}
                         fill="#82ca9d"
-                        label
-                    />
+                        label>
+                        {categoryData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                    </Pie>
                     <Tooltip />
                 </PieChart>
             </ResponsiveContainer>

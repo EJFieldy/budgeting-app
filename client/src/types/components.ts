@@ -23,5 +23,6 @@ export interface CategoryData {
     name: string;
     value: number;
     count: number;
+    color?: string;
     [key: string]: any;
 }
