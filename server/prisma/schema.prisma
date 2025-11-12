@@ -13,3 +13,17 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+model Transaction {
+  id Int @id @default(autoincrement())
+  amount Decimal @db.Decimal(8, 2)
+  type TransactionType
+  category String
+  description String?
+  date DateTime @default(now())
+}
