@@ -1,7 +1,6 @@
 {
     "name": "server",
     "version": "1.0.0",
-    "type": "module",
     "description": "Express backend for budget and expense tracker",
     "license": "ISC",
     "author": "Elliot Field",
