@@ -1,5 +1,6 @@
 import { Router } from "express";
-import prisma from "../prisma.js";
+import prisma from "../prisma";
+import { TransactionType } from "@prisma/client";
 
 const router = Router();
 
@@ -35,6 +36,70 @@ router.post("/", async (req, res, next) => {
 
         res.status(201).json(newTransaction);
     } catch (error) {
+        next(error);
+    }
+});
+
+router.put("/:id", async (req, res, next) => {
+    try {
+        const { amount, type, category, description } = req.body;
+        const updatedData: any = {};
+
+        if (amount !== undefined) {
+            if (amount <= 0) {
+                return res
+                    .status(400)
+                    .json({ error: "Amount must be positive" });
+            }
+            updatedData.amount = parseFloat(amount);
+        }
+        if (type !== undefined) {
+            if (!Object.values(TransactionType).includes(type)) {
+                return res.status(400).json({
+                    error: `Type must be one of ${Object.values(
+                        TransactionType
+                    ).join(", ")}`,
+                });
+            }
+            updatedData.type = type;
+        }
+        if (category !== undefined) {
+            updatedData.category = category;
+        }
+        if (description !== undefined) {
+            updatedData.description = description;
+        }
+
+        if (Object.keys(updatedData).length === 0) {
+            return res
+                .status(400)
+                .json({ error: "No information provided for update" });
+        }
+
+        const updatedExpense = await prisma.transaction.update({
+            where: {
+                id: Number(req.params.id),
+            },
+            data: updatedData,
+        });
+        res.status(200).json(updatedExpense);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.delete("/:id", async (req, res, next) => {
+    try {
+        const id = Number(req.params.id);
+
+        const deletedData = await prisma.transaction.delete({
+            where: { id },
+        });
+        res.sendStatus(204);
+    } catch (error: any) {
+        if (error.code === "P2025") {
+            return res.status(404).json({ error: "Transaction not found" });
+        }
         next(error);
     }
 });
