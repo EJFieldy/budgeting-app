@@ -10,6 +10,21 @@ router.get("/", async (req, res) => {
     res.json(transactions);
 });
 
+router.get("/recent", async (req, res, next) => {
+    try {
+        const recentTransactions = await prisma.transaction.findMany({
+            take: 5,
+            orderBy: {
+                date: "desc",
+            },
+        });
+
+        res.status(200).json(recentTransactions);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.post("/", async (req, res, next) => {
     try {
         const { amount, type, category, description } = req.body;
