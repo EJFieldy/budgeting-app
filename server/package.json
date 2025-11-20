@@ -8,6 +8,9 @@
     "scripts": {
         "dev": "ts-node src/index.ts"
     },
+    "prisma": {
+        "seed": "ts-node prisma/seed.ts"
+    },
     "dependencies": {
         "@prisma/client": "^6.19.0",
         "cors": "^2.8.5",
