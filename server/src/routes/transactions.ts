@@ -5,7 +5,11 @@ import { TransactionType } from "@prisma/client";
 const router = Router();
 
 router.get("/", async (req, res) => {
-    const transactions = await prisma.transaction.findMany();
+    const transactions = await prisma.transaction.findMany({
+        include: {
+            category: true,
+        },
+    });
 
     res.json(transactions);
 });
@@ -17,6 +21,9 @@ router.get("/recent", async (req, res, next) => {
             orderBy: {
                 date: "desc",
             },
+            include: {
+                category: true,
+            },
         });
 
         res.status(200).json(recentTransactions);
@@ -27,7 +34,7 @@ router.get("/recent", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
     try {
-        const { amount, type, category, description } = req.body;
+        const { amount, type, categoryId, description } = req.body;
         if (!amount || amount <= 0) {
             return res.status(400).json({ error: "Amount must be positive" });
         }
@@ -36,7 +43,7 @@ router.post("/", async (req, res, next) => {
             return res.status(400).json({ error: "Type is required" });
         }
 
-        if (!category) {
+        if (!categoryId) {
             return res.status(400).json({ error: "Category is required" });
         }
 
@@ -44,7 +51,7 @@ router.post("/", async (req, res, next) => {
             data: {
                 amount: parseFloat(amount),
                 type,
-                category,
+                categoryId: Number(categoryId),
                 description: description || "",
             },
         });
@@ -57,7 +64,7 @@ router.post("/", async (req, res, next) => {
 
 router.put("/:id", async (req, res, next) => {
     try {
-        const { amount, type, category, description } = req.body;
+        const { amount, type, categoryId, description } = req.body;
         const updatedData: any = {};
 
         if (amount !== undefined) {
@@ -78,8 +85,8 @@ router.put("/:id", async (req, res, next) => {
             }
             updatedData.type = type;
         }
-        if (category !== undefined) {
-            updatedData.category = category;
+        if (categoryId !== undefined) {
+            updatedData.categoryId = Number(categoryId);
         }
         if (description !== undefined) {
             updatedData.description = description;
