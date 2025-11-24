@@ -1,6 +1,6 @@
 import { Router } from "express";
 import prisma from "../prisma";
-import { TransactionType } from "@prisma/client";
+import { Prisma, TransactionType } from "@prisma/client";
 
 const router = Router();
 
@@ -113,7 +113,6 @@ router.put("/:id", async (req, res, next) => {
     }
 });
 
-// TODO: amend catch block to use specific prisma error codes
 router.delete("/:id", async (req, res, next) => {
     try {
         const id = Number(req.params.id);
@@ -122,9 +121,11 @@ router.delete("/:id", async (req, res, next) => {
             where: { id },
         });
         res.sendStatus(204);
-    } catch (error: any) {
-        if (error.code === "P2025") {
-            return res.status(404).json({ error: "Transaction not found" });
+    } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === "P2025") {
+                return res.status(404).json({ error: "Transaction not found" });
+            }
         }
         next(error);
     }
