@@ -4,17 +4,21 @@ import { Prisma, TransactionType } from "@prisma/client";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-    const transactions = await prisma.transaction.findMany({
-        orderBy: {
-            date: "asc",
-        },
-        include: {
-            category: true,
-        },
-    });
+router.get("/", async (req, res, next) => {
+    try {
+        const transactions = await prisma.transaction.findMany({
+            orderBy: {
+                date: "desc",
+            },
+            include: {
+                category: true,
+            },
+        });
 
-    res.json(transactions);
+        res.status(200).json(transactions);
+    } catch (error) {
+        next(error);
+    }
 });
 
 router.get("/recent", async (req, res, next) => {
@@ -67,6 +71,11 @@ router.post("/", async (req, res, next) => {
 
 router.put("/:id", async (req, res, next) => {
     try {
+        const id = Number(req.params.id);
+
+        if (isNaN(id) || id <= 0) {
+            return res.status(400).json({ error: "Invalid Id parameter" });
+        }
         const { amount, type, categoryId, description } = req.body;
         const updatedData: any = {};
 
@@ -103,12 +112,20 @@ router.put("/:id", async (req, res, next) => {
 
         const updatedExpense = await prisma.transaction.update({
             where: {
-                id: Number(req.params.id),
+                id,
             },
             data: updatedData,
         });
         res.status(200).json(updatedExpense);
     } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === "P2025") {
+                return res.status(404).json({ error: "Transaction not found" });
+            }
+            if (error.code === "P2003") {
+                return res.status(400).json({ error: "Invalid category ID" });
+            }
+        }
         next(error);
     }
 });
@@ -117,9 +134,14 @@ router.delete("/:id", async (req, res, next) => {
     try {
         const id = Number(req.params.id);
 
-        const deletedData = await prisma.transaction.delete({
+        if (isNaN(id) || id <= 0) {
+            return res.status(400).json({ error: "Invalid Id parameter" });
+        }
+
+        await prisma.transaction.delete({
             where: { id },
         });
+
         res.sendStatus(204);
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
