@@ -6,6 +6,9 @@ const router = Router();
 
 router.get("/", async (req, res) => {
     const transactions = await prisma.transaction.findMany({
+        orderBy: {
+            date: "asc",
+        },
         include: {
             category: true,
         },
@@ -110,6 +113,7 @@ router.put("/:id", async (req, res, next) => {
     }
 });
 
+// TODO: amend catch block to use specific prisma error codes
 router.delete("/:id", async (req, res, next) => {
     try {
         const id = Number(req.params.id);
