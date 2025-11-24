@@ -18,6 +18,47 @@ router.get("/", async (req, res, next) => {
     }
 });
 
+router.get("/summary", async (req, res, next) => {
+    try {
+        const categories = await prisma.category.findMany({
+            include: {
+                transactions: true,
+            },
+        });
+
+        const categoriesWithTotals = categories.map((category) => {
+            const income = category.transactions.filter(
+                (t) => t.type === "INCOME"
+            );
+            const totalIncome = income.reduce(
+                (sum, t) => sum + Number(t.amount),
+                0
+            );
+
+            const expense = category.transactions.filter(
+                (t) => t.type === "EXPENSE"
+            );
+            const totalExpense = expense.reduce(
+                (sum, t) => sum + Number(t.amount),
+                0
+            );
+
+            return {
+                id: category.id,
+                name: category.name,
+                totalIncome,
+                totalExpense,
+                netTotal: totalIncome - totalExpense,
+                transactionCount: category.transactions.length,
+            };
+        });
+
+        res.status(200).json(categoriesWithTotals);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.post("/", async (req, res, next) => {
     try {
         const name = req.body.name?.trim();
