@@ -26,6 +26,8 @@ model Transaction {
   category Category @relation(fields: [categoryId], references: [id])
   description String?
   date DateTime @default(now())
+
+  @@index([categoryId])
 }
 
 model Category {
