@@ -1,7 +1,6 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../prisma";
 import { Router } from "express";
-import { parse } from "node:path";
 
 const router = Router();
 
