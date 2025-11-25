@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../prisma";
 import { Router } from "express";
+import { parse } from "node:path";
 
 const router = Router();
 
@@ -20,9 +21,23 @@ router.get("/", async (req, res, next) => {
 
 router.get("/summary", async (req, res, next) => {
     try {
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const startOfNextMonth = new Date(
+            now.getFullYear(),
+            now.getMonth() + 1,
+            1
+        );
         const categories = await prisma.category.findMany({
             include: {
-                transactions: true,
+                transactions: {
+                    where: {
+                        date: {
+                            gte: startOfMonth,
+                            lt: startOfNextMonth,
+                        },
+                    },
+                },
             },
         });
 
@@ -43,6 +58,16 @@ router.get("/summary", async (req, res, next) => {
                 0
             );
 
+            const budget =
+                category.monthlyBudget !== null
+                    ? Number(category.monthlyBudget)
+                    : null;
+
+            const remaining = budget !== null ? budget - totalExpense : null;
+            const percentUsed =
+                budget !== null
+                    ? Math.round((totalExpense / budget) * 100)
+                    : null;
             return {
                 id: category.id,
                 name: category.name,
@@ -50,6 +75,10 @@ router.get("/summary", async (req, res, next) => {
                 totalExpense,
                 netTotal: totalIncome - totalExpense,
                 transactionCount: category.transactions.length,
+                monthlyBudget: budget,
+                budgetRemaining: remaining,
+                budgetPercentUsed: percentUsed,
+                overBudget: budget !== null ? totalExpense > budget : false,
             };
         });
 
@@ -62,13 +91,19 @@ router.get("/summary", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
     try {
         const name = req.body.name?.trim();
+        const monthlyBudget = req.body.monthlyBudget;
 
         if (!name) {
             return res.status(400).json({ error: "Name of category required" });
         }
 
         const newCategory = await prisma.category.create({
-            data: { name },
+            data: {
+                name,
+                ...(monthlyBudget !== undefined && {
+                    monthlyBudget: parseFloat(monthlyBudget),
+                }),
+            },
         });
 
         res.status(201).json(newCategory);
@@ -99,12 +134,17 @@ router.put("/:id", async (req, res, next) => {
             return res.status(400).json({ error: "Name of category required" });
         }
 
+        const monthlyBudget = req.body.monthlyBudget;
+
         const updatedCategory = await prisma.category.update({
             where: {
                 id,
             },
             data: {
                 name,
+                ...(monthlyBudget !== undefined && {
+                    monthlyBudget: parseFloat(monthlyBudget),
+                }),
             },
         });
 
