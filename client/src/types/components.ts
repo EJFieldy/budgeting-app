@@ -3,14 +3,6 @@ export interface NavigationItem {
     href: string;
 }
 
-export interface Profile {
-    income: number;
-    monthlyBudget: number;
-    balance: number;
-    remainingBudget: number;
-    totalExpenses: number;
-}
-
 export interface Expense {
     id: number;
     amount: number;
@@ -25,4 +17,38 @@ export interface CategoryData {
     count: number;
     color?: string;
     [key: string]: any;
+}
+
+export interface HeaderData {
+    balance: {
+        totalIncome: number;
+        totalExpense: number;
+        currentBalance: number;
+        transactionCount: number;
+    };
+    summary: Array<{
+        id: number;
+        name: string;
+        totalIncome: number;
+        totalExpense: number;
+        netTotal: number;
+        transactionCount: number;
+        monthlyBudget: number | null;
+        budgetRemaining: number | null;
+        budgetPercentUsed: number | null;
+        overBudget: boolean;
+    }>;
+    recent: Array<{
+        id: number;
+        type: string;
+        amount: number;
+        categoryId: number;
+        description: string;
+        date: string;
+        category: {
+            id: number;
+            name: string;
+            monthlyBudget: number | null;
+        };
+    }>;
 }

@@ -39,6 +39,36 @@ router.get("/recent", async (req, res, next) => {
     }
 });
 
+router.get("/balance", async (req, res, next) => {
+    try {
+        const transactions = await prisma.transaction.findMany({
+            select: {
+                amount: true,
+                type: true,
+            },
+        });
+
+        const income = transactions
+            .filter((t) => t.type === "INCOME")
+            .reduce((sum, t) => sum + Number(t.amount), 0);
+        const expense = transactions
+            .filter((t) => t.type === "EXPENSE")
+            .reduce((sum, t) => sum + Number(t.amount), 0);
+        const balance = income - expense;
+
+        const balanceData = {
+            totalIncome: Math.round(income * 100) / 100,
+            totalExpense: Math.round(expense * 100) / 100,
+            currentBalance: Math.round(balance * 100) / 100,
+            transactionCount: transactions.length,
+        };
+
+        res.status(200).json(balanceData);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.post("/", async (req, res, next) => {
     try {
         const { amount, type, categoryId, description } = req.body;
