@@ -26,18 +26,25 @@ export interface HeaderData {
         currentBalance: number;
         transactionCount: number;
     };
-    summary: Array<{
-        id: number;
-        name: string;
-        totalIncome: number;
-        totalExpense: number;
-        netTotal: number;
-        transactionCount: number;
-        monthlyBudget: number | null;
-        budgetRemaining: number | null;
-        budgetPercentUsed: number | null;
-        overBudget: boolean;
-    }>;
+    summary: {
+        categories: Array<{
+            id: number;
+            name: string;
+            totalIncome: number;
+            totalExpense: number;
+            netTotal: number;
+            transactionCount: number;
+            monthlyBudget: number | null;
+            budgetRemaining: number | null;
+            budgetPercentUsed: number | null;
+            overBudget: boolean;
+        }>;
+        monthly: {
+            income: number;
+            expense: number;
+            budgetRemaining: number | null;
+        };
+    };
     recent: Array<{
         id: number;
         type: string;
