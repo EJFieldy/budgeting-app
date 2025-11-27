@@ -81,7 +81,27 @@ router.get("/summary", async (req, res, next) => {
             };
         });
 
-        res.status(200).json(categoriesWithTotals);
+        const monthlyIncome = categoriesWithTotals.reduce(
+            (sum, c) => sum + c.totalIncome,
+            0
+        );
+        const monthlyExpense = categoriesWithTotals.reduce(
+            (sum, c) => sum + c.totalExpense,
+            0
+        );
+        const totalBudgetRemaining = categoriesWithTotals.reduce(
+            (sum, c) => sum + (c.budgetRemaining || 0),
+            0
+        );
+
+        res.status(200).json({
+            categories: categoriesWithTotals,
+            monthly: {
+                income: Math.round(monthlyIncome * 100) / 100,
+                expense: Math.round(monthlyExpense * 100) / 100,
+                budgetRemaining: Math.round(totalBudgetRemaining * 100) / 100,
+            },
+        });
     } catch (error) {
         next(error);
     }
