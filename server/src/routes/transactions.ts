@@ -33,7 +33,14 @@ router.get("/recent", async (req, res, next) => {
             },
         });
 
-        res.status(200).json(recentTransactions);
+        const preciseRecentTransactions = recentTransactions.map((t) => {
+            return {
+                ...t,
+                amount: t.amount.toFixed(2),
+            };
+        });
+
+        res.status(200).json(preciseRecentTransactions);
     } catch (error) {
         next(error);
     }
