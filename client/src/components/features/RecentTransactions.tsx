@@ -2,29 +2,28 @@ import { useState, useEffect } from "react";
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/solid";
 import { formatDistanceToNow } from "date-fns";
 import Card from "@/components/ui/card";
-import type { Expense } from "@/types/components";
+import type { Transaction } from "@/types/components";
 
 const RecentTransactions = ({ showTitle = true }) => {
-    const [newExpenses, setNewExpenses] = useState<Expense[]>([]);
+    const [recent, setRecent] = useState<Transaction[]>([]);
     const [expLoading, setExpLoading] = useState(false);
 
     useEffect(() => {
-        const fetchNewExpenses = async () => {
+        const fetchRecentTransactions = async () => {
             try {
                 setExpLoading(true);
-                const newExpenseResponse = await fetch(
-                    "http://localhost:3000/api/expenses/recent?limit=5/"
+                const recentResponse = await fetch(
+                    "http://localhost:3000/api/transactions/recent"
                 );
 
-                if (!newExpenseResponse.ok) {
+                if (!recentResponse.ok) {
                     throw new Error(
-                        `Failed to fetch expenses: ${newExpenseResponse.status}`
+                        `Failed to fetch expenses: ${recentResponse.status}`
                     );
                 }
 
-                const newExpenseData: Expense[] =
-                    await newExpenseResponse.json();
-                setNewExpenses(newExpenseData);
+                const recentData: Transaction[] = await recentResponse.json();
+                setRecent(recentData);
             } catch (error) {
                 console.error(`Error fetching data: ${error}`);
             } finally {
@@ -32,7 +31,7 @@ const RecentTransactions = ({ showTitle = true }) => {
             }
         };
 
-        fetchNewExpenses();
+        fetchRecentTransactions();
     }, []);
 
     return (
@@ -72,7 +71,7 @@ const RecentTransactions = ({ showTitle = true }) => {
                             </h1>
                         </div>
                     )}
-                    {newExpenses.map((item) => {
+                    {recent.map((item) => {
                         const timeAgo = formatDistanceToNow(
                             new Date(item.date),
                             { addSuffix: true }
@@ -86,7 +85,7 @@ const RecentTransactions = ({ showTitle = true }) => {
                                         <div className="flex flex-row justify-center items-center">
                                             <ArrowUpOnSquareIcon className="size-5 text-red-700 mr-2 mb-1 -ml-1" />
                                             <h5 className="text-sm text-red-700 font-semibold">
-                                                {item.description}
+                                                {item.category.name}
                                             </h5>
                                         </div>
                                         <h5 className="text-gray-500 text-xs">
