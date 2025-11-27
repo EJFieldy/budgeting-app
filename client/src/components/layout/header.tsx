@@ -1,27 +1,61 @@
 import Card from "@/components/ui/card";
-import type { CardStyle, CardType, CardData, Profile } from "@/types";
+import type { CardStyle, HeaderData } from "@/types";
 import {
     ArrowDownOnSquareIcon,
     ArrowUpOnSquareIcon,
     CurrencyPoundIcon,
     ArrowPathIcon,
 } from "@heroicons/react/24/solid";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+
+const cardStyleMap = {
+    balance: {
+        bg: "bg-slate-50",
+        text: "text-slate-700",
+        icon: <CurrencyPoundIcon />,
+    },
+    budget: {
+        bg: "bg-blue-50",
+        text: "text-blue-700",
+        icon: <CurrencyPoundIcon />,
+    },
+    income: {
+        bg: "bg-emerald-50",
+        text: "text-emerald-700",
+        icon: <ArrowDownOnSquareIcon />,
+    },
+    expense: {
+        bg: "bg-red-50",
+        text: "text-red-700",
+        icon: <ArrowUpOnSquareIcon />,
+    },
+};
+
+const getCardStyles = (type: keyof typeof cardStyleMap): CardStyle => {
+    return cardStyleMap[type];
+};
 
 const Header = () => {
-    const [profile, setProfile] = useState<Profile | null>(null);
+    const [headerData, setHeaderData] = useState<HeaderData | null>(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const profileResponse = await fetch(
-                    "http://localhost:3000/api/profile/"
-                );
-                const profileData: Profile = await profileResponse.json();
+                const [balance, summary, recent] = await Promise.all([
+                    fetch(
+                        "http://localhost:3000/api/transactions/balance"
+                    ).then((r) => r.json()),
+                    fetch("http://localhost:3000/api/categories/summary").then(
+                        (r) => r.json()
+                    ),
+                    fetch("http://localhost:3000/api/transactions/recent").then(
+                        (r) => r.json()
+                    ),
+                ]);
 
-                setProfile(profileData);
+                setHeaderData({ balance, summary, recent });
             } catch (error) {
                 console.error(`Error fetching data: ${error}`);
             } finally {
@@ -32,58 +66,29 @@ const Header = () => {
         fetchData();
     }, []);
 
-    const cardStyleMap = {
-        balance: {
-            bg: "bg-slate-50",
-            text: "text-slate-700",
-            icon: <CurrencyPoundIcon />,
-        },
-        budget: {
-            bg: "bg-blue-50",
-            text: "text-blue-700",
-            icon: <CurrencyPoundIcon />,
-        },
-        income: {
-            bg: "bg-emerald-50",
-            text: "text-emerald-700",
-            icon: <ArrowDownOnSquareIcon />,
-        },
-        expense: {
-            bg: "bg-red-50",
-            text: "text-red-700",
-            icon: <ArrowUpOnSquareIcon />,
-        },
-    };
-
-    const getCardStyles = (type: CardType): CardStyle => {
-        return cardStyleMap[type];
-    };
-
-    const getCardData = (): CardData[] => {
-        if (!profile) {
+    const cardData = useMemo(() => {
+        if (!headerData) {
             return [];
         }
 
         return [
             {
-                title: "Income",
-                amount: `${profile.income}`,
-                type: "income",
+                type: "income" as const,
+                title: "Monthly Income",
+                amount: `£${headerData.summary.monthly.income}`,
             },
             {
-                title: "Budget",
-                amount: `${profile.remainingBudget}`,
-                type: "budget",
+                type: "expense" as const,
+                title: "Monthly Expense",
+                amount: `£${headerData.summary.monthly.expense}`,
             },
             {
-                title: "Expenses",
-                amount: `${profile.totalExpenses}`,
-                type: "expense",
+                type: "budget" as const,
+                title: "Budget Remaining",
+                amount: `£${headerData.summary.monthly.budgetRemaining}`,
             },
         ];
-    };
-
-    const cardData = getCardData();
+    }, [headerData]);
 
     return (
         <div className="relative bg-white border-b-1 border-slate-200 h-40 sm:h-50 mb-16 sm:mb-20">
@@ -98,7 +103,7 @@ const Header = () => {
                         </div>
                     ) : (
                         <h2 className="text-4xl font-semibold text-slate-900 pt-2 pb-5 tracking-tight">
-                            £{profile?.balance}
+                            £{headerData?.balance.currentBalance}
                         </h2>
                     )}
                 </div>
