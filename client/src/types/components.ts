@@ -3,12 +3,18 @@ export interface NavigationItem {
     href: string;
 }
 
-export interface Expense {
+export interface Transaction {
     id: number;
+    type: string;
     amount: number;
-    category: string;
+    categoryId: number;
     description: string;
     date: string;
+    category: {
+        id: number;
+        name: string;
+        monthlyBudget: number | null;
+    };
 }
 
 export interface CategoryData {
@@ -45,17 +51,5 @@ export interface HeaderData {
             budgetRemaining: number | null;
         };
     };
-    recent: Array<{
-        id: number;
-        type: string;
-        amount: number;
-        categoryId: number;
-        description: string;
-        date: string;
-        category: {
-            id: number;
-            name: string;
-            monthlyBudget: number | null;
-        };
-    }>;
+    recent: Transaction[];
 }
