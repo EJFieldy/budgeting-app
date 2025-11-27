@@ -22,7 +22,10 @@ async function main() {
         const category = await prisma.category.upsert({
             where: { name },
             update: {},
-            create: { name },
+            create: {
+                name,
+                monthlyBudget: 150,
+            },
         });
         categoryMap[name] = category.id;
     }
