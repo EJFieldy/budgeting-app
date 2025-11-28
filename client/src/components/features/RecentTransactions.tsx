@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
-import { ArrowUpOnSquareIcon } from "@heroicons/react/24/solid";
+import {
+    ArrowUpOnSquareIcon,
+    ArrowDownOnSquareIcon,
+} from "@heroicons/react/24/solid";
 import { formatDistanceToNow } from "date-fns";
 import Card from "@/components/ui/card";
 import type { Transaction } from "@/types/components";
@@ -79,23 +82,44 @@ const RecentTransactions = ({ showTitle = true }) => {
                         return (
                             <Card
                                 key={item.id}
-                                className="py-2 px-5 !bg-red-50 w-full">
+                                className={`py-2 px-5 w-full ${
+                                    item.type === "EXPENSE"
+                                        ? "!bg-red-50"
+                                        : "!bg-green-50"
+                                }`}>
                                 <div className="flex items-center justify-between">
                                     <div className="flex flex-col justify-center items-start">
                                         <div className="flex flex-row justify-center items-center">
-                                            <ArrowUpOnSquareIcon className="size-5 text-red-700 mr-2 mb-1 -ml-1" />
-                                            <h5 className="text-sm text-red-700 font-semibold">
-                                                {item.category.name}
-                                            </h5>
+                                            {item.type === "EXPENSE" ? (
+                                                <>
+                                                    <ArrowUpOnSquareIcon className="size-5 text-red-700 mr-2 mb-1 -ml-1" />
+                                                    <h5 className="text-sm text-red-700 font-semibold">
+                                                        {item.category.name}
+                                                    </h5>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <ArrowDownOnSquareIcon className="size-5 text-green-700 mr-2 mb-1 -ml-1" />
+                                                    <h5 className="text-sm text-green-700 font-semibold">
+                                                        {item.category.name}
+                                                    </h5>
+                                                </>
+                                            )}
                                         </div>
                                         <h5 className="text-gray-500 text-xs">
                                             {timeAgo}
                                         </h5>
                                     </div>
                                     <div>
-                                        <h2 className="text-md text-red-700 font-semibold tracking-tight">
-                                            -£{item.amount}
-                                        </h2>
+                                        {item.type === "EXPENSE" ? (
+                                            <h2 className="text-md text-red-700 font-semibold tracking-tight">
+                                                -£{item.amount}
+                                            </h2>
+                                        ) : (
+                                            <h2 className="text-md text-green-700 font-semibold tracking-tight">
+                                                +£{item.amount}
+                                            </h2>
+                                        )}
                                     </div>
                                 </div>
                             </Card>
