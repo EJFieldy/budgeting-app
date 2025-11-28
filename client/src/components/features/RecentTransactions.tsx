@@ -43,7 +43,7 @@ const RecentTransactions = ({ showTitle = true }) => {
                             <div className="h-7 w-40 opacity-0"></div>
                         </div>
                     )}
-                    {[1, 2, 3].map((i) => (
+                    {[1, 2, 3, 4, 5].map((i) => (
                         <div
                             key={i}
                             className="py-2 px-5 bg-white w-full rounded-lg border border-gray-200 shadow-md">
