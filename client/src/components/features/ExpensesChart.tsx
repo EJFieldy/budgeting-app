@@ -1,11 +1,40 @@
-import React from "react";
 import { useEffect, useState } from "react";
-import { PieChart, Pie, ResponsiveContainer, Tooltip, Cell } from "recharts";
-import type { CategoryData } from "@/types/index.ts";
+import {
+    PieChart,
+    Pie,
+    ResponsiveContainer,
+    Tooltip,
+    Cell,
+    Legend,
+} from "recharts";
+import type { TransactionTotals } from "@/types/index.ts";
 import { CATEGORY_COLORS } from "@/constants/categories";
+import { formatCurrency } from "@/utils/currency.ts";
+
+const CustomTooltip = ({ payload, active }: any) => {
+    if (active && payload && payload.length) {
+        const data = payload[0].payload;
+        return (
+            <div className="bg-white p-3 border border-gray-200 rounded shadow-lg">
+                <p className="font-semibold">{data.name}</p>
+                <p className="text-sm">
+                    Spent: {formatCurrency(data.totalExpense)}
+                </p>
+                {data.budgetRemaining !== null && (
+                    <p className="text-sm">
+                        Budget Remaining: {formatCurrency(data.budgetRemaining)}
+                    </p>
+                )}
+            </div>
+        );
+    }
+    return null;
+};
 
 const ExpensesChart = () => {
-    const [categoryData, setCategoryData] = useState<CategoryData[]>([]);
+    const [categoryData, setCategoryData] = useState<
+        TransactionTotals["categories"]
+    >([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -13,7 +42,7 @@ const ExpensesChart = () => {
             try {
                 setLoading(true);
                 const response = await fetch(
-                    "http://localhost:3000/api/expenses/by-category"
+                    "http://localhost:3000/api/categories/summary"
                 );
 
                 if (!response.ok) {
@@ -22,13 +51,13 @@ const ExpensesChart = () => {
                     );
                 }
 
-                const apiData: CategoryData[] = await response.json();
-                const chartData: CategoryData[] = apiData.map((item) => ({
-                    name: item.name,
-                    value: item.value,
-                    count: item.count,
-                    color: CATEGORY_COLORS[item.name],
-                }));
+                const apiData: TransactionTotals = await response.json();
+                const chartData = apiData.categories
+                    .filter((item) => item.totalExpense > 0)
+                    .map((item) => ({
+                        ...item,
+                        color: CATEGORY_COLORS[item.name],
+                    }));
 
                 setCategoryData(chartData);
             } catch (error) {
@@ -41,26 +70,62 @@ const ExpensesChart = () => {
         fetchCategories();
     }, []);
 
+    if (loading) {
+        return (
+            <div className="flex flex-col gap-2 items-center">
+                <div className="h-7 w-48 bg-gray-200 rounded animate-pulse" />
+                <div className="w-full h-[300px] -mt-5 flex items-center justify-center">
+                    <div className="w-40 h-40 rounded-full bg-gray-200 animate-pulse" />
+                </div>
+                <div className="flex flex-col gap-2 -mt-5 items-center">
+                    <div className="flex gap-3 justify-center">
+                        <div className="h-4 w-20 bg-gray-200 rounded animate-pulse" />
+                        <div className="h-4 w-24 bg-gray-200 rounded animate-pulse" />
+                        <div className="h-4 w-20 bg-gray-200 rounded animate-pulse" />
+                    </div>
+                    <div className="flex gap-3 justify-center">
+                        <div className="h-4 w-28 bg-gray-200 rounded animate-pulse" />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
-            <ResponsiveContainer width="100%" height={300}>
-                <PieChart width={400} height={400}>
-                    <Pie
-                        dataKey="value"
-                        data={categoryData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={50}
-                        outerRadius={80}
-                        fill="#82ca9d"
-                        label>
-                        {categoryData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                    </Pie>
-                    <Tooltip />
-                </PieChart>
-            </ResponsiveContainer>
+            <div className="flex flex-col gap-2 items-center">
+                <h3 className="text-lg font-semibold text-gray-900">
+                    Expenses by Category
+                </h3>
+                <ResponsiveContainer width="100%" height={300}>
+                    <PieChart width={400} height={400}>
+                        <Pie
+                            dataKey="totalExpense"
+                            data={categoryData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={50}
+                            outerRadius={80}
+                            fill="#82ca9d">
+                            {categoryData.map((entry, index) => (
+                                <Cell
+                                    key={`cell-${index}`}
+                                    fill={entry.color}
+                                />
+                            ))}
+                        </Pie>
+                        <Tooltip content={<CustomTooltip />} />
+                        <Legend
+                            verticalAlign="bottom"
+                            height={36}
+                            iconType="circle"
+                            formatter={(value) => (
+                                <span className="text-sm">{value}</span>
+                            )}
+                        />
+                    </PieChart>
+                </ResponsiveContainer>
+            </div>
         </>
     );
 };
