@@ -41,52 +41,42 @@ router.get("/summary", async (req, res, next) => {
         });
 
         const categoriesWithTotals = categories.map((category) => {
-            const income = category.transactions.filter(
-                (t) => t.type === "INCOME"
-            );
-            const totalIncome = income.reduce(
-                (sum, t) => sum + Number(t.amount),
-                0
-            );
+            const income = category.transactions
+                .filter((t) => t.type === "INCOME")
+                .reduce((sum, t) => sum + Number(t.amount), 0);
 
-            const expense = category.transactions.filter(
-                (t) => t.type === "EXPENSE"
-            );
-            const totalExpense = expense.reduce(
-                (sum, t) => sum + Number(t.amount),
-                0
-            );
+            const expense = category.transactions
+                .filter((t) => t.type === "EXPENSE")
+                .reduce((sum, t) => sum + Number(t.amount), 0);
 
             const budget =
                 category.monthlyBudget !== null
                     ? Number(category.monthlyBudget)
                     : null;
 
-            const remaining = budget !== null ? budget - totalExpense : null;
+            const remaining = budget !== null ? budget - expense : null;
             const percentUsed =
-                budget !== null
-                    ? Math.round((totalExpense / budget) * 100)
-                    : null;
+                budget !== null ? Math.round((expense / budget) * 100) : null;
             return {
                 id: category.id,
                 name: category.name,
-                totalIncome,
-                totalExpense,
-                netTotal: totalIncome - totalExpense,
+                income,
+                expense,
+                netTotal: income - expense,
                 transactionCount: category.transactions.length,
                 monthlyBudget: budget,
                 budgetRemaining: remaining,
                 budgetPercentUsed: percentUsed,
-                overBudget: budget !== null ? totalExpense > budget : false,
+                overBudget: budget !== null ? expense > budget : false,
             };
         });
 
         const monthlyIncome = categoriesWithTotals.reduce(
-            (sum, c) => sum + c.totalIncome,
+            (sum, c) => sum + c.income,
             0
         );
         const monthlyExpense = categoriesWithTotals.reduce(
-            (sum, c) => sum + c.totalExpense,
+            (sum, c) => sum + c.expense,
             0
         );
         const totalBudgetRemaining = categoriesWithTotals.reduce(
@@ -100,6 +90,54 @@ router.get("/summary", async (req, res, next) => {
                 income: Math.round(monthlyIncome * 100) / 100,
                 expense: Math.round(monthlyExpense * 100) / 100,
                 budgetRemaining: Math.round(totalBudgetRemaining * 100) / 100,
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get("/summary/all-time", async (req, res, next) => {
+    try {
+        const categories = await prisma.category.findMany({
+            include: {
+                transactions: true,
+            },
+        });
+
+        const categoriesWithTotals = categories.map((c) => {
+            const income = c.transactions
+                .filter((t) => t.type === "INCOME")
+                .reduce((sum, t) => sum + Number(t.amount), 0);
+
+            const expense = c.transactions
+                .filter((t) => t.type === "EXPENSE")
+                .reduce((sum, t) => sum + Number(t.amount), 0);
+
+            return {
+                id: c.id,
+                name: c.name,
+                income,
+                expense,
+                netTotal: income - expense,
+                transactionCount: c.transactions.length,
+            };
+        });
+
+        const totalIncome = categoriesWithTotals.reduce(
+            (sum, t) => sum + Number(t.income),
+            0
+        );
+        const totalExpense = categoriesWithTotals.reduce(
+            (sum, t) => sum + Number(t.expense),
+            0
+        );
+
+        res.status(200).json({
+            categories: categoriesWithTotals,
+            totals: {
+                income: Math.round(totalIncome * 100) / 100,
+                expense: Math.round(totalExpense * 100) / 100,
             },
         });
     } catch (error) {

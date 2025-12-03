@@ -17,14 +17,7 @@ const CustomTooltip = ({ payload, active }: any) => {
         return (
             <div className="bg-white p-3 border border-gray-200 rounded shadow-lg">
                 <p className="font-semibold">{data.name}</p>
-                <p className="text-sm">
-                    Spent: {formatCurrency(data.totalExpense)}
-                </p>
-                {data.budgetRemaining !== null && (
-                    <p className="text-sm">
-                        Budget Remaining: {formatCurrency(data.budgetRemaining)}
-                    </p>
-                )}
+                <p className="text-sm">Spent: {formatCurrency(data.expense)}</p>
             </div>
         );
     }
@@ -42,7 +35,7 @@ const ExpensesChart = () => {
             try {
                 setLoading(true);
                 const response = await fetch(
-                    "http://localhost:3000/api/categories/summary"
+                    "http://localhost:3000/api/categories/summary/all-time"
                 );
 
                 if (!response.ok) {
@@ -53,7 +46,7 @@ const ExpensesChart = () => {
 
                 const apiData: TransactionTotals = await response.json();
                 const chartData = apiData.categories
-                    .filter((item) => item.totalExpense > 0)
+                    .filter((item) => item.expense > 0)
                     .map((item) => ({
                         ...item,
                         color: CATEGORY_COLORS[item.name],
@@ -90,7 +83,7 @@ const ExpensesChart = () => {
             </div>
         );
     }
-
+    // TODO: check that this is responsive for tablet and mobile layouts
     return (
         <>
             <div className="flex flex-col gap-2 items-center">
@@ -100,7 +93,7 @@ const ExpensesChart = () => {
                 <ResponsiveContainer width="100%" height={300}>
                     <PieChart width={400} height={400}>
                         <Pie
-                            dataKey="totalExpense"
+                            dataKey="expense"
                             data={categoryData}
                             cx="50%"
                             cy="50%"

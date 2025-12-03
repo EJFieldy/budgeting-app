@@ -21,14 +21,14 @@ export interface TransactionTotals {
     categories: Array<{
         id: number;
         name: string;
-        totalIncome: number;
-        totalExpense: number;
+        income: number;
+        expense: number;
         netTotal: number;
         transactionCount: number;
-        monthlyBudget: number | null;
-        budgetRemaining: number | null;
-        budgetPercentUsed: number | null;
-        overBudget: boolean;
+        monthlyBudget?: number | null;
+        budgetRemaining?: number | null;
+        budgetPercentUsed?: number | null;
+        overBudget?: boolean | null;
         color?: string;
     }>;
     monthly: {
