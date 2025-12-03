@@ -24,11 +24,29 @@ const CustomTooltip = ({ payload, active }: any) => {
     return null;
 };
 
+const CustomLabel = ({ cx, cy, midAngle, outerRadius, value }: any) => {
+    const RADIAN = Math.PI / 180;
+    const radius = outerRadius + 25;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+        <text
+            x={x}
+            y={y}
+            textAnchor={x > cx ? "start" : "end"}
+            dominantBaseline="central">
+            {formatCurrency(value)}
+        </text>
+    );
+};
+
 const ExpensesChart = () => {
     const [categoryData, setCategoryData] = useState<
         TransactionTotals["categories"]
     >([]);
     const [loading, setLoading] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -61,6 +79,16 @@ const ExpensesChart = () => {
         };
 
         fetchCategories();
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 1024);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     if (loading) {
@@ -99,7 +127,8 @@ const ExpensesChart = () => {
                             cy="50%"
                             innerRadius={50}
                             outerRadius={80}
-                            fill="#82ca9d">
+                            fill="#82ca9d"
+                            label={isMobile ? CustomLabel : false}>
                             {categoryData.map((entry, index) => (
                                 <Cell
                                     key={`cell-${index}`}
