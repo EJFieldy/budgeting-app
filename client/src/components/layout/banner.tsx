@@ -5,7 +5,7 @@ const Banner = () => {
     return (
         <>
             <div className="max-w-4xl px-5 lg:px-0 mx-auto">
-                <div className="sm:hidden flex flex-col gap-y-2">
+                <div className="sm:hidden flex flex-col gap-y-1">
                     <RecentTransactions showTitle={true} />
                     <ExpensesChart />
                 </div>
