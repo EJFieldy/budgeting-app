@@ -69,7 +69,7 @@ const RecentTransactions = ({ showTitle = true }) => {
                 <>
                     {showTitle && (
                         <div className="mb-1">
-                            <h1 className="text-lg text-center font-semibold text-slate-900 tracking-tight">
+                            <h1 className="text-lg text-center font-semibold text-slate-900">
                                 Recent Transactions
                             </h1>
                         </div>

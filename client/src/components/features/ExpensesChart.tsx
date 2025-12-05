@@ -113,8 +113,8 @@ const ExpensesChart = () => {
     }
     return (
         <>
-            <div className="flex flex-col gap-2 items-center">
-                <h3 className="text-lg mt-3 sm:mt-0 font-semibold text-gray-900">
+            <div className="flex flex-col gap-2 items-center mt-10 sm:mt-0">
+                <h3 className="text-lg -mb-4 sm:mb-0 font-semibold text-gray-900">
                     Expenses by Category
                 </h3>
                 <ResponsiveContainer width="100%" height={300}>
