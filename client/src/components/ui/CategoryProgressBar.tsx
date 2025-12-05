@@ -1,8 +1,16 @@
+import { useState, useEffect } from "react";
 import type { CategoryProgressBarsProps } from "@/types/index.ts";
 import { formatCurrency } from "@/utils/currency";
 
 const ProgressBar = ({ category }: CategoryProgressBarsProps) => {
-    const { name, expense, budgetRemaining, budgetPercentUsed } = category;
+    const [width, setWidth] = useState(0);
+    const { name, expense, monthlyBudget, budgetPercentUsed } = category;
+
+    useEffect(() => {
+        requestAnimationFrame(() => {
+            setWidth(budgetPercentUsed ?? 0);
+        });
+    }, [budgetPercentUsed]);
 
     const getBudgetColour = (percentUsed: number | null | undefined) => {
         const percent = percentUsed ?? 0;
@@ -16,20 +24,21 @@ const ProgressBar = ({ category }: CategoryProgressBarsProps) => {
 
     return (
         <div className="w-full">
-            <div className="flex flex-row items-center justify-between p-1">
+            <div className="grid grid-cols-3 items-center p-1">
                 <span className="text-xs font-semibold">{name}</span>
-                <span className="text-xs font-semibold">{`${formatCurrency(
-                    expense
-                )}/${budgetRemaining}`}</span>
-                <span className="text-xs font-semibold">
+                <span className="text-xs font-semibold text-center">
                     {budgetPercentUsed}%
                 </span>
+                <span className="text-xs font-semibold text-right">{`${formatCurrency(
+                    monthlyBudget
+                )}`}</span>
             </div>
             <div className="w-full rounded-full h-3 bg-gray-800/20">
                 <div
-                    className={`rounded-full w-[${budgetPercentUsed}%] ${getBudgetColour(
+                    style={{ width: `${width}%` }}
+                    className={`rounded-full ${getBudgetColour(
                         budgetPercentUsed
-                    )} h-3`}></div>
+                    )} h-3 transition-all duration-1500 ease-in-out`}></div>
             </div>
         </div>
     );
