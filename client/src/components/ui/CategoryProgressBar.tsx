@@ -4,7 +4,7 @@ import { formatCurrency } from "@/utils/currency";
 
 const ProgressBar = ({ category }: CategoryProgressBarsProps) => {
     const [width, setWidth] = useState(0);
-    const { name, expense, monthlyBudget, budgetPercentUsed } = category;
+    const { name, monthlyBudget, budgetPercentUsed } = category;
 
     useEffect(() => {
         requestAnimationFrame(() => {
