@@ -145,6 +145,50 @@ router.get("/summary/all-time", async (req, res, next) => {
     }
 });
 
+router.get("/summary/demo-bars", async (req, res, next) => {
+    try {
+        const categories = await prisma.category.findMany({
+            include: {
+                transactions: true,
+            },
+        });
+
+        const categoriesWithBudgetData = categories.map((category) => {
+            const expense = category.transactions
+                .filter((t) => t.type === "EXPENSE")
+                .reduce((sum, t) => sum + Number(t.amount), 0);
+
+            const monthlyBudget =
+                Number(category.monthlyBudget) || Math.max(expense * 1.2, 300);
+            const budgetRemaining = monthlyBudget - expense;
+            const budgetPercentUsed = Math.round(
+                (budgetRemaining / monthlyBudget) * 100
+            );
+            const overBudget = expense > monthlyBudget;
+
+            return {
+                id: category.id,
+                name: category.name,
+                expense,
+                monthlyBudget,
+                budgetRemaining,
+                budgetPercentUsed,
+                overBudget,
+            };
+        });
+
+        const topCategories = categoriesWithBudgetData
+            .sort((a, b) => b.expense - a.expense)
+            .slice(0, 5);
+
+        res.status(200).json({
+            categories: topCategories,
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.post("/", async (req, res, next) => {
     try {
         const name = req.body.name?.trim();
