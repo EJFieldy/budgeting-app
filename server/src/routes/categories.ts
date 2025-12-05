@@ -162,7 +162,7 @@ router.get("/summary/demo-bars", async (req, res, next) => {
                 Number(category.monthlyBudget) || Math.max(expense * 1.2, 300);
             const budgetRemaining = monthlyBudget - expense;
             const budgetPercentUsed = Math.round(
-                (budgetRemaining / monthlyBudget) * 100
+                (expense / monthlyBudget) * 100
             );
             const overBudget = expense > monthlyBudget;
 
