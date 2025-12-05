@@ -1,5 +1,6 @@
 import RecentTransactions from "@/components/features/RecentTransactions";
 import ExpensesChart from "@/components/features/ExpensesChart";
+import ProgressBar from "@/components/ui/CategoryProgressBar";
 
 const Banner = () => {
     return (
@@ -14,6 +15,7 @@ const Banner = () => {
                         <RecentTransactions showTitle={true} />
                     </div>
                     <ExpensesChart />
+                    <ProgressBar />
                 </div>
             </div>
         </>

@@ -111,7 +111,6 @@ const ExpensesChart = () => {
             </div>
         );
     }
-    // TODO: check that this is responsive for tablet and mobile layouts
     return (
         <>
             <div className="flex flex-col gap-2 items-center">
