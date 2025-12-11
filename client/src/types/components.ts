@@ -22,6 +22,8 @@ export interface Category {
     name: string;
 }
 
+export type TransactionType = "INCOME" | "EXPENSE";
+
 type CategoryData = TransactionTotals["categories"][number];
 
 export interface CategoryProgressBarsProps {
