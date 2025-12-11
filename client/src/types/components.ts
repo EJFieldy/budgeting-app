@@ -16,6 +16,12 @@ export interface Transaction {
         monthlyBudget: number | null;
     };
 }
+
+export interface Category {
+    id: number;
+    name: string;
+}
+
 type CategoryData = TransactionTotals["categories"][number];
 
 export interface CategoryProgressBarsProps {
