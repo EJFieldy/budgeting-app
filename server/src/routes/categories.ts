@@ -7,6 +7,10 @@ const router = Router();
 router.get("/", async (req, res, next) => {
     try {
         const categories = await prisma.category.findMany({
+            select: {
+                id: true,
+                name: true,
+            },
             orderBy: {
                 name: "asc",
             },
