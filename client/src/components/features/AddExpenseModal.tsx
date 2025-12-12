@@ -92,7 +92,7 @@ const AddExpenseModal = () => {
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="flex flex-row bg-indigo-50 text-indigo-700 rounded-lg text-sm py-2 px-4 mr-2">
+                className="flex flex-row bg-indigo-50 text-indigo-700 rounded-lg text-sm py-2 px-4 mr-2 hover:bg-indigo-100 focus:ring-1 focus:ring-indigo-500">
                 <PlusIcon className="text-indigo-700 size-5" />
                 Add Transaction
             </button>
