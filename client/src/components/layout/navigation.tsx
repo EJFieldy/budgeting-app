@@ -27,7 +27,11 @@ const profile: NavigationItem[] = [
     { name: "Settings", href: "/settings" },
 ];
 
-export default function NavBar() {
+export default function NavBar({
+    onTransactionAdded,
+}: {
+    onTransactionAdded: () => void;
+}) {
     const location = useLocation();
 
     const isCurrentPage = (href: string) => {
@@ -103,7 +107,9 @@ export default function NavBar() {
                             </div>
                             {/* Profile Dropdown Menu */}
                             <div className="flex justify-center items-center">
-                                <AddExpenseModal />
+                                <AddExpenseModal
+                                    onTransactionAdded={onTransactionAdded}
+                                />
                                 <Menu
                                     as="div"
                                     className="p-2 relative flex items-center justify-center">

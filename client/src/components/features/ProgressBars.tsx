@@ -4,7 +4,7 @@ import ProgressBar from "@/components/ui/CategoryProgressBar";
 
 type CategoryData = TransactionTotals["categories"][number];
 
-const ProgressBarList = () => {
+const ProgressBarList = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const [barData, setBarData] = useState<CategoryData[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -31,7 +31,7 @@ const ProgressBarList = () => {
         };
 
         fetchBarData();
-    }, []);
+    }, [refreshTrigger]);
 
     if (loading) {
         return (

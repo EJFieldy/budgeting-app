@@ -35,7 +35,7 @@ const getCardStyles = (type: keyof typeof cardStyleMap): CardStyle => {
     return cardStyleMap[type];
 };
 
-const Header = () => {
+const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const [headerData, setHeaderData] = useState<HeaderData | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -64,7 +64,7 @@ const Header = () => {
         };
 
         fetchData();
-    }, []);
+    }, [refreshTrigger]);
 
     const cardData = useMemo(() => {
         if (!headerData) {

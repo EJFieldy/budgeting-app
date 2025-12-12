@@ -41,7 +41,7 @@ const CustomLabel = ({ cx, cy, midAngle, outerRadius, value }: any) => {
     );
 };
 
-const ExpensesChart = () => {
+const ExpensesChart = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const [categoryData, setCategoryData] = useState<
         TransactionTotals["categories"]
     >([]);
@@ -79,7 +79,7 @@ const ExpensesChart = () => {
         };
 
         fetchCategories();
-    }, []);
+    }, [refreshTrigger]);
 
     useEffect(() => {
         const handleResize = () => {

@@ -10,7 +10,11 @@ import { CheckIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import type { Category, TransactionType } from "@/types/index.ts";
 
-const AddExpenseModal = () => {
+const AddExpenseModal = ({
+    onTransactionAdded,
+}: {
+    onTransactionAdded: () => void;
+}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [waiting, setWaiting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
@@ -65,6 +69,7 @@ const AddExpenseModal = () => {
             if (!response.ok) throw new Error("Failed to add transaction");
 
             setSubmitted(true);
+            onTransactionAdded();
         } catch (error) {
             console.error(error);
         } finally {

@@ -7,7 +7,13 @@ import { formatDistanceToNow } from "date-fns";
 import Card from "@/components/ui/card";
 import type { Transaction } from "@/types/components";
 
-const RecentTransactions = ({ showTitle = true }) => {
+const RecentTransactions = ({
+    showTitle = true,
+    refreshTrigger,
+}: {
+    showTitle: boolean;
+    refreshTrigger: number;
+}) => {
     const [recent, setRecent] = useState<Transaction[]>([]);
     const [expLoading, setExpLoading] = useState(false);
 
@@ -35,7 +41,7 @@ const RecentTransactions = ({ showTitle = true }) => {
         };
 
         fetchRecentTransactions();
-    }, []);
+    }, [refreshTrigger]);
 
     return (
         <>
