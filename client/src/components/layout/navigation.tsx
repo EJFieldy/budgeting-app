@@ -102,7 +102,7 @@ export default function NavBar() {
                                 </h1>
                             </div>
                             {/* Profile Dropdown Menu */}
-                            <div className="grid grid-cols-2 justify-items-center">
+                            <div className="flex justify-center items-center">
                                 <AddExpenseModal />
                                 <Menu
                                     as="div"
@@ -111,7 +111,7 @@ export default function NavBar() {
                                         <img
                                             src={placeholderPicture}
                                             alt="Profile Picture"
-                                            className="size-8 rounded-full object-cover outline -outline-offset-1 outline-slate-200/50"
+                                            className="size-9 rounded-full object-cover outline -outline-offset-1 outline-slate-200/50"
                                         />
                                     </MenuButton>
                                     <MenuItems

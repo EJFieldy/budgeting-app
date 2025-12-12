@@ -5,7 +5,7 @@ import {
     DialogTitle,
     DialogBackdrop,
 } from "@headlessui/react";
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import { PlusIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect } from "react";
 import type { Category, TransactionType } from "@/types/index.ts";
 
@@ -90,8 +90,11 @@ const AddExpenseModal = () => {
 
     return (
         <>
-            <button onClick={() => setIsOpen(true)}>
-                <PlusCircleIcon className="bg-indigo-700 size-6" />
+            <button
+                onClick={() => setIsOpen(true)}
+                className="flex flex-row bg-indigo-50 text-indigo-700 rounded-lg text-sm py-2 px-4 mr-2">
+                <PlusIcon className="text-indigo-700 size-5" />
+                Add Transaction
             </button>
             <Dialog
                 open={isOpen}
