@@ -14,7 +14,7 @@ const AddExpenseModal = () => {
     const [categories, setCategories] = useState<Category[]>([]);
 
     const [amount, setAmount] = useState("");
-    const [type, setType] = useState<TransactionType>("INCOME");
+    const [type, setType] = useState<TransactionType>("EXPENSE");
     const [categoryId, setCategoryId] = useState("");
     const [description, setDescription] = useState("");
 
@@ -69,69 +69,123 @@ const AddExpenseModal = () => {
         }
     };
 
+    const handleAddAnother = () => {
+        setSubmitted(false);
+        setAmount("");
+        setType("EXPENSE");
+        setCategoryId("");
+        setDescription("");
+    };
+
+    const handleClose = () => {
+        setSubmitted(false);
+        setAmount("");
+        setType("EXPENSE");
+        setCategoryId("");
+        setDescription("");
+        setIsOpen(false);
+    };
+
     return (
         <>
-            <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-50">
+            <Dialog
+                open={isOpen}
+                onClose={() => setIsOpen(false)}
+                className="relative z-50">
                 <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
                     <DialogPanel className="max-w-lg space-y-4 border bg-white p-12">
                         {!submitted ? (
                             <>
-                                <DialogTitle className="font-bold">Add Transaction</DialogTitle>
+                                <DialogTitle className="font-bold">
+                                    Add Transaction
+                                </DialogTitle>
                                 <form onSubmit={handleSubmit}>
                                     <label>
                                         Amount
-                                        <input 
-                                        type="number"
-                                        step="0.01"
-                                        min="0.01"
-                                        value={amount}
-                                        onChange={(e) => setAmount(e.target.value)}
-                                        required />
+                                        <input
+                                            type="number"
+                                            step="0.01"
+                                            min="0.01"
+                                            value={amount}
+                                            onChange={(e) =>
+                                                setAmount(e.target.value)
+                                            }
+                                            required
+                                        />
                                     </label>
                                     <label>
                                         Type
                                         <select
-                                        value={type}
-                                        onChange={(e) => setType(e.target.value as TransactionType)}
-                                        required
-                                        >
-                                            <option value="EXPENSE">Expense</option>
-                                            <option value="INCOME">Income</option>
+                                            value={type}
+                                            onChange={(e) =>
+                                                setType(
+                                                    e.target
+                                                        .value as TransactionType
+                                                )
+                                            }
+                                            required>
+                                            <option value="EXPENSE">
+                                                Expense
+                                            </option>
+                                            <option value="INCOME">
+                                                Income
+                                            </option>
                                         </select>
                                     </label>
                                     <label>
                                         Category
                                         <select
-                                        value={categoryId}
-                                        onChange={(e) => setCategoryId(e.target.value)}
-                                        required
-                                        >
-                                            <option value="">Select a Category</option>
+                                            value={categoryId}
+                                            onChange={(e) =>
+                                                setCategoryId(e.target.value)
+                                            }
+                                            required>
+                                            <option value="">
+                                                Select a Category
+                                            </option>
                                             {categories.map((c) => (
-                                                <option key={c.id} value={c.id}>{c.name}</option>
+                                                <option key={c.id} value={c.id}>
+                                                    {c.name}
+                                                </option>
                                             ))}
                                         </select>
                                     </label>
                                     <label>
                                         Description (optional)
                                         <textarea
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
-                                        placeholder="Add a note..."
-                                        ></textarea>
+                                            value={description}
+                                            onChange={(e) =>
+                                                setDescription(e.target.value)
+                                            }
+                                            placeholder="Add a note..."></textarea>
                                     </label>
 
-                                    <button type="submit" disabled={waiting}>{waiting ? "Submitting..." : "Add Transaction"}</button>
+                                    <button type="submit" disabled={waiting}>
+                                        {waiting
+                                            ? "Submitting..."
+                                            : "Add Transaction"}
+                                    </button>
                                 </form>
                             </>
                         ) : (
-                            // to be added
+                            <>
+                                <DialogTitle>Success!</DialogTitle>
+                                <Description>
+                                    Your transaction has been successfully added
+                                </Description>
+                                <div className="flex gap-4 mt-4">
+                                    <button onClick={handleAddAnother}>
+                                        Add Another
+                                    </button>
+                                    <button onClick={handleClose}>Done</button>
+                                </div>
+                            </>
                         )}
                     </DialogPanel>
                 </div>
             </Dialog>
         </>
-    )
+    );
 };
 
 export default AddExpenseModal;
