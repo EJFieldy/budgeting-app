@@ -14,6 +14,7 @@ import placeholderPicture from "@/assets/profile_pic.jpg";
 import placeholderLogo from "@/assets/placeholder_logo.svg";
 
 import type { NavigationItem } from "@/types";
+import AddExpenseModal from "../features/AddExpenseModal";
 
 const navigation: NavigationItem[] = [
     { name: "Dashboard", href: "/" },
@@ -101,30 +102,33 @@ export default function NavBar() {
                                 </h1>
                             </div>
                             {/* Profile Dropdown Menu */}
-                            <Menu
-                                as="div"
-                                className="p-2 relative flex items-center justify-center">
-                                <MenuButton className="rounded-full focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 cursor-pointer">
-                                    <img
-                                        src={placeholderPicture}
-                                        alt="Profile Picture"
-                                        className="size-8 rounded-full object-cover outline -outline-offset-1 outline-slate-200/50"
-                                    />
-                                </MenuButton>
-                                <MenuItems
-                                    transition
-                                    className="absolute origin-top-right top-full right-2 z-50 rounded-md w-48 outline -outline-offset-1 outline-slate-200 shadow-lg transition duration-200 ease-out data-closed:opacity-0 data-closed:scale-95 ">
-                                    {profile.map((item) => (
-                                        <MenuItem
-                                            key={item.name}
-                                            as={Link}
-                                            to={item.href}
-                                            className="block rounded-md px-3 py-3 text-sm text-slate-600 bg-white data-focus:text-indigo-700 data-focus:bg-indigo-50">
-                                            {item.name}
-                                        </MenuItem>
-                                    ))}
-                                </MenuItems>
-                            </Menu>
+                            <div className="grid grid-cols-2 justify-items-center">
+                                <AddExpenseModal />
+                                <Menu
+                                    as="div"
+                                    className="p-2 relative flex items-center justify-center">
+                                    <MenuButton className="rounded-full focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 cursor-pointer">
+                                        <img
+                                            src={placeholderPicture}
+                                            alt="Profile Picture"
+                                            className="size-8 rounded-full object-cover outline -outline-offset-1 outline-slate-200/50"
+                                        />
+                                    </MenuButton>
+                                    <MenuItems
+                                        transition
+                                        className="absolute origin-top-right top-full right-2 z-50 rounded-md w-48 outline -outline-offset-1 outline-slate-200 shadow-lg transition duration-200 ease-out data-closed:opacity-0 data-closed:scale-95 ">
+                                        {profile.map((item) => (
+                                            <MenuItem
+                                                key={item.name}
+                                                as={Link}
+                                                to={item.href}
+                                                className="block rounded-md px-3 py-3 text-sm text-slate-600 bg-white data-focus:text-indigo-700 data-focus:bg-indigo-50">
+                                                {item.name}
+                                            </MenuItem>
+                                        ))}
+                                    </MenuItems>
+                                </Menu>
+                            </div>
                         </div>
                     </div>
                     {/* Mobile Dropdown Menu Items */}
