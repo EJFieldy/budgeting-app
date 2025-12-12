@@ -5,6 +5,7 @@ import {
     DialogTitle,
     DialogBackdrop,
 } from "@headlessui/react";
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect } from "react";
 import type { Category, TransactionType } from "@/types/index.ts";
 
@@ -89,6 +90,9 @@ const AddExpenseModal = () => {
 
     return (
         <>
+            <button onClick={() => setIsOpen(true)}>
+                <PlusCircleIcon className="bg-indigo-700 size-6" />
+            </button>
             <Dialog
                 open={isOpen}
                 onClose={() => setIsOpen(false)}
