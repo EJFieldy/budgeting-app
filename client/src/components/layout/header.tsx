@@ -6,6 +6,7 @@ import {
     CurrencyPoundIcon,
     ArrowPathIcon,
 } from "@heroicons/react/24/solid";
+import { formatCurrency } from "@/utils/currency";
 import { useState, useEffect, useMemo } from "react";
 
 const cardStyleMap = {
@@ -75,17 +76,19 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
             {
                 type: "income" as const,
                 title: "Monthly Income",
-                amount: `£${headerData.summary.monthly.income}`,
+                amount: `${formatCurrency(headerData.summary.monthly.income)}`,
             },
             {
                 type: "expense" as const,
                 title: "Monthly Expense",
-                amount: `£${headerData.summary.monthly.expense}`,
+                amount: `${formatCurrency(headerData.summary.monthly.expense)}`,
             },
             {
                 type: "budget" as const,
                 title: "Budget Remaining",
-                amount: `£${headerData.summary.monthly.budgetRemaining}`,
+                amount: `${formatCurrency(
+                    headerData.summary.monthly.budgetRemaining
+                )}`,
             },
         ];
     }, [headerData]);
