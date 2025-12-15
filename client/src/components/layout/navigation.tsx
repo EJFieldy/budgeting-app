@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { PlusIcon } from "@heroicons/react/24/solid";
 import {
     Disclosure,
     DisclosureButton,
@@ -14,7 +15,6 @@ import placeholderPicture from "@/assets/profile_pic.jpg";
 import placeholderLogo from "@/assets/placeholder_logo.svg";
 
 import type { NavigationItem } from "@/types";
-import AddExpenseModal from "../features/AddExpenseModal";
 
 const navigation: NavigationItem[] = [
     { name: "Dashboard", href: "/" },
@@ -27,11 +27,7 @@ const profile: NavigationItem[] = [
     { name: "Settings", href: "/settings" },
 ];
 
-export default function NavBar({
-    onTransactionAdded,
-}: {
-    onTransactionAdded: () => void;
-}) {
+export default function NavBar({ onAddClick }: { onAddClick: () => void }) {
     const location = useLocation();
 
     const isCurrentPage = (href: string) => {
@@ -107,9 +103,12 @@ export default function NavBar({
                             </div>
                             {/* Profile Dropdown Menu */}
                             <div className="flex justify-center items-center">
-                                <AddExpenseModal
-                                    onTransactionAdded={onTransactionAdded}
-                                />
+                                <button
+                                    onClick={onAddClick}
+                                    className="hidden sm:flex sm:flex-row bg-indigo-50 text-indigo-700 rounded-lg text-sm py-2 px-4 mr-2 hover:bg-indigo-100 focus:ring-1 focus:ring-indigo-500">
+                                    <PlusIcon className="text-indigo-700 size-5" />
+                                    Add Transaction
+                                </button>
                                 <Menu
                                     as="div"
                                     className="p-2 relative flex items-center justify-center">

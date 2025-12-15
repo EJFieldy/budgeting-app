@@ -5,17 +5,19 @@ import {
     DialogTitle,
     DialogBackdrop,
 } from "@headlessui/react";
-import { PlusIcon } from "@heroicons/react/24/solid";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import type { Category, TransactionType } from "@/types/index.ts";
 
 const AddExpenseModal = ({
     onTransactionAdded,
+    isOpen,
+    onClose,
 }: {
     onTransactionAdded: () => void;
+    isOpen: boolean;
+    onClose: () => void;
 }) => {
-    const [isOpen, setIsOpen] = useState(false);
     const [waiting, setWaiting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [categories, setCategories] = useState<Category[]>([]);
@@ -91,21 +93,12 @@ const AddExpenseModal = ({
         setType("EXPENSE");
         setCategoryId("");
         setDescription("");
-        setIsOpen(false);
+        onClose();
     };
 
     return (
         <>
-            <button
-                onClick={() => setIsOpen(true)}
-                className="flex flex-row bg-indigo-50 text-indigo-700 rounded-lg text-sm py-2 px-4 mr-2 hover:bg-indigo-100 focus:ring-1 focus:ring-indigo-500">
-                <PlusIcon className="text-indigo-700 size-5" />
-                Add Transaction
-            </button>
-            <Dialog
-                open={isOpen}
-                onClose={() => setIsOpen(false)}
-                className="relative z-50">
+            <Dialog open={isOpen} onClose={onClose} className="relative z-50">
                 <DialogBackdrop
                     transition
                     className="fixed inset-0 bg-gray-900/30 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
@@ -124,7 +117,7 @@ const AddExpenseModal = ({
                                 <form onSubmit={handleSubmit}>
                                     <label
                                         htmlFor="amount"
-                                        className="block font-medium text-slate-700 text-sm mb-2">
+                                        className="block font-semibold text-slate-700 text-sm mb-1 sm:mb-2">
                                         Amount
                                     </label>
                                     <input
@@ -139,11 +132,11 @@ const AddExpenseModal = ({
                                         className="block py-0.5 px-2 w-full bg-slate-50 rounded-lg border border-slate-200 shadow-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         required
                                     />
-                                    <div className="grid grid-cols-2 gap-x-5 mt-5">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-x-5 mt-3 sm:mt-5">
                                         <div>
                                             <label
                                                 htmlFor="type"
-                                                className="block font-medium text-slate-700 text-sm mb-2">
+                                                className="block font-semibold text-slate-700 text-sm mb-1 sm:mb-2">
                                                 Type
                                             </label>
                                             <select
@@ -168,7 +161,7 @@ const AddExpenseModal = ({
                                         <div>
                                             <label
                                                 htmlFor="category"
-                                                className="block font-medium text-slate-700 text-sm mb-2">
+                                                className="block font-semibold text-slate-700 text-sm mb-1 sm:mb-2">
                                                 Category
                                             </label>
                                             <select
@@ -196,7 +189,7 @@ const AddExpenseModal = ({
                                     </div>
                                     <label
                                         htmlFor="description"
-                                        className="block font-medium text-sm text-slate-700 mb-2 mt-5">
+                                        className="block font-semibold text-sm text-slate-700 mb-1 sm:mb-2 mt-3 sm:mt-5">
                                         Description{" "}
                                         <span className="text-slate-500 text-xs">
                                             (optional)
@@ -212,14 +205,7 @@ const AddExpenseModal = ({
                                         placeholder="Add a note..."
                                         rows={3}></textarea>
 
-                                    <div className="grid grid-cols-2 items-center justify-items-center gap-x-4 mt-5">
-                                        <button
-                                            onClick={handleClose}
-                                            type="button"
-                                            disabled={waiting}
-                                            className="px-4 py-2 w-full bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                                            Cancel
-                                        </button>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 items-center justify-items-center gap-3 sm:gap-x-4 mt-5">
                                         <button
                                             type="submit"
                                             disabled={waiting}
@@ -227,6 +213,13 @@ const AddExpenseModal = ({
                                             {waiting
                                                 ? "Submitting..."
                                                 : "Add Transaction"}
+                                        </button>
+                                        <button
+                                            onClick={handleClose}
+                                            type="button"
+                                            disabled={waiting}
+                                            className="px-4 py-2 w-full bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                            Cancel
                                         </button>
                                     </div>
                                 </form>
@@ -251,16 +244,16 @@ const AddExpenseModal = ({
                                         </Description>
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-2 items-center justify-items-center gap-x-5">
-                                    <button
-                                        onClick={handleClose}
-                                        className="px-4 py-2 w-full bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                                        Home
-                                    </button>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 items-center justify-items-center gap-3 sm:gap-x-5">
                                     <button
                                         onClick={handleAddAnother}
                                         className="px-2 py-2 w-full bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                                         Add Another
+                                    </button>
+                                    <button
+                                        onClick={handleClose}
+                                        className="px-4 py-2 w-full bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                        Home
                                     </button>
                                 </div>
                             </>
