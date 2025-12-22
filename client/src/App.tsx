@@ -1,9 +1,11 @@
 import "./App.css";
 import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "@/components/layout/navigation";
 import Header from "@/components/layout/header";
-import Banner from "@/components/layout/banner";
+import Dashboard from "@/pages/Dashboard";
 import AddExpenseModal from "@/components/features/AddExpenseModal";
+import TransactionOverview from "./pages/TransactionsOverview";
 
 function App() {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -14,10 +16,21 @@ function App() {
     };
 
     return (
-        <>
+        <BrowserRouter>
             <NavBar onAddClick={() => setIsModalOpen(true)} />
             <Header refreshTrigger={refreshTrigger} />
-            <Banner refreshTrigger={refreshTrigger} />
+            <Routes>
+                <Route
+                    path="/"
+                    element={<Dashboard refreshTrigger={refreshTrigger} />}
+                />
+                <Route
+                    path="/transactions"
+                    element={
+                        <TransactionOverview refreshTrigger={refreshTrigger} />
+                    }
+                />
+            </Routes>
 
             <div className="fixed bottom-0 left-0 right-0 w-[75%] mx-auto sm:hidden">
                 <button
@@ -31,7 +44,7 @@ function App() {
                 onTransactionAdded={handleTransactionAdded}
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}></AddExpenseModal>
-        </>
+        </BrowserRouter>
     );
 }
 
