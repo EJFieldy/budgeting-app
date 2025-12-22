@@ -6,6 +6,54 @@ import { formatCurrency } from "@/utils/currency";
 import Card from "@/components/ui/card";
 import clsx from "clsx";
 
+const TransactionSkeleton = () => {
+    return (
+        <div className="max-w-2xl mx-auto px-5 sm:px-0 py-4">
+            <div className="flex flex-col justify-center items-center space-y-5">
+                <div className="border-b-1 border-slate-200 p-2 w-full">
+                    <div className="h-7 sm:h-8 bg-slate-200 rounded w-24 animate-pulse" />
+                </div>
+                <Card className="w-full shadow-none">
+                    {[1, 2, 3].map((item, index) => (
+                        <div
+                            key={item}
+                            className={clsx(
+                                "flex justify-between items-center p-2 w-full",
+                                index !== 2 && "border-b-1 border-slate-200"
+                            )}>
+                            <div className="space-y-2">
+                                <div className="h-5 sm:h-6 bg-slate-200 rounded w-32 animate-pulse" />
+                                <div className="h-3 sm:h-4 bg-slate-200 rounded w-48 animate-pulse" />
+                            </div>
+                            <div className="h-5 sm:h-6 bg-slate-200 rounded w-20 animate-pulse" />
+                        </div>
+                    ))}
+                </Card>
+
+                <div className="border-b-1 border-slate-200 p-2 w-full">
+                    <div className="h-7 sm:h-8 bg-slate-200 rounded w-32 animate-pulse" />
+                </div>
+                <Card className="w-full shadow-none">
+                    {[1, 2].map((item, index) => (
+                        <div
+                            key={item}
+                            className={clsx(
+                                "flex justify-between items-center p-2 w-full",
+                                index !== 1 && "border-b-1 border-slate-200"
+                            )}>
+                            <div className="space-y-2">
+                                <div className="h-5 sm:h-6 bg-slate-200 rounded w-28 animate-pulse" />
+                                <div className="h-3 sm:h-4 bg-slate-200 rounded w-40 animate-pulse" />
+                            </div>
+                            <div className="h-5 sm:h-6 bg-slate-200 rounded w-20 animate-pulse" />
+                        </div>
+                    ))}
+                </Card>
+            </div>
+        </div>
+    );
+};
+
 const TransactionOverview = ({
     refreshTrigger,
 }: {
@@ -40,6 +88,10 @@ const TransactionOverview = ({
 
         fetchTransactions();
     }, [refreshTrigger]);
+
+    if (loading) {
+        return <TransactionSkeleton />;
+    }
 
     const groupedTransactions = groupTransactionsByDate(transactions);
 
