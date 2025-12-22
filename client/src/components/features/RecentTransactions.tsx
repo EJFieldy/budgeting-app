@@ -86,27 +86,21 @@ const RecentTransactions = ({
                             { addSuffix: true }
                         );
                         return (
-                            <Card
-                                key={item.id}
-                                className={`py-2 px-5 w-full ${
-                                    item.type === "EXPENSE"
-                                        ? "!bg-red-50"
-                                        : "!bg-green-50"
-                                }`}>
+                            <Card key={item.id} className="py-2 px-5 w-full">
                                 <div className="flex items-center justify-between">
                                     <div className="flex flex-col justify-center items-start">
                                         <div className="flex flex-row justify-center items-center">
                                             {item.type === "EXPENSE" ? (
                                                 <>
-                                                    <ArrowUpOnSquareIcon className="size-5 text-red-700 mr-2 mb-1 -ml-1" />
-                                                    <h5 className="text-sm text-red-700 font-semibold">
+                                                    <ArrowUpOnSquareIcon className="size-5 text-indigo-700 mr-2 mb-1 -ml-1" />
+                                                    <h5 className="text-sm text-slate-900 font-semibold">
                                                         {item.category.name}
                                                     </h5>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <ArrowDownOnSquareIcon className="size-5 text-green-700 mr-2 mb-1 -ml-1" />
-                                                    <h5 className="text-sm text-green-700 font-semibold">
+                                                    <ArrowDownOnSquareIcon className="size-5 text-indigo-700 mr-2 mb-1 -ml-1" />
+                                                    <h5 className="text-sm text-slate-900 font-semibold">
                                                         {item.category.name}
                                                     </h5>
                                                 </>
@@ -118,8 +112,8 @@ const RecentTransactions = ({
                                     </div>
                                     <div>
                                         {item.type === "EXPENSE" ? (
-                                            <h2 className="text-md text-red-700 font-semibold tracking-tight">
-                                                -£{item.amount}
+                                            <h2 className="text-md text-slate-900 font-semibold tracking-tight">
+                                                £{item.amount}
                                             </h2>
                                         ) : (
                                             <h2 className="text-md text-green-700 font-semibold tracking-tight">
