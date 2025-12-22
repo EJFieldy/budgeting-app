@@ -18,8 +18,7 @@ import type { NavigationItem } from "@/types";
 
 const navigation: NavigationItem[] = [
     { name: "Dashboard", href: "/" },
-    { name: "Budgets", href: "/budget" },
-    { name: "Direct Debits", href: "/direct-debits" },
+    { name: "Transactions", href: "/transactions" },
 ];
 
 const profile: NavigationItem[] = [
