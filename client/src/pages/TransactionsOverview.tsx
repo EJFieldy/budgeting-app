@@ -1,10 +1,13 @@
 import { useState, useEffect, Fragment } from "react";
+import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
+import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import type { Transaction } from "@/types/index.ts";
 import { groupTransactionsByDate } from "@/utils/groupTransactions";
 import { format, parseISO, isToday, isYesterday } from "date-fns";
 import { formatCurrency } from "@/utils/currency";
 import Card from "@/components/ui/card";
 import clsx from "clsx";
+import TransactionModal from "@/components/features/TransactionModal";
 
 const TransactionSkeleton = () => {
     return (
@@ -56,11 +59,16 @@ const TransactionSkeleton = () => {
 
 const TransactionOverview = ({
     refreshTrigger,
+    onTransactionEdit,
 }: {
     refreshTrigger: number;
+    onTransactionEdit: () => void;
 }) => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [selectedTransaction, setSelectedTransaction] =
+        useState<Transaction | null>(null);
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -105,6 +113,11 @@ const TransactionOverview = ({
         } else {
             return format(date, "EEEE, d MMMM");
         }
+    };
+
+    const openEditModal = (transaction: Transaction) => {
+        setSelectedTransaction(transaction);
+        setIsEditModalOpen(true);
     };
 
     return (
@@ -153,7 +166,7 @@ const TransactionOverview = ({
                                                         </p>
                                                     )}
                                                 </div>
-                                                <div>
+                                                <div className="flex justify-center items-center">
                                                     {transaction.type ===
                                                     "INCOME" ? (
                                                         <h5 className="font-semibold sm:text-lg text-green-700">
@@ -169,6 +182,32 @@ const TransactionOverview = ({
                                                             )}
                                                         </h5>
                                                     )}
+                                                    <Menu
+                                                        as="div"
+                                                        className="relative ">
+                                                        <MenuButton className="text-slate-700 hover:text-slate-900 p-1">
+                                                            <EllipsisVerticalIcon className="size-5" />
+                                                        </MenuButton>
+                                                        <MenuItems
+                                                            transition
+                                                            className="absolute origin-top-right top-full right-2 z-50 rounded-md w-48 outline -outline-offset-1 outline-slate-200 shadow-lg transition duration-200 ease-out data-closed:opacity-0 data-closed:scale-95">
+                                                            <MenuItem
+                                                                as="button"
+                                                                onClick={() =>
+                                                                    openEditModal(
+                                                                        transaction
+                                                                    )
+                                                                }
+                                                                className="block w-full text-start rounded-md p-3 text-sm text-slate-600 bg-white data-focus:text-indigo-700 data-focus:bg-indigo-50">
+                                                                Edit
+                                                            </MenuItem>
+                                                            <MenuItem
+                                                                as="div"
+                                                                className="block rounded-md p-3 text-sm text-slate-600 bg-white data-focus:text-indigo-700 data-focus:bg-indigo-50">
+                                                                Delete
+                                                            </MenuItem>
+                                                        </MenuItems>
+                                                    </Menu>
                                                 </div>
                                             </div>
                                         )
@@ -179,6 +218,16 @@ const TransactionOverview = ({
                     )}
                 </div>
             </div>
+
+            <TransactionModal
+                isOpen={isEditModalOpen}
+                onClose={() => {
+                    setIsEditModalOpen(false);
+                    setSelectedTransaction(null);
+                }}
+                onTransactionAdded={onTransactionEdit}
+                editTransaction={selectedTransaction}
+            />
         </>
     );
 };
