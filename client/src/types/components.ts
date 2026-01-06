@@ -5,7 +5,7 @@ export interface NavigationItem {
 
 export interface Transaction {
     id: number;
-    type: string;
+    type: TransactionType;
     amount: number;
     categoryId: number;
     description: string;
