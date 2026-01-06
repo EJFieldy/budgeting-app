@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "@/components/layout/navigation";
 import Header from "@/components/layout/header";
 import Dashboard from "@/pages/Dashboard";
-import AddExpenseModal from "@/components/features/AddExpenseModal";
+import TransactionModal from "@/components/features/TransactionModal";
 import TransactionOverview from "./pages/TransactionsOverview";
 
 function App() {
@@ -27,7 +27,10 @@ function App() {
                 <Route
                     path="/transactions"
                     element={
-                        <TransactionOverview refreshTrigger={refreshTrigger} />
+                        <TransactionOverview
+                            refreshTrigger={refreshTrigger}
+                            onTransactionEdit={handleTransactionAdded}
+                        />
                     }
                 />
             </Routes>
@@ -40,10 +43,11 @@ function App() {
                 </button>
             </div>
 
-            <AddExpenseModal
+            <TransactionModal
                 onTransactionAdded={handleTransactionAdded}
                 isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}></AddExpenseModal>
+                onClose={() => setIsModalOpen(false)}
+            />
         </BrowserRouter>
     );
 }
