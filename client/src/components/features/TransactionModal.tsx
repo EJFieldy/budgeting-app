@@ -7,16 +7,18 @@ import {
 } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
-import type { Category, TransactionType } from "@/types/index.ts";
+import type { Category, TransactionType, Transaction } from "@/types/index.ts";
 
-const AddExpenseModal = ({
+const TransactionModal = ({
     onTransactionAdded,
     isOpen,
     onClose,
+    editTransaction = null,
 }: {
     onTransactionAdded: () => void;
     isOpen: boolean;
     onClose: () => void;
+    editTransaction?: Transaction | null;
 }) => {
     const [waiting, setWaiting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
@@ -30,8 +32,15 @@ const AddExpenseModal = ({
     useEffect(() => {
         if (isOpen) {
             fetchCategories();
+
+            if (editTransaction && !submitted) {
+                setAmount(editTransaction.amount.toString());
+                setType(editTransaction.type);
+                setCategoryId(editTransaction.categoryId.toString());
+                setDescription(editTransaction.description || "");
+            }
         }
-    }, [isOpen]);
+    }, [isOpen, editTransaction]);
 
     const fetchCategories = async () => {
         try {
@@ -50,34 +59,45 @@ const AddExpenseModal = ({
         setWaiting(true);
 
         try {
-            const expenseData = {
+            const transactionData = {
                 amount: parseFloat(amount),
                 type,
                 categoryId: Number(categoryId),
                 description: description || undefined,
             };
 
-            const response = await fetch(
-                "http://localhost:3000/api/transactions/",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(expenseData),
-                }
-            );
+            const url = editTransaction
+                ? `http://localhost:3000/api/transactions/${editTransaction.id}`
+                : "http://localhost:3000/api/transactions/";
 
-            if (!response.ok) throw new Error("Failed to add transaction");
+            const method = editTransaction ? "PUT" : "POST";
 
-            setSubmitted(true);
+            const response = await fetch(url, {
+                method,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(transactionData),
+            });
+
+            if (!response.ok) throw new Error("Failed to save transaction");
+
             onTransactionAdded();
+
+            if (editTransaction) {
+                handleClose();
+            } else {
+                setSubmitted(true);
+            }
         } catch (error) {
             console.error(error);
         } finally {
             setWaiting(false);
         }
     };
+
+    const title = editTransaction ? "Edit Transaction" : "Add Transaction";
+    const submitText = editTransaction ? "Update" : "Add Transaction";
 
     const handleAddAnother = () => {
         setSubmitted(false);
@@ -111,7 +131,7 @@ const AddExpenseModal = ({
                             <>
                                 <div className="mb-5">
                                     <DialogTitle className="font-bold text-xl text-indigo-600">
-                                        Add Transaction
+                                        {title}
                                     </DialogTitle>
                                 </div>
                                 <form onSubmit={handleSubmit}>
@@ -212,7 +232,7 @@ const AddExpenseModal = ({
                                             className="px-2 py-2 w-full bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                                             {waiting
                                                 ? "Submitting..."
-                                                : "Add Transaction"}
+                                                : submitText}
                                         </button>
                                         <button
                                             onClick={handleClose}
@@ -235,27 +255,31 @@ const AddExpenseModal = ({
                                             Success!
                                         </DialogTitle>
                                     </div>
-                                    <div className="mb-5">
-                                        <Description className="text-sm text-slate-700 text-center">
-                                            Your transaction has been
-                                            successfully added. You may add
-                                            another transaction or return to the
-                                            dashboard.
-                                        </Description>
+                                    {submitted && !editTransaction && (
+                                        <div className="mb-5">
+                                            <Description className="text-sm text-slate-700 text-center">
+                                                Your transaction has been
+                                                successfully added. You may add
+                                                another transaction or return to
+                                                the dashboard.
+                                            </Description>
+                                        </div>
+                                    )}
+                                </div>
+                                {!editTransaction && (
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 items-center justify-items-center gap-3 sm:gap-x-5">
+                                        <button
+                                            onClick={handleAddAnother}
+                                            className="px-2 py-2 w-full bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                            Add Another
+                                        </button>
+                                        <button
+                                            onClick={handleClose}
+                                            className="px-4 py-2 w-full bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                            Home
+                                        </button>
                                     </div>
-                                </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 items-center justify-items-center gap-3 sm:gap-x-5">
-                                    <button
-                                        onClick={handleAddAnother}
-                                        className="px-2 py-2 w-full bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                                        Add Another
-                                    </button>
-                                    <button
-                                        onClick={handleClose}
-                                        className="px-4 py-2 w-full bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                                        Home
-                                    </button>
-                                </div>
+                                )}
                             </>
                         )}
                     </DialogPanel>
@@ -265,4 +289,4 @@ const AddExpenseModal = ({
     );
 };
 
-export default AddExpenseModal;
+export default TransactionModal;
