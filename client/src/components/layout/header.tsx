@@ -169,15 +169,15 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
                                 const style = getCardStyles(item.type);
                                 return (
                                     <Card key={item.title} className="p-5">
-                                        <div className="flex flex-col items-start">
-                                            <div className="size-8 text-indigo-700 mb-2">
+                                        <div className="flex flex-col items-center">
+                                            <div className="size-8 text-indigo-700 mb-2 text-center">
                                                 {style.icon}
                                             </div>
                                             <div>
-                                                <p className="text-slate-500 text-xs">
+                                                <p className="text-slate-500 text-xs text-center">
                                                     {item.title}
                                                 </p>
-                                                <h5 className="text-xl text-slate-900 font-semibold tracking-tight">
+                                                <h5 className="text-xl text-slate-900 font-semibold text-center tracking-tight">
                                                     {item.amount}
                                                 </h5>
                                             </div>
