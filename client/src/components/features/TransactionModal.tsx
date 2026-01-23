@@ -66,7 +66,7 @@ const TransactionModal = ({
             };
 
             const url = editTransaction
-                ? `${API_URL}}/api/transactions/${editTransaction.id}`
+                ? `${API_URL}/api/transactions/${editTransaction.id}`
                 : `${API_URL}/api/transactions/`;
 
             const method = editTransaction ? "PUT" : "POST";
