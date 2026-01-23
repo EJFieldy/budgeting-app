@@ -47,7 +47,7 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
                     fetch(`${API_URL}/api/categories/summary/all-time`).then(
                         (r) => r.json(),
                     ),
-                    fetch(`${API_URL}}/api/transactions/recent`).then((r) =>
+                    fetch(`${API_URL}/api/transactions/recent`).then((r) =>
                         r.json(),
                     ),
                 ]);
