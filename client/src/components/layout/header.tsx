@@ -10,11 +10,6 @@ import { formatCurrency } from "@/utils/currency";
 import { useState, useEffect, useMemo } from "react";
 
 const cardStyleMap = {
-    balance: {
-        bg: "bg-slate-50",
-        text: "text-slate-700",
-        icon: <CurrencyPoundIcon />,
-    },
     budget: {
         bg: "bg-blue-50",
         text: "text-blue-700",
@@ -48,9 +43,9 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
                     fetch(
                         "http://localhost:3000/api/transactions/balance",
                     ).then((r) => r.json()),
-                    fetch("http://localhost:3000/api/categories/summary").then(
-                        (r) => r.json(),
-                    ),
+                    fetch(
+                        "http://localhost:3000/api/categories/summary/all-time",
+                    ).then((r) => r.json()),
                     fetch("http://localhost:3000/api/transactions/recent").then(
                         (r) => r.json(),
                     ),
@@ -76,18 +71,18 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
             {
                 type: "income" as const,
                 title: "Monthly Income",
-                amount: `${formatCurrency(headerData.summary.monthly.income)}`,
+                amount: `${formatCurrency(headerData.summary.totals.income)}`,
             },
             {
                 type: "expense" as const,
                 title: "Monthly Expense",
-                amount: `${formatCurrency(headerData.summary.monthly.expense)}`,
+                amount: `${formatCurrency(headerData.summary.totals.expense)}`,
             },
             {
                 type: "budget" as const,
                 title: "Budget Remaining",
                 amount: `${formatCurrency(
-                    headerData.summary.monthly.budgetRemaining,
+                    headerData.summary.totals.budgetRemaining,
                 )}`,
             },
         ];
