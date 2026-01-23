@@ -5,10 +5,6 @@ import {
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
 } from "@headlessui/react";
 import clsx from "clsx";
 import placeholderPicture from "@/assets/profile_pic.jpg";
@@ -19,11 +15,6 @@ import type { NavigationItem } from "@/types";
 const navigation: NavigationItem[] = [
     { name: "Dashboard", href: "/" },
     { name: "Transactions", href: "/transactions" },
-];
-
-const profile: NavigationItem[] = [
-    { name: "Profile", href: "/profile" },
-    { name: "Settings", href: "/settings" },
 ];
 
 export default function NavBar({ onAddClick }: { onAddClick: () => void }) {
@@ -53,20 +44,20 @@ export default function NavBar({ onAddClick }: { onAddClick: () => void }) {
                                 <DisclosureButton
                                     className={clsx(
                                         "sm:hidden p-2 text-slate-600 focus:ring-2 focus:ring-indigo-500 rounded-md outline-none",
-                                        open && "bg-indigo-50"
+                                        open && "bg-indigo-50",
                                     )}>
                                     <Bars3Icon
                                         aria-hidden="true"
                                         className={clsx(
                                             "size-6",
-                                            open ? "hidden" : "block"
+                                            open ? "hidden" : "block",
                                         )}
                                     />
                                     <XMarkIcon
                                         aria-hidden="true"
                                         className={clsx(
                                             "size-6",
-                                            open ? "block" : "hidden"
+                                            open ? "block" : "hidden",
                                         )}
                                     />
                                 </DisclosureButton>
@@ -85,7 +76,7 @@ export default function NavBar({ onAddClick }: { onAddClick: () => void }) {
                                                 "text-sm rounded-md px-3 py-2 tracking-tight font-sans focus:ring-1 focus:ring-indigo-500/80",
                                                 isCurrentPage(item.href)
                                                     ? "bg-indigo-50 text-indigo-700"
-                                                    : "bg-white text-slate-600"
+                                                    : "bg-white text-slate-600",
                                             )}>
                                             {item.name}
                                         </Link>
@@ -96,7 +87,7 @@ export default function NavBar({ onAddClick }: { onAddClick: () => void }) {
                             <div className="flex items-center sm:hidden">
                                 <h1 className="font-sans text-xl font-bold text-indigo-600 tracking-tight">
                                     {navigation.find((item) =>
-                                        isCurrentPage(item.href)
+                                        isCurrentPage(item.href),
                                     )?.name || "Page not found"}
                                 </h1>
                             </div>
@@ -108,30 +99,13 @@ export default function NavBar({ onAddClick }: { onAddClick: () => void }) {
                                     <PlusIcon className="text-indigo-700 size-5" />
                                     Add Transaction
                                 </button>
-                                <Menu
-                                    as="div"
-                                    className="p-2 relative flex items-center justify-center">
-                                    <MenuButton className="rounded-full focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 cursor-pointer">
-                                        <img
-                                            src={placeholderPicture}
-                                            alt="Profile Picture"
-                                            className="size-9 rounded-full object-cover outline -outline-offset-1 outline-slate-200/50"
-                                        />
-                                    </MenuButton>
-                                    <MenuItems
-                                        transition
-                                        className="absolute origin-top-right top-full right-2 z-50 rounded-md w-48 outline -outline-offset-1 outline-slate-200 shadow-lg transition duration-200 ease-out data-closed:opacity-0 data-closed:scale-95 ">
-                                        {profile.map((item) => (
-                                            <MenuItem
-                                                key={item.name}
-                                                as={Link}
-                                                to={item.href}
-                                                className="block rounded-md px-3 py-3 text-sm text-slate-600 bg-white data-focus:text-indigo-700 data-focus:bg-indigo-50">
-                                                {item.name}
-                                            </MenuItem>
-                                        ))}
-                                    </MenuItems>
-                                </Menu>
+                                <div className="p-2 relative flex items-center justify-center">
+                                    <img
+                                        src={placeholderPicture}
+                                        alt="Profile Picture"
+                                        className="size-9 rounded-full object-cover outline -outline-offset-1 outline-slate-200/50"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -154,7 +128,7 @@ export default function NavBar({ onAddClick }: { onAddClick: () => void }) {
                                         "block px-4 py-2 rounded-md text-sm",
                                         isCurrentPage(item.href)
                                             ? "bg-indigo-50 text-indigo-700"
-                                            : "text-slate-600 bg-white"
+                                            : "text-slate-600 bg-white",
                                     )}>
                                     {item.name}
                                 </DisclosureButton>
