@@ -40,7 +40,7 @@ const TransactionModal = ({
                 setDescription(editTransaction.description || "");
             }
         }
-    }, [isOpen, editTransaction]);
+    }, [isOpen, editTransaction, submitted]);
 
     const fetchCategories = async () => {
         try {
