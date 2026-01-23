@@ -120,6 +120,27 @@ const TransactionOverview = ({
         setIsEditModalOpen(true);
     };
 
+    const handleDelete = async (transaction: Transaction) => {
+        try {
+            const response = await fetch(
+                `http://localhost:3000/api/transactions/${transaction.id}`,
+                {
+                    method: "DELETE",
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    `Failed to delete transaction: ${response.status}`
+                );
+            }
+
+            onTransactionEdit();
+        } catch (error) {
+            console.error(`Error deleting transaction: ${error}`);
+        }
+    };
+
     return (
         <>
             <div className="max-w-2xl mx-auto px-5 sm:px-0 py-4">
@@ -202,8 +223,13 @@ const TransactionOverview = ({
                                                                 Edit
                                                             </MenuItem>
                                                             <MenuItem
-                                                                as="div"
-                                                                className="block rounded-md p-3 text-sm text-slate-600 bg-white data-focus:text-indigo-700 data-focus:bg-indigo-50">
+                                                                as="button"
+                                                                onClick={() =>
+                                                                    handleDelete(
+                                                                        transaction
+                                                                    )
+                                                                }
+                                                                className="block w-full text-start rounded-md p-3 text-sm text-slate-600 bg-white data-focus:text-indigo-700 data-focus:bg-indigo-50">
                                                                 Delete
                                                             </MenuItem>
                                                         </MenuItems>
