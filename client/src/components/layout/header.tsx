@@ -46,13 +46,13 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
                 setLoading(true);
                 const [balance, summary, recent] = await Promise.all([
                     fetch(
-                        "http://localhost:3000/api/transactions/balance"
+                        "http://localhost:3000/api/transactions/balance",
                     ).then((r) => r.json()),
                     fetch("http://localhost:3000/api/categories/summary").then(
-                        (r) => r.json()
+                        (r) => r.json(),
                     ),
                     fetch("http://localhost:3000/api/transactions/recent").then(
-                        (r) => r.json()
+                        (r) => r.json(),
                     ),
                 ]);
 
@@ -87,7 +87,7 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
                 type: "budget" as const,
                 title: "Budget Remaining",
                 amount: `${formatCurrency(
-                    headerData.summary.monthly.budgetRemaining
+                    headerData.summary.monthly.budgetRemaining,
                 )}`,
             },
         ];
@@ -106,7 +106,7 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
                         </div>
                     ) : (
                         <h2 className="text-4xl font-semibold text-slate-900 pt-2 pb-5 tracking-tight">
-                            £{headerData?.balance.currentBalance}
+                            {formatCurrency(headerData?.balance.currentBalance)}
                         </h2>
                     )}
                 </div>
