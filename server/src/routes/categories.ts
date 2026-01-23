@@ -29,7 +29,7 @@ router.get("/summary", async (req, res, next) => {
         const startOfNextMonth = new Date(
             now.getFullYear(),
             now.getMonth() + 1,
-            1
+            1,
         );
         const categories = await prisma.category.findMany({
             include: {
@@ -77,15 +77,15 @@ router.get("/summary", async (req, res, next) => {
 
         const monthlyIncome = categoriesWithTotals.reduce(
             (sum, c) => sum + c.income,
-            0
+            0,
         );
         const monthlyExpense = categoriesWithTotals.reduce(
             (sum, c) => sum + c.expense,
-            0
+            0,
         );
         const totalBudgetRemaining = categoriesWithTotals.reduce(
             (sum, c) => sum + (c.budgetRemaining || 0),
-            0
+            0,
         );
 
         res.status(200).json({
@@ -118,23 +118,35 @@ router.get("/summary/all-time", async (req, res, next) => {
                 .filter((t) => t.type === "EXPENSE")
                 .reduce((sum, t) => sum + Number(t.amount), 0);
 
+            const budget =
+                c.monthlyBudget !== null ? Number(c.monthlyBudget) : null;
+
+            const remaining = budget !== null ? budget - expense : null;
+
             return {
                 id: c.id,
                 name: c.name,
                 income,
                 expense,
                 netTotal: income - expense,
+                monthlyBudget: budget,
+                budgetRemaining: remaining,
                 transactionCount: c.transactions.length,
             };
         });
 
         const totalIncome = categoriesWithTotals.reduce(
             (sum, t) => sum + Number(t.income),
-            0
+            0,
         );
         const totalExpense = categoriesWithTotals.reduce(
             (sum, t) => sum + Number(t.expense),
-            0
+            0,
+        );
+
+        const totalBudgetRemaining = categoriesWithTotals.reduce(
+            (sum, c) => sum + (c.budgetRemaining || 0),
+            0,
         );
 
         res.status(200).json({
@@ -142,6 +154,7 @@ router.get("/summary/all-time", async (req, res, next) => {
             totals: {
                 income: Math.round(totalIncome * 100) / 100,
                 expense: Math.round(totalExpense * 100) / 100,
+                budgetRemaining: Math.round(totalBudgetRemaining * 100) / 100,
             },
         });
     } catch (error) {
@@ -166,7 +179,7 @@ router.get("/summary/demo-bars", async (req, res, next) => {
                 Number(category.monthlyBudget) || Math.max(expense * 1.2, 300);
             const budgetRemaining = monthlyBudget - expense;
             const budgetPercentUsed = Math.round(
-                (expense / monthlyBudget) * 100
+                (expense / monthlyBudget) * 100,
             );
             const overBudget = expense > monthlyBudget;
 
