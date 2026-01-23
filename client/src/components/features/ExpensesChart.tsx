@@ -2,16 +2,25 @@ import { useEffect, useState } from "react";
 import {
     PieChart,
     Pie,
+    type PieLabelRenderProps,
     ResponsiveContainer,
     Tooltip,
+    type TooltipContentProps,
     Cell,
     Legend,
 } from "recharts";
+import type {
+    NameType,
+    ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 import type { TransactionTotals } from "@/types/index.ts";
 import { CATEGORY_COLORS } from "@/constants/categories";
 import { formatCurrency } from "@/utils/currency.ts";
 
-const CustomTooltip = ({ payload, active }: any) => {
+const CustomTooltip = ({
+    payload,
+    active,
+}: TooltipContentProps<ValueType, NameType>) => {
     if (active && payload && payload.length) {
         const data = payload[0].payload;
         return (
@@ -24,11 +33,17 @@ const CustomTooltip = ({ payload, active }: any) => {
     return null;
 };
 
-const CustomLabel = ({ cx, cy, midAngle, outerRadius, value }: any) => {
+const CustomLabel = ({
+    cx,
+    cy,
+    midAngle,
+    outerRadius,
+    value,
+}: PieLabelRenderProps) => {
     const RADIAN = Math.PI / 180;
     const radius = outerRadius + 25;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    const x = cx + radius * Math.cos(-(midAngle ?? 0) * RADIAN);
+    const y = cy + radius * Math.sin(-(midAngle ?? 0) * RADIAN);
 
     return (
         <text
@@ -53,12 +68,12 @@ const ExpensesChart = ({ refreshTrigger }: { refreshTrigger: number }) => {
             try {
                 setLoading(true);
                 const response = await fetch(
-                    "http://localhost:3000/api/categories/summary/all-time"
+                    "http://localhost:3000/api/categories/summary/all-time",
                 );
 
                 if (!response.ok) {
                     throw new Error(
-                        `Failed to fetch category expense data: ${response.status}`
+                        `Failed to fetch category expense data: ${response.status}`,
                     );
                 }
 
@@ -135,7 +150,7 @@ const ExpensesChart = ({ refreshTrigger }: { refreshTrigger: number }) => {
                                 />
                             ))}
                         </Pie>
-                        <Tooltip content={<CustomTooltip />} />
+                        <Tooltip content={CustomTooltip} />
                         <Legend
                             verticalAlign="bottom"
                             height={36}
