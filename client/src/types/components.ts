@@ -51,6 +51,24 @@ export interface TransactionTotals {
     };
 }
 
+export interface AllTimeTransactionTotals {
+    categories: Array<{
+        id: number;
+        name: string;
+        income: number;
+        expense: number;
+        netTotal: number;
+        monthlyBudget: number;
+        budgetRemaining: number;
+        transactionCount: number;
+    }>;
+    totals: {
+        income: number;
+        expense: number;
+        budgetRemaining: number;
+    };
+}
+
 export interface HeaderData {
     balance: {
         totalIncome: number;
@@ -58,6 +76,6 @@ export interface HeaderData {
         currentBalance: number;
         transactionCount: number;
     };
-    summary: TransactionTotals;
+    summary: AllTimeTransactionTotals;
     recent: Transaction[];
 }
