@@ -50,7 +50,8 @@ const CustomLabel = ({
             x={x}
             y={y}
             textAnchor={x > cx ? "start" : "end"}
-            dominantBaseline="central">
+            dominantBaseline="central"
+            fontSize={12}>
             {formatCurrency(value)}
         </text>
     );
@@ -140,7 +141,7 @@ const ExpensesChart = ({ refreshTrigger }: { refreshTrigger: number }) => {
                             cx="50%"
                             cy="50%"
                             innerRadius={50}
-                            outerRadius={80}
+                            outerRadius={70}
                             fill="#82ca9d"
                             label={isMobile ? CustomLabel : false}>
                             {categoryData.map((entry, index) => (
