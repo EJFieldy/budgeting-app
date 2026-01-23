@@ -6,6 +6,7 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import Card from "@/components/ui/card";
 import type { Transaction } from "@/types/components";
+import { API_URL } from "@/config";
 
 const RecentTransactions = ({
     showTitle = true,
@@ -22,12 +23,12 @@ const RecentTransactions = ({
             try {
                 setExpLoading(true);
                 const recentResponse = await fetch(
-                    "http://localhost:3000/api/transactions/recent"
+                    `${API_URL}/api/transactions/recent`,
                 );
 
                 if (!recentResponse.ok) {
                     throw new Error(
-                        `Failed to fetch expenses: ${recentResponse.status}`
+                        `Failed to fetch expenses: ${recentResponse.status}`,
                     );
                 }
 
@@ -83,7 +84,7 @@ const RecentTransactions = ({
                     {recent.map((item) => {
                         const timeAgo = formatDistanceToNow(
                             new Date(item.date),
-                            { addSuffix: true }
+                            { addSuffix: true },
                         );
                         return (
                             <Card key={item.id} className="py-2 px-5 w-full">

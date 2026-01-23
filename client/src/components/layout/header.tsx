@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { formatCurrency } from "@/utils/currency";
 import { useState, useEffect, useMemo } from "react";
+import { API_URL } from "@/config";
 
 const cardStyleMap = {
     budget: {
@@ -40,14 +41,14 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
             try {
                 setLoading(true);
                 const [balance, summary, recent] = await Promise.all([
-                    fetch(
-                        "http://localhost:3000/api/transactions/balance",
-                    ).then((r) => r.json()),
-                    fetch(
-                        "http://localhost:3000/api/categories/summary/all-time",
-                    ).then((r) => r.json()),
-                    fetch("http://localhost:3000/api/transactions/recent").then(
+                    fetch(`${API_URL}/api/transactions/balance`).then((r) =>
+                        r.json(),
+                    ),
+                    fetch(`${API_URL}/api/categories/summary/all-time`).then(
                         (r) => r.json(),
+                    ),
+                    fetch(`${API_URL}}/api/transactions/recent`).then((r) =>
+                        r.json(),
                     ),
                 ]);
 

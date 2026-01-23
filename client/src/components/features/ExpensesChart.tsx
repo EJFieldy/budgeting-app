@@ -16,6 +16,7 @@ import type {
 import type { TransactionTotals } from "@/types/index.ts";
 import { CATEGORY_COLORS } from "@/constants/categories";
 import { formatCurrency } from "@/utils/currency.ts";
+import { API_URL } from "@/config";
 
 const CustomTooltip = ({
     payload,
@@ -69,7 +70,7 @@ const ExpensesChart = ({ refreshTrigger }: { refreshTrigger: number }) => {
             try {
                 setLoading(true);
                 const response = await fetch(
-                    "http://localhost:3000/api/categories/summary/all-time",
+                    `${API_URL}/api/categories/summary/all-time`,
                 );
 
                 if (!response.ok) {

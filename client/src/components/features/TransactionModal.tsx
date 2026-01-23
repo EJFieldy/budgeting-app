@@ -8,6 +8,7 @@ import {
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import type { Category, TransactionType, Transaction } from "@/types/index.ts";
+import { API_URL } from "@/config";
 
 const TransactionModal = ({
     onTransactionAdded,
@@ -44,9 +45,7 @@ const TransactionModal = ({
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch(
-                "http://localhost:3000/api/categories/"
-            );
+            const response = await fetch(`${API_URL}/api/categories/`);
             const data = await response.json();
             setCategories(data);
         } catch (error) {
@@ -67,8 +66,8 @@ const TransactionModal = ({
             };
 
             const url = editTransaction
-                ? `http://localhost:3000/api/transactions/${editTransaction.id}`
-                : "http://localhost:3000/api/transactions/";
+                ? `${API_URL}}/api/transactions/${editTransaction.id}`
+                : `${API_URL}/api/transactions/`;
 
             const method = editTransaction ? "PUT" : "POST";
 
@@ -165,7 +164,7 @@ const TransactionModal = ({
                                                 onChange={(e) =>
                                                     setType(
                                                         e.target
-                                                            .value as TransactionType
+                                                            .value as TransactionType,
                                                     )
                                                 }
                                                 className="block w-full py-0.5 px-2 bg-slate-50 rounded-lg border border-slate-200 shadow-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
@@ -189,7 +188,7 @@ const TransactionModal = ({
                                                 value={categoryId}
                                                 onChange={(e) =>
                                                     setCategoryId(
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                                 className="block w-full py-0.5 px-2 bg-slate-50 rounded-lg border border-slate-200 shadow-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"

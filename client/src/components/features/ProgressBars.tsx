@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { TransactionTotals } from "@/types/index.ts";
 import ProgressBar from "@/components/ui/CategoryProgressBar";
+import { API_URL } from "@/config";
 
 type CategoryData = TransactionTotals["categories"][number];
 
@@ -13,11 +14,11 @@ const ProgressBarList = ({ refreshTrigger }: { refreshTrigger: number }) => {
             try {
                 setLoading(true);
                 const response = await fetch(
-                    "http://localhost:3000/api/categories/summary/demo-bars"
+                    `${API_URL}/api/categories/summary/demo-bars`,
                 );
                 if (!response.ok) {
                     throw new Error(
-                        `Failed to fetch progress bar data: ${response.status}`
+                        `Failed to fetch progress bar data: ${response.status}`,
                     );
                 }
 

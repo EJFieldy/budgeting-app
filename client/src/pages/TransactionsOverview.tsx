@@ -8,6 +8,7 @@ import { formatCurrency } from "@/utils/currency";
 import Card from "@/components/ui/card";
 import clsx from "clsx";
 import TransactionModal from "@/components/features/TransactionModal";
+import { API_URL } from "@/config";
 
 const TransactionSkeleton = () => {
     return (
@@ -22,7 +23,7 @@ const TransactionSkeleton = () => {
                             key={item}
                             className={clsx(
                                 "flex justify-between items-center p-2 w-full",
-                                index !== 2 && "border-b-1 border-slate-200"
+                                index !== 2 && "border-b-1 border-slate-200",
                             )}>
                             <div className="space-y-2">
                                 <div className="h-5 sm:h-6 bg-slate-200 rounded w-32 animate-pulse" />
@@ -42,7 +43,7 @@ const TransactionSkeleton = () => {
                             key={item}
                             className={clsx(
                                 "flex justify-between items-center p-2 w-full",
-                                index !== 1 && "border-b-1 border-slate-200"
+                                index !== 1 && "border-b-1 border-slate-200",
                             )}>
                             <div className="space-y-2">
                                 <div className="h-5 sm:h-6 bg-slate-200 rounded w-28 animate-pulse" />
@@ -74,13 +75,11 @@ const TransactionOverview = ({
         const fetchTransactions = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(
-                    "http://localhost:3000/api/transactions"
-                );
+                const response = await fetch(`${API_URL}/api/transactions`);
 
                 if (!response.ok) {
                     throw new Error(
-                        `Error fetching transactions: ${response.status}`
+                        `Error fetching transactions: ${response.status}`,
                     );
                 }
 
@@ -123,15 +122,15 @@ const TransactionOverview = ({
     const handleDelete = async (transaction: Transaction) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/transactions/${transaction.id}`,
+                `${API_URL}/api/transactions/${transaction.id}`,
                 {
                     method: "DELETE",
-                }
+                },
             );
 
             if (!response.ok) {
                 throw new Error(
-                    `Failed to delete transaction: ${response.status}`
+                    `Failed to delete transaction: ${response.status}`,
                 );
             }
 
@@ -163,7 +162,7 @@ const TransactionOverview = ({
                                                     index !==
                                                         +transactionArray.length -
                                                             1 &&
-                                                        "border-b-1 border-slate-200"
+                                                        "border-b-1 border-slate-200",
                                                 )}>
                                                 <div>
                                                     <h5
@@ -172,7 +171,7 @@ const TransactionOverview = ({
                                                             transaction.type ===
                                                                 "INCOME"
                                                                 ? "text-green-700"
-                                                                : "text-slate-700"
+                                                                : "text-slate-700",
                                                         )}>
                                                         {
                                                             transaction.category
@@ -193,13 +192,13 @@ const TransactionOverview = ({
                                                         <h5 className="font-semibold sm:text-lg text-green-700">
                                                             +
                                                             {formatCurrency(
-                                                                transaction.amount
+                                                                transaction.amount,
                                                             )}
                                                         </h5>
                                                     ) : (
                                                         <h5 className="font-semibold sm:text-lg text-slate-700">
                                                             {formatCurrency(
-                                                                transaction.amount
+                                                                transaction.amount,
                                                             )}
                                                         </h5>
                                                     )}
@@ -216,7 +215,7 @@ const TransactionOverview = ({
                                                                 as="button"
                                                                 onClick={() =>
                                                                     openEditModal(
-                                                                        transaction
+                                                                        transaction,
                                                                     )
                                                                 }
                                                                 className="block w-full text-start rounded-md p-3 text-sm text-slate-600 bg-white data-focus:text-indigo-700 data-focus:bg-indigo-50">
@@ -226,7 +225,7 @@ const TransactionOverview = ({
                                                                 as="button"
                                                                 onClick={() =>
                                                                     handleDelete(
-                                                                        transaction
+                                                                        transaction,
                                                                     )
                                                                 }
                                                                 className="block w-full text-start rounded-md p-3 text-sm text-slate-600 bg-white data-focus:text-indigo-700 data-focus:bg-indigo-50">
@@ -236,11 +235,11 @@ const TransactionOverview = ({
                                                     </Menu>
                                                 </div>
                                             </div>
-                                        )
+                                        ),
                                     )}
                                 </Card>
                             </Fragment>
-                        )
+                        ),
                     )}
                 </div>
             </div>
