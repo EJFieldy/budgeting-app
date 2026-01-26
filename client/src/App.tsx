@@ -35,7 +35,7 @@ function App() {
                 />
             </Routes>
 
-            <div className="fixed bottom-0 left-0 right-0 w-[75%] mx-auto sm:hidden">
+            <div className="sticky bottom-0 left-0 right-0 w-[75%] pt-5 mx-auto sm:hidden">
                 <button
                     onClick={() => setIsModalOpen(true)}
                     className="w-full bg-indigo-500 text-white py-2 rounded-t-xl font-semibold">
