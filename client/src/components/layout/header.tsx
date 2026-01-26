@@ -123,22 +123,22 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
                                 ))}
                             </div>
                         ) : (
-                            <div className="grid grid-cols-3 gap-x-4 py-3 px-2 items-center">
+                            <div className="grid grid-cols-3 max-[375px]:gap-3 py-3 items-center">
                                 {cardData.map((item) => {
                                     const style = getCardStyles(item.type);
                                     return (
                                         <div
                                             key={item.title}
-                                            className="flex flex-col items-center justify-between gap-2 text-center">
-                                            <div className="size-5 text-indigo-700">
+                                            className="flex flex-col items-center justify-between gap-1 text-center">
+                                            <div className="size-6 text-indigo-700">
                                                 {style.icon}
                                             </div>
                                             <div>
-                                                <p className="text-[10px] text-center text-slate-500">
+                                                <p className="text-[12px] text-center text-slate-500 tracking-tight">
                                                     {item.title}
                                                 </p>
                                                 <h5
-                                                    className={`text-xs font-semibold text-slate-900 tracking-tight`}>
+                                                    className={`font-semibold text-slate-900 tracking-tight`}>
                                                     {item.amount}
                                                 </h5>
                                             </div>
