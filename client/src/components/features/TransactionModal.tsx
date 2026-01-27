@@ -114,7 +114,7 @@ const TransactionModal = ({
         setDescription("");
         onClose();
     };
-
+    // TODO: Increase overall size of modal and font for mobile screens
     return (
         <>
             <Dialog open={isOpen} onClose={onClose} className="relative z-50">
@@ -129,14 +129,14 @@ const TransactionModal = ({
                         {!submitted ? (
                             <>
                                 <div className="mb-5">
-                                    <DialogTitle className="font-bold text-xl text-indigo-600">
+                                    <DialogTitle className="font-bold text-2xl text-indigo-600">
                                         {title}
                                     </DialogTitle>
                                 </div>
                                 <form onSubmit={handleSubmit}>
                                     <label
                                         htmlFor="amount"
-                                        className="block font-semibold text-slate-700 text-sm mb-1 sm:mb-2">
+                                        className="block font-semibold text-slate-700 text-md mb-1 sm:mb-2">
                                         Amount
                                     </label>
                                     <input
@@ -155,7 +155,7 @@ const TransactionModal = ({
                                         <div>
                                             <label
                                                 htmlFor="type"
-                                                className="block font-semibold text-slate-700 text-sm mb-1 sm:mb-2">
+                                                className="block font-semibold text-slate-700 text-md mb-1 sm:mb-2">
                                                 Type
                                             </label>
                                             <select
@@ -180,7 +180,7 @@ const TransactionModal = ({
                                         <div>
                                             <label
                                                 htmlFor="category"
-                                                className="block font-semibold text-slate-700 text-sm mb-1 sm:mb-2">
+                                                className="block font-semibold text-slate-700 text-md mb-1 sm:mb-2">
                                                 Category
                                             </label>
                                             <select
@@ -208,9 +208,9 @@ const TransactionModal = ({
                                     </div>
                                     <label
                                         htmlFor="description"
-                                        className="block font-semibold text-sm text-slate-700 mb-1 sm:mb-2 mt-3 sm:mt-5">
+                                        className="block font-semibold text-md text-slate-700 mb-1 sm:mb-2 mt-3 sm:mt-5">
                                         Description{" "}
-                                        <span className="text-slate-500 text-xs">
+                                        <span className="text-slate-500 text-sm">
                                             (optional)
                                         </span>
                                     </label>
@@ -228,7 +228,7 @@ const TransactionModal = ({
                                         <button
                                             type="submit"
                                             disabled={waiting}
-                                            className="px-2 py-2 w-full bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                            className="px-2 py-2 w-full bg-indigo-600 text-white text-md font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                                             {waiting
                                                 ? "Submitting..."
                                                 : submitText}
@@ -237,7 +237,7 @@ const TransactionModal = ({
                                             onClick={handleClose}
                                             type="button"
                                             disabled={waiting}
-                                            className="px-4 py-2 w-full bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                            className="px-4 py-2 w-full bg-white border border-slate-300 text-slate-700 text-md font-medium rounded-lg hover:bg-slate-50 hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                                             Cancel
                                         </button>
                                     </div>
@@ -250,7 +250,7 @@ const TransactionModal = ({
                                         <CheckIcon className="text-green-600 size-6" />
                                     </div>
                                     <div className="mb-5">
-                                        <DialogTitle className="font-bold text-xl text-indigo-600">
+                                        <DialogTitle className="font-bold text-2xl text-indigo-600">
                                             Success!
                                         </DialogTitle>
                                     </div>
