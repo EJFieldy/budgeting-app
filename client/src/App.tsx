@@ -38,7 +38,7 @@ function App() {
             <div className="sticky bottom-0 left-0 right-0 w-[75%] pt-5 mx-auto sm:hidden">
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="w-full bg-indigo-500 text-white py-2 rounded-t-xl font-semibold">
+                    className="w-full bg-indigo-500 text-white py-4 rounded-t-xl rounded-b-xs font-semibold">
                     + Add Transaction
                 </button>
             </div>
