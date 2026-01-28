@@ -30,15 +30,15 @@ const ProgressBar = ({ category }: CategoryProgressBarsProps) => {
                     {budgetPercentUsed}%
                 </span>
                 <span className="text-xs font-semibold text-right">{`${formatCurrency(
-                    monthlyBudget
+                    monthlyBudget,
                 )}`}</span>
             </div>
             <div className="w-full rounded-full h-3 bg-gray-800/20">
                 <div
                     style={{ width: `${width}%` }}
                     className={`rounded-full ${getBudgetColour(
-                        budgetPercentUsed
-                    )} h-3 transition-all duration-1500 ease-in-out`}></div>
+                        budgetPercentUsed,
+                    )} h-3 transition-all duration-1500 ease-in-out max-w-full`}></div>
             </div>
         </div>
     );
