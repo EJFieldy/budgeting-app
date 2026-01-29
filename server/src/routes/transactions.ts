@@ -1,6 +1,7 @@
 import { Router } from "express";
 import prisma from "../prisma";
 import { Prisma, TransactionType } from "@prisma/client";
+import type { TransactionUpdateData } from "../types/main.ts";
 
 const router = Router();
 
@@ -114,7 +115,7 @@ router.put("/:id", async (req, res, next) => {
             return res.status(400).json({ error: "Invalid Id parameter" });
         }
         const { amount, type, categoryId, description } = req.body;
-        const updatedData: any = {};
+        const updatedData: TransactionUpdateData = {};
 
         if (amount !== undefined) {
             if (amount <= 0) {
@@ -128,7 +129,7 @@ router.put("/:id", async (req, res, next) => {
             if (!Object.values(TransactionType).includes(type)) {
                 return res.status(400).json({
                     error: `Type must be one of ${Object.values(
-                        TransactionType
+                        TransactionType,
                     ).join(", ")}`,
                 });
             }
