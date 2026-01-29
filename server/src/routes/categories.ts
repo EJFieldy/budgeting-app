@@ -22,6 +22,20 @@ router.get("/", async (req, res, next) => {
     }
 });
 
+router.get("/budgets", async (req, res, next) => {
+    try {
+        const budgetData = await prisma.category.findMany({
+            include: {
+                transactions: false,
+            },
+        });
+
+        res.status(200).json(budgetData);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.get("/summary", async (req, res, next) => {
     try {
         const now = new Date();
