@@ -15,6 +15,7 @@ import type { NavigationItem } from "@/types";
 const navigation: NavigationItem[] = [
     { name: "Dashboard", href: "/" },
     { name: "Transactions", href: "/transactions" },
+    { name: "Budgets", href: "/budgets" },
 ];
 
 export default function NavBar({ onAddClick }: { onAddClick: () => void }) {
@@ -112,7 +113,7 @@ export default function NavBar({ onAddClick }: { onAddClick: () => void }) {
                     {/* Mobile Dropdown Menu Items */}
                     <DisclosurePanel
                         transition
-                        className="sm:hidden absolute top-full left-0 right-0 border-slate-200 border-l border-r border-b shadow-lg origin-top transition duration-200 ease-out data-closed:opacity-0 data-closed:-translate-y-4 z-50">
+                        className="sm:hidden absolute top-full bg-white left-0 right-0 border-slate-200 border-l border-r border-b shadow-lg origin-top transition duration-200 ease-out data-closed:opacity-0 data-closed:-translate-y-4 z-50">
                         <div className="text-start space-y-1 px-3 py-3">
                             {navigation.map((item) => (
                                 <DisclosureButton
