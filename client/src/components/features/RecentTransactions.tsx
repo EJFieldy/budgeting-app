@@ -75,8 +75,8 @@ const RecentTransactions = ({
             ) : (
                 <>
                     {showTitle && (
-                        <div className="mb-1">
-                            <h1 className="text-lg text-center font-semibold text-slate-900">
+                        <div className="mb-5 border-b-1 border-slate-200 p-2 w-full">
+                            <h1 className="text-xl text-center font-semibold text-slate-900">
                                 Recent Transactions
                             </h1>
                         </div>
@@ -93,31 +93,31 @@ const RecentTransactions = ({
                                         <div className="flex flex-row justify-center items-center">
                                             {item.type === "EXPENSE" ? (
                                                 <>
-                                                    <ArrowUpOnSquareIcon className="size-5 text-indigo-700 mr-2 mb-1 -ml-1" />
-                                                    <h5 className="text-sm text-slate-900 font-semibold">
+                                                    <ArrowUpOnSquareIcon className="size-6 text-indigo-700 mr-2 mb-1 -ml-1" />
+                                                    <h5 className="text-base text-slate-900 font-medium">
                                                         {item.category.name}
                                                     </h5>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <ArrowDownOnSquareIcon className="size-5 text-indigo-700 mr-2 mb-1 -ml-1" />
-                                                    <h5 className="text-sm text-slate-900 font-semibold">
+                                                    <ArrowDownOnSquareIcon className="size-6 text-indigo-700 mr-2 mb-1 -ml-1" />
+                                                    <h5 className="text-base text-slate-900 font-medium">
                                                         {item.category.name}
                                                     </h5>
                                                 </>
                                             )}
                                         </div>
-                                        <h5 className="text-gray-500 text-xs">
+                                        <h5 className="text-gray-500 text-xs md:text-sm">
                                             {timeAgo}
                                         </h5>
                                     </div>
                                     <div>
                                         {item.type === "EXPENSE" ? (
-                                            <h2 className="text-md text-slate-900 font-semibold tracking-tight">
+                                            <h2 className="text-lg text-slate-900 font-medium tracking-tight">
                                                 £{item.amount}
                                             </h2>
                                         ) : (
-                                            <h2 className="text-md text-green-700 font-semibold tracking-tight">
+                                            <h2 className="text-lg text-green-700 font-medium tracking-tight">
                                                 +£{item.amount}
                                             </h2>
                                         )}

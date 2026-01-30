@@ -131,7 +131,7 @@ const ExpensesChart = ({ refreshTrigger }: { refreshTrigger: number }) => {
     return (
         <>
             <div className="flex flex-col gap-2 items-center mt-10 sm:mt-0">
-                <h3 className="text-lg -mb-4 sm:mb-0 font-semibold text-gray-900">
+                <h3 className="text-xl text-center -mb-4 sm:mb-0 font-semibold text-gray-900 border-b-1 border-slate-200 p-2 w-full">
                     Expenses by Category
                 </h3>
                 <ResponsiveContainer width="100%" height={300}>
