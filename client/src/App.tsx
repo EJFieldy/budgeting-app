@@ -6,6 +6,7 @@ import Header from "@/components/layout/header";
 import Dashboard from "@/pages/Dashboard";
 import TransactionModal from "@/components/features/TransactionModal";
 import TransactionOverview from "./pages/TransactionsOverview";
+import BudgetDisplay from "@/pages/Budgets";
 
 function App() {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -32,6 +33,10 @@ function App() {
                             onTransactionEdit={handleTransactionAdded}
                         />
                     }
+                />
+                <Route
+                    path="/budgets"
+                    element={<BudgetDisplay refreshTrigger={refreshTrigger} />}
                 />
             </Routes>
 
