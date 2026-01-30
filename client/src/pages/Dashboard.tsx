@@ -13,7 +13,10 @@ const Dashboard = ({ refreshTrigger }: { refreshTrigger: number }) => {
                     />
                     <ExpensesChart refreshTrigger={refreshTrigger} />
                     <div className="flex flex-col gap-y-2 mt-10">
-                        <ProgressBarList refreshTrigger={refreshTrigger} />
+                        <ProgressBarList
+                            refreshTrigger={refreshTrigger}
+                            nBars={5}
+                        />
                     </div>
                 </div>
                 <div className="hidden sm:block lg:hidden">
@@ -27,7 +30,10 @@ const Dashboard = ({ refreshTrigger }: { refreshTrigger: number }) => {
                         <ExpensesChart refreshTrigger={refreshTrigger} />
                     </div>
                     <div className="mt-10 flex flex-col gap-y-2">
-                        <ProgressBarList refreshTrigger={refreshTrigger} />
+                        <ProgressBarList
+                            refreshTrigger={refreshTrigger}
+                            nBars={5}
+                        />
                     </div>
                 </div>
                 <div className="hidden lg:grid lg:grid-cols-3 gap-1">
@@ -39,7 +45,10 @@ const Dashboard = ({ refreshTrigger }: { refreshTrigger: number }) => {
                     </div>
                     <ExpensesChart refreshTrigger={refreshTrigger} />
                     <div className="flex flex-col gap-y-4">
-                        <ProgressBarList refreshTrigger={refreshTrigger} />
+                        <ProgressBarList
+                            refreshTrigger={refreshTrigger}
+                            nBars={5}
+                        />
                     </div>
                 </div>
             </div>
