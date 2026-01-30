@@ -1,13 +1,23 @@
 import { useState, useEffect } from "react";
-import type { TransactionTotals } from "@/types/index.ts";
+import type { CategoryData } from "@/types/index.ts";
 import ProgressBar from "@/components/ui/CategoryProgressBar";
 import { API_URL } from "@/config";
 
-type CategoryData = TransactionTotals["categories"][number];
-
-const ProgressBarList = ({ refreshTrigger }: { refreshTrigger: number }) => {
+const ProgressBarList = ({
+    refreshTrigger,
+    nBars,
+}: {
+    refreshTrigger: number;
+    nBars?: number;
+}) => {
     const [barData, setBarData] = useState<CategoryData[]>([]);
     const [loading, setLoading] = useState(false);
+
+    const barCount = Array.from({ length: nBars || 5 }, (_, i) => i + 1);
+
+    const barsToShow = nBars
+        ? barData.filter((data) => data.monthlyBudget).slice(0, nBars)
+        : barData.filter((data) => data.monthlyBudget);
 
     useEffect(() => {
         const fetchBarData = async () => {
@@ -37,7 +47,7 @@ const ProgressBarList = ({ refreshTrigger }: { refreshTrigger: number }) => {
     if (loading) {
         return (
             <>
-                {[1, 2, 3, 4, 5].map((i) => (
+                {barCount.map((i) => (
                     <div key={i} className="w-full py-2 animate-pulse">
                         <div className="flex flex-row items-center justify-between p-1">
                             <span className="h-3 w-20 bg-gray-300 rounded"></span>
@@ -60,10 +70,8 @@ const ProgressBarList = ({ refreshTrigger }: { refreshTrigger: number }) => {
                     Budget Progress
                 </h1>
             </div>
-            {barData.map((data) => {
-                if (data.expense) {
-                    return <ProgressBar key={data.id} category={data} />;
-                }
+            {barsToShow.map((data) => {
+                return <ProgressBar key={data.id} category={data} />;
             })}
         </>
     );
