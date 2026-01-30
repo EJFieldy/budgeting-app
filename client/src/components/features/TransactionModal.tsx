@@ -114,7 +114,6 @@ const TransactionModal = ({
         setDescription("");
         onClose();
     };
-    // TODO: Increase overall size of modal and font for mobile screens
     return (
         <>
             <Dialog open={isOpen} onClose={onClose} className="relative z-50">
