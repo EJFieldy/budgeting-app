@@ -208,12 +208,12 @@ router.get("/summary/demo-bars", async (req, res, next) => {
             };
         });
 
-        const topCategories = categoriesWithBudgetData
-            .sort((a, b) => b.expense - a.expense)
-            .slice(0, 5);
+        const sortedCategories = categoriesWithBudgetData.sort(
+            (a, b) => b.expense - a.expense,
+        );
 
         res.status(200).json({
-            categories: topCategories,
+            categories: sortedCategories,
         });
     } catch (error) {
         next(error);
