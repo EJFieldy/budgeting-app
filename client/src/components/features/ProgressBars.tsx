@@ -6,9 +6,11 @@ import { API_URL } from "@/config";
 const ProgressBarList = ({
     refreshTrigger,
     nBars,
+    titleClassName = "text-xl",
 }: {
     refreshTrigger: number;
     nBars?: number;
+    titleClassName?: string;
 }) => {
     const [barData, setBarData] = useState<CategoryData[]>([]);
     const [loading, setLoading] = useState(false);
@@ -65,8 +67,9 @@ const ProgressBarList = ({
 
     return (
         <>
-            <div className="mb-1">
-                <h1 className="text-lg text-center font-semibold text-slate-900">
+            <div className="mb-2 border-b-1 border-slate-200 p-2 w-full">
+                <h1
+                    className={`text-center font-semibold text-slate-900 ${titleClassName}`}>
                     Budget Progress
                 </h1>
             </div>
