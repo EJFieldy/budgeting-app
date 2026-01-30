@@ -24,7 +24,19 @@ export interface Category {
 
 export type TransactionType = "INCOME" | "EXPENSE";
 
-type CategoryData = TransactionTotals["categories"][number];
+export type CategoryData = {
+    id: number;
+    name: string;
+    income: number;
+    expense: number;
+    netTotal: number;
+    transactionCount: number;
+    monthlyBudget?: number | null;
+    budgetRemaining?: number | null;
+    budgetPercentUsed?: number | null;
+    overBudget?: boolean | null;
+    color?: string;
+};
 
 export interface CategoryProgressBarsProps {
     category: CategoryData;
