@@ -25,11 +25,11 @@ const ProgressBar = ({ category }: CategoryProgressBarsProps) => {
     return (
         <div className="w-full">
             <div className="grid grid-cols-3 items-center p-1">
-                <span className="text-xs font-semibold">{name}</span>
-                <span className="text-xs font-semibold text-center">
+                <span className="text-sm md:text-base font-medium">{name}</span>
+                <span className="text-sm md:text-base font-medium text-center">
                     {budgetPercentUsed}%
                 </span>
-                <span className="text-xs font-semibold text-right">{`${formatCurrency(
+                <span className="text-sm md:text-base font-medium text-right">{`${formatCurrency(
                     monthlyBudget,
                 )}`}</span>
             </div>
