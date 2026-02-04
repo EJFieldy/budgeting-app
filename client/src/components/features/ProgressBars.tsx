@@ -7,13 +7,18 @@ const ProgressBarList = ({
     refreshTrigger,
     nBars,
     titleClassName = "text-xl",
+    onEdit,
+    showEdit,
 }: {
     refreshTrigger: number;
     nBars?: number;
     titleClassName?: string;
+    onEdit?: () => void;
+    showEdit?: boolean;
 }) => {
     const [barData, setBarData] = useState<CategoryData[]>([]);
     const [loading, setLoading] = useState(false);
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     const barCount = Array.from({ length: nBars || 5 }, (_, i) => i + 1);
 
@@ -24,7 +29,9 @@ const ProgressBarList = ({
     useEffect(() => {
         const fetchBarData = async () => {
             try {
-                setLoading(true);
+                if (isInitialLoad) {
+                    setLoading(true);
+                }
                 const response = await fetch(
                     `${API_URL}/api/categories/summary/demo-bars`,
                 );
@@ -39,14 +46,15 @@ const ProgressBarList = ({
             } catch (error) {
                 console.error(`Error fetching data: ${error}`);
             } finally {
+                setIsInitialLoad(false);
                 setLoading(false);
             }
         };
 
         fetchBarData();
-    }, [refreshTrigger]);
+    }, [refreshTrigger, isInitialLoad]);
 
-    if (loading) {
+    if (loading && isInitialLoad) {
         return (
             <>
                 {barCount.map((i) => (
@@ -74,7 +82,14 @@ const ProgressBarList = ({
                 </h1>
             </div>
             {barsToShow.map((data) => {
-                return <ProgressBar key={data.id} category={data} />;
+                return (
+                    <ProgressBar
+                        key={data.id}
+                        category={data}
+                        onEdit={onEdit}
+                        showEdit={showEdit}
+                    />
+                );
             })}
         </>
     );

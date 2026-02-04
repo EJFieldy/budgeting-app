@@ -36,7 +36,12 @@ function App() {
                 />
                 <Route
                     path="/budgets"
-                    element={<BudgetDisplay refreshTrigger={refreshTrigger} />}
+                    element={
+                        <BudgetDisplay
+                            refreshTrigger={refreshTrigger}
+                            onEdit={handleTransactionAdded}
+                        />
+                    }
                 />
             </Routes>
 
