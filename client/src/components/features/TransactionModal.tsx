@@ -7,7 +7,7 @@ import {
 } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
-import type { Category, TransactionType, Transaction } from "@/types/index.ts";
+import type { TransactionType, Transaction } from "@/types/index.ts";
 import { API_URL } from "@/config";
 
 const TransactionModal = ({
@@ -23,7 +23,7 @@ const TransactionModal = ({
 }) => {
     const [waiting, setWaiting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
-    const [categories, setCategories] = useState<Category[]>([]);
+    const [categories, setCategories] = useState<Record<string, number>[]>([]);
 
     const [amount, setAmount] = useState("");
     const [type, setType] = useState<TransactionType>("EXPENSE");
