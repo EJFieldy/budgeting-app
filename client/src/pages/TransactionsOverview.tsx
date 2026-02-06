@@ -66,15 +66,14 @@ const TransactionOverview = ({
     onTransactionEdit: () => void;
 }) => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
-    const [loading, setLoading] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedTransaction, setSelectedTransaction] =
         useState<Transaction | null>(null);
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                setLoading(true);
                 const response = await fetch(`${API_URL}/api/transactions`);
 
                 if (!response.ok) {
@@ -89,14 +88,14 @@ const TransactionOverview = ({
             } catch (error) {
                 console.error(`Error fetching data: ${error}`);
             } finally {
-                setLoading(false);
+                setIsInitialLoad(false);
             }
         };
 
         fetchTransactions();
     }, [refreshTrigger]);
 
-    if (loading) {
+    if (isInitialLoad) {
         return <TransactionSkeleton />;
     }
 

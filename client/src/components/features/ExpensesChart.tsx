@@ -76,12 +76,11 @@ const ExpensesChart = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const [categoryData, setCategoryData] = useState<
         TransactionTotals["categories"]
     >([]);
-    const [loading, setLoading] = useState(false);
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                setLoading(true);
                 const response = await fetch(
                     `${API_URL}/api/categories/summary/all-time`,
                 );
@@ -104,14 +103,14 @@ const ExpensesChart = ({ refreshTrigger }: { refreshTrigger: number }) => {
             } catch (error) {
                 console.error(`Error fetching data: ${error}`);
             } finally {
-                setLoading(false);
+                setIsInitialLoad(false);
             }
         };
 
         fetchCategories();
     }, [refreshTrigger]);
 
-    if (loading) {
+    if (isInitialLoad) {
         return (
             <div className="flex flex-col gap-2 items-center">
                 <div className="h-7 w-48 bg-gray-200 rounded animate-pulse" />

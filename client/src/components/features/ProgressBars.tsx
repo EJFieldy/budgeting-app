@@ -17,7 +17,6 @@ const ProgressBarList = ({
     showEdit?: boolean;
 }) => {
     const [barData, setBarData] = useState<CategoryData[]>([]);
-    const [loading, setLoading] = useState(false);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     const barCount = Array.from({ length: nBars || 5 }, (_, i) => i + 1);
@@ -31,9 +30,6 @@ const ProgressBarList = ({
     useEffect(() => {
         const fetchBarData = async () => {
             try {
-                if (isInitialLoad) {
-                    setLoading(true);
-                }
                 const response = await fetch(
                     `${API_URL}/api/categories/summary/demo-bars`,
                 );
@@ -49,14 +45,13 @@ const ProgressBarList = ({
                 console.error(`Error fetching data: ${error}`);
             } finally {
                 setIsInitialLoad(false);
-                setLoading(false);
             }
         };
 
         fetchBarData();
-    }, [refreshTrigger, isInitialLoad]);
+    }, [refreshTrigger]);
 
-    if (loading && isInitialLoad) {
+    if (isInitialLoad) {
         return (
             <>
                 {barCount.map((i) => (

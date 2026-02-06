@@ -16,12 +16,11 @@ const RecentTransactions = ({
     refreshTrigger: number;
 }) => {
     const [recent, setRecent] = useState<Transaction[]>([]);
-    const [expLoading, setExpLoading] = useState(false);
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     useEffect(() => {
         const fetchRecentTransactions = async () => {
             try {
-                setExpLoading(true);
                 const recentResponse = await fetch(
                     `${API_URL}/api/transactions/recent`,
                 );
@@ -37,7 +36,7 @@ const RecentTransactions = ({
             } catch (error) {
                 console.error(`Error fetching data: ${error}`);
             } finally {
-                setExpLoading(false);
+                setIsInitialLoad(false);
             }
         };
 
@@ -46,7 +45,7 @@ const RecentTransactions = ({
 
     return (
         <>
-            {expLoading ? (
+            {isInitialLoad ? (
                 <>
                     {showTitle && (
                         <div className="mb-1">

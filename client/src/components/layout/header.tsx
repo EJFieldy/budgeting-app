@@ -34,12 +34,11 @@ const getCardStyles = (type: keyof typeof cardStyleMap): CardStyle => {
 
 const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
     const [headerData, setHeaderData] = useState<HeaderData | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setLoading(true);
                 const [balance, summary, recent] = await Promise.all([
                     fetch(`${API_URL}/api/transactions/balance`).then((r) =>
                         r.json(),
@@ -56,7 +55,7 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
             } catch (error) {
                 console.error(`Error fetching data: ${error}`);
             } finally {
-                setLoading(false);
+                setIsInitialLoad(false);
             }
         };
 
@@ -96,7 +95,7 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
                     <h5 className="text-[10px] sm:text-xs text-slate-500">
                         Available Balance
                     </h5>
-                    {loading ? (
+                    {isInitialLoad ? (
                         <div className="pt-2 pb-5">
                             <ArrowPathIcon className="size-10 text-slate-400 animate-spin" />
                         </div>
@@ -108,7 +107,7 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
                 </div>
                 <div className="sm:hidden absolute bottom-0 left-5 right-5 translate-y-1/2">
                     <Card>
-                        {loading ? (
+                        {isInitialLoad ? (
                             <div className="grid grid-cols-3 gap-x-2 py-3 px-2 items-center animate-pulse">
                                 {[1, 2, 3].map((i) => (
                                     <div
@@ -150,7 +149,7 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
                     </Card>
                 </div>
                 <div className="hidden absolute bottom-0 translate-y-1/2 right-5 left-5 mx-auto sm:grid sm:grid-cols-3 gap-x-2 max-w-4xl justify-center">
-                    {loading ? (
+                    {isInitialLoad ? (
                         <>
                             {[1, 2, 3].map((i) => (
                                 <Card key={i} className="p-5">
