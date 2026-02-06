@@ -4,6 +4,7 @@ import { formatCurrency } from "@/utils/currency";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 import BudgetModal from "@/components/features/BudgetModal";
+import { API_URL } from "@/config";
 
 const ProgressBar = ({
     category,
@@ -34,6 +35,29 @@ const ProgressBar = ({
         return "bg-green-500";
     };
 
+    const handleDelete = async (category: CategoryData) => {
+        try {
+            const response = await fetch(
+                `${API_URL}/api/categories/budgets/${category.id}`,
+                {
+                    method: "DELETE",
+                },
+            );
+
+            if (!response.ok) {
+                return new Error(
+                    `Failed to reset budget data. Status: ${response.status}`,
+                );
+            }
+
+            if (onEdit) {
+                onEdit();
+            }
+        } catch (error) {
+            console.error(`Error occured during delete request: ${error}`);
+        }
+    };
+
     return (
         <>
             <div className="w-full flex flex-row items-center justify-center">
@@ -43,7 +67,7 @@ const ProgressBar = ({
                             {name}
                         </span>
                         <span className="text-sm md:text-base font-medium text-center">
-                            {budgetPercentUsed}%
+                            {budgetPercentUsed ?? "0"}%
                         </span>
                         <span className="text-sm md:text-base font-medium text-right">{`${formatCurrency(
                             monthlyBudget,
@@ -74,6 +98,7 @@ const ProgressBar = ({
                             </MenuItem>
                             <MenuItem
                                 as="button"
+                                onClick={() => handleDelete(category)}
                                 className="block w-full text-start rounded-md p-3 text-sm text-slate-600 data-focus:bg-indigo-50 data-focus:text-indigo-700">
                                 Delete
                             </MenuItem>
