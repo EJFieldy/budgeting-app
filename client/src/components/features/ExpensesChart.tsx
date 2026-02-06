@@ -40,21 +40,35 @@ const CustomLabel = ({
     midAngle,
     outerRadius,
     value,
+    fill,
 }: PieLabelRenderProps) => {
     const RADIAN = Math.PI / 180;
-    const radius = outerRadius + 25;
-    const x = cx + radius * Math.cos(-(midAngle ?? 0) * RADIAN);
-    const y = cy + radius * Math.sin(-(midAngle ?? 0) * RADIAN);
+    const x1 = cx + outerRadius * Math.cos(-(midAngle ?? 0) * RADIAN);
+    const x2 = cx + (outerRadius + 15) * Math.cos(-(midAngle ?? 0) * RADIAN);
+    const y1 = cy + outerRadius * Math.sin(-(midAngle ?? 0) * RADIAN);
+    const y2 = cy + (outerRadius + 15) * Math.sin(-(midAngle ?? 0) * RADIAN);
+    const textX = cx + (outerRadius + 20) * Math.cos(-(midAngle ?? 0) * RADIAN);
+    const textY = cy + (outerRadius + 20) * Math.sin(-(midAngle ?? 0) * RADIAN);
 
     return (
-        <text
-            x={x}
-            y={y}
-            textAnchor={x > cx ? "start" : "end"}
-            dominantBaseline="central"
-            fontSize={12}>
-            {formatCurrency(value)}
-        </text>
+        <g>
+            <line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke={fill}
+                strokeWidth={2}
+            />
+            <text
+                x={textX}
+                y={textY}
+                textAnchor={textX > cx ? "start" : "end"}
+                dominantBaseline="central"
+                fontSize={12}>
+                {formatCurrency(value)}
+            </text>
+        </g>
     );
 };
 
@@ -133,7 +147,8 @@ const ExpensesChart = ({ refreshTrigger }: { refreshTrigger: number }) => {
                             innerRadius={50}
                             outerRadius={70}
                             fill="#82ca9d"
-                            label={CustomLabel}>
+                            label={CustomLabel}
+                            labelLine={false}>
                             {categoryData.map((entry, index) => (
                                 <Cell
                                     key={`cell-${index}`}
