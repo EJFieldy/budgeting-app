@@ -4,6 +4,7 @@ import {
     ArrowDownOnSquareIcon,
 } from "@heroicons/react/24/solid";
 import { formatDistanceToNow } from "date-fns";
+import { formatCurrency } from "@/utils/currency";
 import Card from "@/components/ui/card";
 import type { Transaction } from "@/types/components";
 import { API_URL } from "@/config";
@@ -113,11 +114,11 @@ const RecentTransactions = ({
                                     <div>
                                         {item.type === "EXPENSE" ? (
                                             <h2 className="text-lg text-slate-900 font-medium tracking-tight">
-                                                £{item.amount}
+                                                {formatCurrency(item.amount)}
                                             </h2>
                                         ) : (
                                             <h2 className="text-lg text-green-700 font-medium tracking-tight">
-                                                +£{item.amount}
+                                                + {formatCurrency(item.amount)}
                                             </h2>
                                         )}
                                     </div>
