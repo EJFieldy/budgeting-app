@@ -190,7 +190,10 @@ router.get("/summary/demo-bars", async (req, res, next) => {
                 .reduce((sum, t) => sum + Number(t.amount), 0);
 
             const monthlyBudget =
-                Number(category.monthlyBudget) || Math.max(expense * 1.2, 300);
+                category.monthlyBudget !== null &&
+                category.monthlyBudget !== undefined
+                    ? Number(category.monthlyBudget)
+                    : Math.max(expense * 1.2, 200);
             const budgetRemaining = monthlyBudget - expense;
             const budgetPercentUsed = Math.round(
                 (expense / monthlyBudget) * 100,
@@ -327,6 +330,36 @@ router.put("/:id", async (req, res, next) => {
 
             if (error.code === "P2025") {
                 return res.status(404).json({ error: "Category not found" });
+            }
+        }
+        next(error);
+    }
+});
+
+router.delete("/budgets/:id", async (req, res, next) => {
+    try {
+        const id = Number(req.params.id);
+
+        if (isNaN(id) || id <= 0) {
+            return res.status(400).json({ error: "Invalid Id Parameter" });
+        }
+
+        const budgetReset = await prisma.category.update({
+            where: {
+                id,
+            },
+            data: {
+                monthlyBudget: 0,
+            },
+        });
+
+        return res.status(200).json(budgetReset);
+    } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === "P2025") {
+                return res
+                    .status(404)
+                    .json({ error: "Category budget not found" });
             }
         }
         next(error);
