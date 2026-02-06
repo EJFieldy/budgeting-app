@@ -63,7 +63,6 @@ const ExpensesChart = ({ refreshTrigger }: { refreshTrigger: number }) => {
         TransactionTotals["categories"]
     >([]);
     const [loading, setLoading] = useState(false);
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -97,16 +96,6 @@ const ExpensesChart = ({ refreshTrigger }: { refreshTrigger: number }) => {
 
         fetchCategories();
     }, [refreshTrigger]);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 1024);
-        };
-
-        window.addEventListener("resize", handleResize);
-
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
 
     if (loading) {
         return (
@@ -144,7 +133,7 @@ const ExpensesChart = ({ refreshTrigger }: { refreshTrigger: number }) => {
                             innerRadius={50}
                             outerRadius={70}
                             fill="#82ca9d"
-                            label={isMobile ? CustomLabel : false}>
+                            label={CustomLabel}>
                             {categoryData.map((entry, index) => (
                                 <Cell
                                     key={`cell-${index}`}
