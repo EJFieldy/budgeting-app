@@ -5,7 +5,7 @@ import ProgressBarList from "@/components/features/ProgressBars";
 const Dashboard = ({ refreshTrigger }: { refreshTrigger: number }) => {
     return (
         <>
-            <div className="max-w-4xl px-5 lg:px-0 mx-auto">
+            <div className="max-w-4xl px-5 pb-10 lg:px-0 mx-auto">
                 <div className="sm:hidden flex flex-col gap-y-1 pt-5">
                     <RecentTransactions
                         showTitle={true}
