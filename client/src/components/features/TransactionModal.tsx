@@ -29,19 +29,29 @@ const TransactionModal = ({
     const [type, setType] = useState<TransactionType>("EXPENSE");
     const [categoryId, setCategoryId] = useState("");
     const [description, setDescription] = useState("");
+    const [isEditMode, setIsEditMode] = useState(false);
 
     useEffect(() => {
         if (isOpen) {
+            setSubmitted(false);
+            setWaiting(false);
+            setIsEditMode(!!editTransaction);
+
             fetchCategories();
 
-            if (editTransaction && !submitted) {
+            if (editTransaction) {
                 setAmount(editTransaction.amount.toString());
                 setType(editTransaction.type);
                 setCategoryId(editTransaction.categoryId.toString());
                 setDescription(editTransaction.description || "");
+            } else {
+                setAmount("");
+                setType("EXPENSE");
+                setCategoryId("");
+                setDescription("");
             }
         }
-    }, [isOpen, editTransaction, submitted]);
+    }, [isOpen, editTransaction]);
 
     const fetchCategories = async () => {
         try {
@@ -62,7 +72,7 @@ const TransactionModal = ({
                 amount: parseFloat(amount),
                 type,
                 categoryId: Number(categoryId),
-                description: description || undefined,
+                description: description,
             };
 
             const url = editTransaction
@@ -81,13 +91,12 @@ const TransactionModal = ({
 
             if (!response.ok) throw new Error("Failed to save transaction");
 
-            onTransactionAdded();
-
             if (editTransaction) {
-                handleClose();
+                onClose();
             } else {
                 setSubmitted(true);
             }
+            onTransactionAdded();
         } catch (error) {
             console.error(error);
         } finally {
@@ -95,8 +104,8 @@ const TransactionModal = ({
         }
     };
 
-    const title = editTransaction ? "Edit Transaction" : "Add Transaction";
-    const submitText = editTransaction ? "Update" : "Add Transaction";
+    const title = isEditMode ? "Edit Transaction" : "Add Transaction";
+    const submitText = isEditMode ? "Update" : "Add Transaction";
 
     const handleAddAnother = () => {
         setSubmitted(false);
@@ -106,14 +115,6 @@ const TransactionModal = ({
         setDescription("");
     };
 
-    const handleClose = () => {
-        setSubmitted(false);
-        setAmount("");
-        setType("EXPENSE");
-        setCategoryId("");
-        setDescription("");
-        onClose();
-    };
     return (
         <>
             <Dialog open={isOpen} onClose={onClose} className="relative z-50">
@@ -228,12 +229,10 @@ const TransactionModal = ({
                                             type="submit"
                                             disabled={waiting}
                                             className="px-2 py-2 w-full bg-indigo-600 text-white text-md font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                                            {waiting
-                                                ? "Submitting..."
-                                                : submitText}
+                                            {submitText}
                                         </button>
                                         <button
-                                            onClick={handleClose}
+                                            onClick={onClose}
                                             type="button"
                                             disabled={waiting}
                                             className="px-4 py-2 w-full bg-white border border-slate-300 text-slate-700 text-md font-medium rounded-lg hover:bg-slate-50 hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
@@ -272,7 +271,7 @@ const TransactionModal = ({
                                             Add Another
                                         </button>
                                         <button
-                                            onClick={handleClose}
+                                            onClick={onClose}
                                             className="px-4 py-2 w-full bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                                             Home
                                         </button>
