@@ -21,10 +21,12 @@ const ProgressBarList = ({
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     const barCount = Array.from({ length: nBars || 5 }, (_, i) => i + 1);
+    const filteredData = barData.filter(
+        (data) =>
+            data.monthlyBudget !== null && data.monthlyBudget !== undefined,
+    );
 
-    const barsToShow = nBars
-        ? barData.filter((data) => data.monthlyBudget).slice(0, nBars)
-        : barData.filter((data) => data.monthlyBudget);
+    const barsToShow = nBars ? filteredData.slice(0, nBars) : filteredData;
 
     useEffect(() => {
         const fetchBarData = async () => {
