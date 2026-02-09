@@ -51,10 +51,10 @@ I chose this tech stack to gain hands on experience with TypeScript, Express.js 
 - Navigation bar links collapse to be displayed in a dropdown menu.
 - Current page title displayed at the top.
 
-<img width="300" height="575" alt="image" src="https://github.com/user-attachments/assets/dd74973c-eadc-4da1-8eff-b97d74a57db3" />
+<img width="275" height="550" alt="image" src="https://github.com/user-attachments/assets/dd74973c-eadc-4da1-8eff-b97d74a57db3" />
 
-<img width="300" height="575" alt="image" src="https://github.com/user-attachments/assets/d2e82521-fbef-4e54-88e1-c1c7b56d6c3e" />
+<img width="275" height="550" alt="image" src="https://github.com/user-attachments/assets/d2e82521-fbef-4e54-88e1-c1c7b56d6c3e" />
 
-<img width="300" height="575" alt="image" src="https://github.com/user-attachments/assets/4ec38f53-17c6-4d0b-a3a6-0c095494927f" />
+<img width="275" height="550" alt="image" src="https://github.com/user-attachments/assets/4ec38f53-17c6-4d0b-a3a6-0c095494927f" />
 
 
