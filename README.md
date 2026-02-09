@@ -57,4 +57,41 @@ I chose this tech stack to gain hands on experience with TypeScript, Express.js 
 
 <img width="250" height="525" alt="image" src="https://github.com/user-attachments/assets/4ec38f53-17c6-4d0b-a3a6-0c095494927f" />
 
+## Installation
+
+### Prerequisites
+Make sure that you have the following installed:
+- Node.js v20.x or higher
+- PostgreSQL v14 or higher
+
+Begin by cloning the repo:
+```bash
+git clone https://github.com/EJFieldy/budgeting-app.git budget_tracker
+```
+
+### Backend
+1. Create a new PostgreSQL database
+```bash
+createdb budget_tracker
+``` 
+2. Navigate to the server directory
+```bash
+cd server
+```
+3. Edit the .env.example file with your PostgreSQL credentials
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/budget_tracker"
+```
+4. Install necessary dependencies
+```bash
+npm install
+```
+5. Run migrations
+```bash
+npx prisma migrate dev
+```
+6. Seed the database
+```bash
+npx prisma db seed
+```
 
