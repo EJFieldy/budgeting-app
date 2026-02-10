@@ -10,6 +10,16 @@ This project was built using Vite with React, TypeScript and Tailwind CSS for th
 
 I chose this tech stack to gain hands on experience with TypeScript, Express.js and Prisma, whilst deepening my understanding of React and Tailwind CSS. I selected Vite as the build tool for this project, because of its fast development experience with instant hot module replacement and native support for both React and TypeScript. It also handles production bundling and optimization automatically.
 
+## Features
+- **Dashboard Overview** - View your available balance, monthly spending statistics, recent transactions and budget progress all from the home page.
+- **Quick Transaction Entry** - Add new transactions easily through the always-accessible button in the navbar (desktop) or base of the screen (mobile).
+- **Category Management** - Organise transactions into specific categories to track your spending patterns.
+- **Transaction History** - View your complete transaction history on a dedicated page, ordered from most recent to oldest.
+- **Budget Monitoring** - Track monthly budgets with percentage used and colour-coded progression bars for a quick at-a-glance status review.
+- **Full Edit Control** - Modify or delete any transaction or budget through their dedicated pages.
+- **Responsive Design** - Seamless viewing experience across desktop, tablet and mobile devices.
+- **Real-Time Updates** - Balance and budget calculations update in real-time as you add, modify or delete transactions.
+
 ## Presentation
 
 ### The Main Dashboard
@@ -67,31 +77,119 @@ Make sure that you have the following installed:
 Begin by cloning the repo:
 ```bash
 git clone https://github.com/EJFieldy/budgeting-app.git budget_tracker
+cd budget_tracker
 ```
 
 ### Backend
-1. Create a new PostgreSQL database
+
+1. Create a new PostgreSQL database:
 ```bash
 createdb budget_tracker
-``` 
-2. Navigate to the server directory
+```
+
+2. Navigate to the server directory:
 ```bash
 cd server
 ```
-3. Edit the .env.example file with your PostgreSQL credentials
+
+3. Copy the .env template file:
+```bash
+cp .env.example .env
+```
+
+4. Edit `.env` with your PostgreSQL credentials:
 ```env
 DATABASE_URL="postgresql://username:password@localhost:5432/budget_tracker"
+PORT=3000
 ```
-4. Install necessary dependencies
+
+5. Install necessary dependencies:
 ```bash
 npm install
 ```
-5. Run migrations
+
+6. Run migrations:
 ```bash
 npx prisma migrate dev
 ```
-6. Seed the database
+
+7. Seed the database:
 ```bash
 npx prisma db seed
 ```
 
+### Frontend
+
+1. Navigate to the client directory:
+```bash
+cd ../client
+```
+
+2. Copy the .env.example file:
+```bash
+cp .env.example .env
+```
+
+3. Edit `.env` with your backend API_URL if different from default:
+```env
+VITE_API_URL=http://localhost:3000
+# or set it to your local ip to view on mobile
+VITE_API_URL=http://YOUR_IP_HERE:3000
+```
+
+4. Install dependencies:
+```bash
+npm install
+```
+
+## Running the Application
+
+Start both servers in separate terminal windows:
+
+**Backend** (from the `server` directory):
+```bash
+npm run dev
+```
+
+**Frontend** (from the `client` directory):
+```bash
+npm run dev
+```
+
+The application will be available at the default Vite port `http://localhost:5173` (frontend) with the API running on `http://localhost:3000` (backend).
+
+### Project Review
+
+## What I Learned
+The project taught me how to use type-safe variables within React components and Express.js API routes, shifting me away from plain JavaScript. Type safety wasn't something I had encountered prior to this project making it a prominent challenge throughout the project. Learning when to use inferred types vs explicit types, and accounting for potentially null or undefined values were particularly challenges areas for me.
+
+
+### NOTES TO WORK ON TOMORROW MORNING
+**Areas That Show Problem-Solving**
+Think about moments where you had to:
+
+Debug something that wasn't working as expected
+Research how to implement a feature you hadn't done before
+Refactor code to make it cleaner or more efficient
+Make trade-offs between different approaches
+
+**Questions to Ask Yourself**
+
+What was surprisingly difficult that seemed simple at first?
+What technology or pattern did you use for the first time in this project?
+What would you do differently if you rebuilt this from scratch?
+What resource (documentation, tutorial, Stack Overflow) helped you overcome a specific obstacle?
+
+**Tips for Writing This Section**
+
+Be specific - "learned Prisma" is vague; "learned how to design efficient database schemas with Prisma's relation syntax" is concrete
+Be honest - admitting challenges shows self-awareness
+Focus on 1-3 major learnings rather than listing everything
+Include one concrete challenge you overcame with your solution approach
+
+**The goal is to show employers that you can:**
+
+Identify what you don't know
+Learn new technologies effectively
+Solve problems independently
+Reflect on your development process
