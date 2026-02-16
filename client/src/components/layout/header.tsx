@@ -7,7 +7,7 @@ import {
     ArrowPathIcon,
 } from "@heroicons/react/24/solid";
 import { formatCurrency } from "@/utils/currency";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { API_URL } from "@/config";
 
 const cardStyleMap = {
@@ -62,31 +62,27 @@ const Header = ({ refreshTrigger }: { refreshTrigger: number }) => {
         fetchData();
     }, [refreshTrigger]);
 
-    const cardData = useMemo(() => {
-        if (!headerData) {
-            return [];
-        }
-
-        return [
-            {
-                type: "income" as const,
-                title: "Monthly Income",
-                amount: `${formatCurrency(headerData.summary.totals.income)}`,
-            },
-            {
-                type: "expense" as const,
-                title: "Monthly Expense",
-                amount: `${formatCurrency(headerData.summary.totals.expense)}`,
-            },
-            {
-                type: "budget" as const,
-                title: "Budget Remaining",
-                amount: `${formatCurrency(
-                    headerData.summary.totals.budgetRemaining,
-                )}`,
-            },
-        ];
-    }, [headerData]);
+    const cardData = headerData
+        ? [
+              {
+                  type: "income" as const,
+                  title: "Monthly Income",
+                  amount: `${formatCurrency(headerData.summary.totals.income)}`,
+              },
+              {
+                  type: "expense" as const,
+                  title: "Monthly Expense",
+                  amount: `${formatCurrency(headerData.summary.totals.expense)}`,
+              },
+              {
+                  type: "budget" as const,
+                  title: "Budget Remaining",
+                  amount: `${formatCurrency(
+                      headerData.summary.totals.budgetRemaining,
+                  )}`,
+              },
+          ]
+        : [];
 
     return (
         <div className="relative bg-white border-b-1 border-slate-200 h-40 sm:h-50 mb-16 sm:mb-20">
