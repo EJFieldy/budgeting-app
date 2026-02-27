@@ -16,3 +16,13 @@ export type BalanceSummary = {
     currentBalance: number;
     transactionCount: number;
 };
+
+export type TransactionPostData = {
+    amount: number;
+    type: "INCOME" | "EXPENSE";
+    categoryId: number;
+};
+
+export type PostValidationResponse =
+    | { pass: true }
+    | { pass: false; error: string };
