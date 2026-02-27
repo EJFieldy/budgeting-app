@@ -3,6 +3,7 @@ import prisma from "../prisma";
 import { Prisma, TransactionType } from "@prisma/client";
 import type { TransactionUpdateData } from "../types/transactionTypes";
 import { calculateBalance } from "../utils/calculateBalance";
+import { validateTransactionPost } from "../utils/validateTransactionPost";
 
 const router = Router();
 
@@ -73,16 +74,11 @@ router.get("/balance", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
     try {
         const { amount, type, categoryId, description } = req.body;
-        if (!amount || amount <= 0) {
-            return res.status(400).json({ error: "Amount must be positive" });
-        }
 
-        if (!type) {
-            return res.status(400).json({ error: "Type is required" });
-        }
+        const result = validateTransactionPost({ amount, type, categoryId });
 
-        if (!categoryId) {
-            return res.status(400).json({ error: "Category is required" });
+        if (!result.pass) {
+            return res.status(400).json({ error: result.error });
         }
 
         const newTransaction = await prisma.transaction.create({
