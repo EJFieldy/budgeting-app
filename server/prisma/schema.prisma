@@ -23,7 +23,7 @@ model Transaction {
   amount Decimal @db.Decimal(8, 2)
   type TransactionType
   categoryId Int
-  category Category @relation(fields: [categoryId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   description String?
   date DateTime @default(now())
 
