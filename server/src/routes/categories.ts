@@ -191,7 +191,7 @@ router.get("/summary/demo-bars", async (req, res, next) => {
 
             const monthlyBudget =
                 category.monthlyBudget !== null &&
-                category.monthlyBudget !== undefined
+                    category.monthlyBudget !== undefined
                     ? Number(category.monthlyBudget)
                     : Math.max(expense * 1.2, 200);
             const budgetRemaining = monthlyBudget - expense;
@@ -341,7 +341,7 @@ router.delete("/budgets/:id", async (req, res, next) => {
         const id = Number(req.params.id);
 
         if (isNaN(id) || id <= 0) {
-            return res.status(400).json({ error: "Invalid Id Parameter" });
+            return res.status(400).json({ error: "Invalid Id parameter" });
         }
 
         const budgetReset = await prisma.category.update({
@@ -374,6 +374,17 @@ router.delete("/:id", async (req, res, next) => {
             return res.status(400).json({ error: "Invalid Id parameter" });
         }
 
+        const numberOfTransactions = await prisma.transaction.count({
+            where: { categoryId: id }
+        })
+
+        if (numberOfTransactions > 0) {
+            return res.status(400).json({
+                error: "Cannot delete category with existing transactions",
+                suggestion: "Reassign transactions to other categories before deletion",
+            })
+        }
+
         await prisma.category.delete({
             where: {
                 id,
@@ -385,14 +396,6 @@ router.delete("/:id", async (req, res, next) => {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === "P2025") {
                 return res.status(404).json({ error: "Category not found" });
-            }
-
-            if (error.code === "P2003") {
-                return res.status(400).json({
-                    error: "Cannot delete category with existing transactions",
-                    suggestion:
-                        "Reassign transactions to other categories before deletion",
-                });
             }
         }
         next(error);
