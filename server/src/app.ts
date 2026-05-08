@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
-import transactionRoutes from "../src/routes/transactions";
-import categoryRoutes from "../src/routes/categories";
+import transactionRoutes from "./routes/transactions";
+import categoryRoutes from "./routes/categories";
 
 const app = express();
 
