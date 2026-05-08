@@ -7,7 +7,8 @@
     "main": "index.ts",
     "scripts": {
         "dev": "ts-node src/index.ts",
-        "test": "jest"
+        "test": "jest",
+        "build": "tsc"
     },
     "prisma": {
         "seed": "ts-node prisma/seed.ts"
@@ -15,6 +16,7 @@
     "dependencies": {
         "@prisma/client": "^6.19.0",
         "cors": "^2.8.5",
+        "dotenv": "^17.4.2",
         "express": "^5.1.0"
     },
     "devDependencies": {
@@ -23,7 +25,6 @@
         "@types/jest": "^30.0.0",
         "@types/node": "^24.10.1",
         "@types/supertest": "^7.2.0",
-        "dotenv": "^17.2.3",
         "jest": "^30.2.0",
         "jest-mock-extended": "^4.0.0",
         "nodemon": "^3.1.10",
