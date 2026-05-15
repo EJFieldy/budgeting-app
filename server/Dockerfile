@@ -9,8 +9,9 @@ RUN npm run build
 FROM node:24-alpine AS final
 WORKDIR /app
 COPY package.json package-lock.json ./
-COPY prisma/migrations ./prisma/migrations
 RUN npm ci --omit=dev
+COPY --from=build /app/prisma ./prisma
+COPY --from=build /app/prisma.config.ts ./prisma.config.ts
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules/.prisma/client ./node_modules/.prisma/client
 EXPOSE 3000
