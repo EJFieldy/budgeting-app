@@ -22,7 +22,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       - name: Generate Prisma Client
-        run: npx prisma generate
+        run: DATABASE_URL=dummy npx prisma generate
       - name: Run Tests
         run: npm test
 
