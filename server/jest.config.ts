@@ -4,9 +4,10 @@ const tsJestTransformCfg = createDefaultPreset().transform;
 
 /** @type {import("jest").Config} **/
 export default {
-	testEnvironment: "node",
-	transform: {
-		...tsJestTransformCfg,
-	},
-	setupFilesAfterEnv: ["<rootDir>/src/singleton.ts"],
+    testEnvironment: "node",
+    transform: {
+        ...tsJestTransformCfg,
+    },
+    setupFilesAfterEnv: ["<rootDir>/src/singleton.ts"],
+    testPathIgnorePatterns: ["<rootDir>/dist/"],
 };
