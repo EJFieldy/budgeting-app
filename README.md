@@ -74,8 +74,7 @@ I chose this tech stack to gain hands on experience with TypeScript, Express.js 
 
 ### Prerequisites
 Make sure that you have the following installed:
-- Node.js v20.x or higher
-- PostgreSQL v14 or higher
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 Begin by cloning the repo:
 ```bash
@@ -83,83 +82,66 @@ git clone https://github.com/EJFieldy/budgeting-app.git budget_tracker
 cd budget_tracker
 ```
 
-### Backend
+### Environment Variables
 
-1. Create a new PostgreSQL database:
-```bash
-createdb budget_tracker
-```
+This project requires three `.env` files before the application can be run.
 
-2. Navigate to the server directory:
-```bash
-cd server
-```
-
-3. Copy the .env template file:
+**Root directory** — copy the template and set your PostgreSQL credentials:
 ```bash
 cp .env.example .env
 ```
-
-4. Edit `.env` with your PostgreSQL credentials:
+Edit `.env` with your chosen PostgreSQL credentials:
 ```env
-DATABASE_URL="postgresql://username:password@localhost:5432/budget_tracker"
+POSTGRES_USER=your_username
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=budgetapp
+```
+
+**Server**
+
+Copy the template and edit if required:
+```bash
+cp server/.env.example server/.env
+```
+Edit `server/.env` so that `USERNAME` and `PASSWORD` match the values set in your root `.env`:
+```env
+DATABASE_URL='postgresql://your_username:your_password@db:5432/budgetapp'
 PORT=3000
 ```
 
-5. Install necessary dependencies:
+**Client**
+
+Copy the template:
 ```bash
-npm install
+cp client/.env.example client/.env
 ```
-
-6. Run migrations:
-```bash
-npx prisma migrate dev
-```
-
-7. Seed the database:
-```bash
-npx prisma db seed
-```
-
-### Frontend
-
-1. Navigate to the client directory:
-```bash
-cd ../client
-```
-
-2. Copy the .env.example file:
-```bash
-cp .env.example .env
-```
-
-3. Edit `.env` with your backend API_URL if different from default:
-```env
-VITE_API_URL=http://localhost:3000
-# or set it to your local ip to view on mobile
-VITE_API_URL=http://YOUR_IP_HERE:3000
-```
-
-4. Install dependencies:
-```bash
-npm install
-```
+The default value of `http://localhost:3000` should work without modification.
 
 ## Running the Application
 
-Start both servers in separate terminal windows:
-
-**Backend** (from the `server` directory):
+From the root directory, run:
 ```bash
-npm run dev
+docker compose up --build
 ```
 
-**Frontend** (from the `client` directory):
+Docker will build the frontend and backend images, spin up a PostgreSQL container, and run database migrations automatically.
+
+Once the containers are running, seed the database with initial data. This only needs to be done once on first setup:
 ```bash
-npm run dev
+docker compose exec server npx prisma db seed
 ```
 
-The application will be available at the default Vite port `http://localhost:5173` (frontend) with the API running on `http://localhost:3000` (backend).
+The application will be available at `http://localhost:8080` (frontend) with the API running on `http://localhost:3000` (backend).
+
+To stop the application:
+```bash
+docker compose down
+```
+
+To stop the application and remove the database volume:
+```bash
+docker compose down -v
+```
 
 ## What I Learned
 
