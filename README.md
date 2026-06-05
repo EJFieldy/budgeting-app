@@ -5,8 +5,11 @@ A modern budget and expense tracker that allows users to add, remove and edit tr
 
 The app was designed for personal use, and so stores all financial data globally in a database as opposed to in individual user accounts. Adding user accounts, authentication and individual data storage would transform the app from a personal use demonstration to a production ready application. These changes are discussed in the 'Future Improvement' section below.
 
+## Live Demo
+The application is live at [budget-tracker-ef.vercel.app](https://budget-tracker-ef.vercel.app/)
+
 ## Tech Stack
-This project was built using Vite with React, TypeScript and Tailwind CSS for the frontend, and Express.js, Prisma and PostgreSQL for the backend and database.
+This project was built using Vite with React, TypeScript and Tailwind CSS for the frontend, and Express.js, Prisma and PostgreSQL for the backend and database. The app is containerised with Docker and deployed with a CI/CD pipeline via GitHub Actions, with the frontend on Vercel and the backend on Render.
 
 I chose this tech stack to gain hands on experience with TypeScript, Express.js and Prisma, whilst deepening my understanding of React and Tailwind CSS. I selected Vite as the build tool for this project, because of its fast development experience with instant hot module replacement and native support for both React and TypeScript. It also handles production bundling and optimization automatically.
 
